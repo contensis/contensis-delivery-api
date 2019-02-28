@@ -1,0 +1,65 @@
+{
+  "name": "contensis-delivery-api",
+  "version": "1.0.0",
+  "description": "Contensis Javascript Delivery API",
+  "engines": {
+    "node": ">=8"
+  },
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "pretest": "rimraf coverage/*",
+    "test": "npm run lint && karma start",
+    "test:watch": "npm run test -- --auto-watch --no-single-run",
+    "lint": "npx tslint src/**/*.ts",
+    "build:es5": "npx tsc -p src",
+    "build:esnext": "npx tsc -p src/tsconfig-esnext.json",
+    "build:contensis": "rimraf bundle/* && webpack --progress --colors && node build/create-contensis-dts.js && rimraf bundle/es5",
+    "build:npm": "npx tsc -p src/tsconfig-npm.json",
+    "all": "npm run build:esnext && npm run test && npm run build:npm && npm run build:contensis"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/contensis/contensis-delivery-api.git"
+  },
+  "author": "Alex Pop",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/contensis/contensis-delivery-api/issues"
+  },
+  "homepage": "https://github.com/contensis/contensis-delivery-api#readme",
+  "devDependencies": {
+    "copy-webpack-plugin": "^4.6.0",
+    "istanbul-instrumenter-loader": "^2.0.0",
+    "jasmine-core": "^2.6.4",
+    "karma": "^2.0.5",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-mocha-reporter": "^2.2.3",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^3.0.5",
+    "rimraf": "^2.6.3",
+    "ts-loader": "^3.5.0",
+    "tslint": "^5.12.1",
+    "tslint-stylish": "^2.1.0",
+    "typescript": "3.3.1",
+    "webpack": "3.12.0"
+  },
+  "dependencies": {
+    "@types/jasmine": "^2.8.16",
+    "es6-promise": "^4.2.5",
+    "tslib": "^1.9.3",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "keywords": [
+    "contensis",
+    "delivery",
+    "api"
+  ]
+}

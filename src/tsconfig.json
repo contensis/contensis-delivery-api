@@ -1,0 +1,34 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "es2015",
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
+		"sourceMap": true,
+		"importHelpers": true,
+		"removeComments": false,
+		"noImplicitAny": false,
+		"suppressImplicitAnyIndexErrors": true,
+		"noUnusedLocals": true,
+		"lib": [
+			"dom",
+			"es6",
+			"es2015",
+			"es2015.promise"
+		],
+		"declaration": true,
+		"outDir": "../es5",
+		"types": [
+			"jasmine"
+		]
+	},
+	"exclude": [
+		"node_modules"
+	],
+	"awesomeTypescriptLoaderOptions": {
+		"forkChecker": true,
+		"useWebpackText": true
+	}
+}
