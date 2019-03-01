@@ -4,13 +4,15 @@ Contensis JavaScript Delivery API implementation written in TypeScript.
 This allows the querying and retrieval of entries, content types and projects in JavaScript.
 
 It can be used in any ES5 compatible project.
+* JavaScript/TypeScript code running in a browser
+* JavaScript/TypeScript code running in Node.js
 * Angular
 * React
 * React Native
 * NativeScript
 * Express
 
-The examples folder contains Express, React and Angular test applications.
+The *examples* folder contains Express, React and Angular test applications.
 
 ## Installation
 
@@ -77,3 +79,14 @@ loadMovies();
 ## Documentation
 
 Read our [documentation on the Contensis Javascript Delivery API](https://developer.zengenti.com/contensis/api/delivery/js/) to learn of all it's features.
+
+## Browser support
+This library relies on the *fetch API* being available at runtime. In modern browsers *fetch* is available natively, and a polyfill is provided for older browsers. 
+The library build that targets browsers can be found in the *bundle* folder.
+
+## Node.js support
+The library supports Node.js 8 and above.  
+When using this library in Node.js you need to add the *node-fetch* npm package as a dependecy and ensure *fetch* is registered as a global function:
+```js
+global.fetch = require("node-fetch");
+```

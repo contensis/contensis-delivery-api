@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {Client} from 'zengenti-contensis-delivery';
+import {Client} from 'contensis-delivery-api';
 
 class App extends Component {
 

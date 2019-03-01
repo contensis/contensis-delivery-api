@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Client } from 'zengenti-contensis-delivery';
+import { Client } from 'contensis-delivery-api';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +10,7 @@ export class AppComponent implements OnInit {
 
   title = 'angular-test-app';
   contensisProjectName = '';
+  error = null;
 
   ngOnInit(): void {
     const client = Client.create({
@@ -19,7 +20,11 @@ export class AppComponent implements OnInit {
     });
     client.project.get().then(project => {
       this.contensisProjectName = project.name;
-    });
+    },
+      error => {
+        this.error = error;
+      }
+    );
   }
 
 }
