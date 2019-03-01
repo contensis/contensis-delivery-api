@@ -1,4 +1,4 @@
-# contensis-delivery-api
+# contensis-delivery-api [![NPM version](https://img.shields.io/npm/v/contensis-delivery-api.svg?style=flat)](https://www.npmjs.com/package/contensis-delivery-api)
 Contensis JavaScript Delivery API implementation written in TypeScript.
 
 This allows the querying and retrieval of entries, content types and projects in JavaScript.
