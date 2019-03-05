@@ -1,6 +1,6 @@
 {
   "name": "contensis-delivery-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Contensis Javascript Delivery API",
   "engines": {
     "node": ">=8"
@@ -22,7 +22,7 @@
     "type": "git",
     "url": "git+https://github.com/contensis/contensis-delivery-api.git"
   },
-  "author": "Alex Pop",
+  "author": "Zengenti Ltd <development@zengenti.com>",  
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/contensis/contensis-delivery-api/issues"

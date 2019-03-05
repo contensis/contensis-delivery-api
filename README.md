@@ -20,6 +20,9 @@ The Contensis JavaScript Delivery API can be installed using npm.
 
 **npm install contensis-delivery-api**
 
+## Contensis support
+This version supports the Contensis 11.3 releases.
+
 ## Examples
 
 Using ES2015 async/await
