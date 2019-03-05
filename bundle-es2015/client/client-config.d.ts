@@ -1,4 +1,4 @@
-import { Config, ClientParams } from '../interfaces';
+import { Config, ClientParams } from '../models';
 export declare class ClientConfig implements Config {
     private currentConfig;
     private previousConfig;

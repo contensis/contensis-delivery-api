@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/contensis/contensis-delivery-api#readme",
   "devDependencies": {
+    "@types/jasmine": "^2.8.16",
     "copy-webpack-plugin": "^4.6.0",
     "istanbul-instrumenter-loader": "^2.0.0",
     "jasmine-core": "^2.6.4",
@@ -48,7 +49,6 @@
     "webpack": "3.12.0"
   },
   "dependencies": {
-    "@types/jasmine": "^2.8.16",
     "es6-promise": "^4.2.5",
     "tslib": "^1.9.3",
     "whatwg-fetch": "^3.0.0"

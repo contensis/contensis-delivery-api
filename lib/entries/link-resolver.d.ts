@@ -1,4 +1,4 @@
-import { PagedList, Entry, VersionStatus } from '../interfaces';
+import { Entry, PagedList, VersionStatus } from '../models';
 export declare class LinkResolver<T extends Entry | Entry[] | PagedList<Entry>> {
     private entryOrList;
     private paths;

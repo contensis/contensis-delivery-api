@@ -1,4 +1,4 @@
-import { IParamsProvider } from '../interfaces';
+import { IParamsProvider } from '../models';
 
 export class HttpClient {
 

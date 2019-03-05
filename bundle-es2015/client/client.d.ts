@@ -1,4 +1,4 @@
-import { Config, ClientParams, ContensisClient, IEntryOperations, IContentTypeOperations, IProjectOperations, ITaxonomyOperations } from '../interfaces';
+import { ClientParams, Config, ContensisClient, IContentTypeOperations, IEntryOperations, IProjectOperations, ITaxonomyOperations } from '../models';
 import { ClientConfig } from './client-config';
 export declare class Client implements ContensisClient {
     static defaultClientConfig: ClientConfig;

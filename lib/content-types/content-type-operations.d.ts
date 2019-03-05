@@ -1,4 +1,4 @@
-import { IHttpClient, IContentTypeOperations, IParamsProvider, ContentType } from '../interfaces';
+import { ContentType, IContentTypeOperations, IHttpClient, IParamsProvider } from '../models';
 export declare class ContentTypeOperations implements IContentTypeOperations {
     private httpClient;
     private paramsProvider;

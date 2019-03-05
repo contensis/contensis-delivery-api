@@ -1,5 +1,5 @@
 import '../polyfills';
-import { ClientParams } from '../interfaces';
+import { ClientParams } from '../models';
 export interface UrlFn {
     (options: any, params: ClientParams): string;
 }

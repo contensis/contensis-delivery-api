@@ -1,4 +1,4 @@
-import { IHttpClient, ITaxonomyOperations, IParamsProvider, TaxonomyNode, TaxonomyGetNodeByKeyOptions, TaxonomyGetNodeByPathOptions, TaxonomyResolveChildrenOptions } from '../interfaces';
+import { IHttpClient, IParamsProvider, ITaxonomyOperations, TaxonomyGetNodeByKeyOptions, TaxonomyGetNodeByPathOptions, TaxonomyNode, TaxonomyResolveChildrenOptions } from '../models';
 export declare class TaxonomyOperations implements ITaxonomyOperations {
     private httpClient;
     private paramsProvider;

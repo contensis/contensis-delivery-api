@@ -1,4 +1,4 @@
-import { ExpressionValueType, OperatorType, IExpression, ContensisQuery, ContensisQueryOperators, ILogicalExpression, ContensisQueryOrderBy } from '../interfaces';
+import { ContensisQuery, ContensisQueryOperators, ContensisQueryOrderBy, ExpressionValueType, IExpression, ILogicalExpression, OperatorType } from '../models';
 import '../polyfills';
 export declare abstract class ExpressionBase implements IExpression {
     fieldName: string;

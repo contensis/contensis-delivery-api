@@ -1,5 +1,4 @@
-import {Config, ClientParams} from '../interfaces';
-
+import { Config, ClientParams } from '../models';
 
 export class ClientConfig implements Config {
     rootUrl: string = null;

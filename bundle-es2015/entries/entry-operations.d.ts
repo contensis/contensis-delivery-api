@@ -1,4 +1,4 @@
-import { IHttpClient, IParamsProvider, PagedList, Entry, IEntryOperations, EntryListOptions, EntryGetOptions } from '../interfaces';
+import { Entry, EntryGetOptions, EntryListOptions, IEntryOperations, IHttpClient, IParamsProvider, PagedList } from '../models';
 import '../polyfills';
 export declare class EntryOperations implements IEntryOperations {
     private httpClient;

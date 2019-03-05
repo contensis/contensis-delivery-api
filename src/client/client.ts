@@ -1,4 +1,8 @@
-import { Config, ClientParams, ContensisClient, IHttpClient, IEntryOperations, IContentTypeOperations, IProjectOperations, ITaxonomyOperations } from '../interfaces';
+import {
+	ClientParams, Config, ContensisClient, IContentTypeOperations,
+	IEntryOperations, IHttpClient, IProjectOperations, ITaxonomyOperations
+} from '../models';
+
 import { EntryOperations } from '../entries/entry-operations';
 import { ContentTypeOperations } from '../content-types/content-type-operations';
 import { ProjectOperations } from '../projects/project-operations';

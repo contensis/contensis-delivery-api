@@ -1,4 +1,4 @@
-import {IHttpClient, IContentTypeOperations, IParamsProvider, ContentType} from '../interfaces';
+import { ContentType, IContentTypeOperations, IHttpClient, IParamsProvider } from '../models';
 import { UrlBuilder } from '../http/url-builder';
 
 export class ContentTypeOperations implements IContentTypeOperations {

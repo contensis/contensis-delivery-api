@@ -1,4 +1,8 @@
-import { IHttpClient, IParamsProvider, PagedList, Entry, IEntryOperations, EntryListOptions, EntryGetOptions, ClientParams } from '../interfaces';
+import {
+	ClientParams, Entry, EntryGetOptions, EntryListOptions,
+	IEntryOperations, IHttpClient, IParamsProvider, PagedList
+} from '../models';
+
 import { LinkResolver } from './link-resolver';
 import { UrlBuilder } from '../http/url-builder';
 import '../polyfills';

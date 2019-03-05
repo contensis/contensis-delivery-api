@@ -1,4 +1,7 @@
-import { ExpressionValueType, OperatorType, IExpression, ContensisQuery, ContensisQueryOperators, ILogicalExpression, ContensisQueryOrderBy, ContensisQueryOrderByDto } from '../interfaces';
+import {
+    ContensisQuery, ContensisQueryOperators, ContensisQueryOrderBy, ContensisQueryOrderByDto,
+    ExpressionValueType, IExpression, ILogicalExpression, OperatorType
+} from '../models';
 import '../polyfills';
 
 const ExpressionValueTypeEnum = {

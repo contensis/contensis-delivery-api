@@ -1,4 +1,4 @@
-import {IHttpClient, IProjectOperations, IParamsProvider, Project} from '../interfaces';
+import { IHttpClient, IParamsProvider, IProjectOperations, Project } from '../models';
 import { UrlBuilder } from '../http/url-builder';
 
 export class ProjectOperations implements IProjectOperations {
