@@ -1,5 +1,3 @@
 node_modules/
-bundle-es2015/
 coverage/
-es5/
 npm-debug.log
