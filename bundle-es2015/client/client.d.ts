@@ -1,10 +1,11 @@
-import { ClientParams, Config, ContensisClient, IContentTypeOperations, IEntryOperations, IProjectOperations, ITaxonomyOperations } from '../models';
+import { ClientParams, Config, ContensisClient, IContentTypeOperations, IEntryOperations, IProjectOperations, ITaxonomyOperations, INodesOperations } from '../models';
 import { ClientConfig } from './client-config';
 export declare class Client implements ContensisClient {
     static defaultClientConfig: ClientConfig;
     clientConfig: ClientConfig;
     entries: IEntryOperations;
     contentTypes: IContentTypeOperations;
+    nodes: INodesOperations;
     project: IProjectOperations;
     taxonomy: ITaxonomyOperations;
     private httpClient;

@@ -30,6 +30,7 @@ interface Config {
 interface ContensisClient extends IParamsProvider {
     entries: IEntryOperations;
     contentTypes: IContentTypeOperations;
+    nodes: INodesOperations;
     project: IProjectOperations;
     taxonomy: ITaxonomyOperations;
 }
@@ -210,6 +211,18 @@ interface ILogicalExpression extends IExpression {
     count(): number;
 }
 
+interface INodesOperations {
+    getRoot(options?: NodesGetRootOptions): Promise<Node>;
+    getById(idOrOptions: string | NodesGetByIdOptions): Promise<Node>;
+    getByPath(pathOrOptions: string | NodesGetByPathOptions): Promise<Node>;
+    getByEntry(entryIdOrEntryOrOptions: string | Entry | NodesGetByEntryOptions): Promise<Node[]>;
+    getChildren(idOrNodeOrOptions: string | Node | NodesGetChildrenOptions): Promise<Node[]>;
+    getParent(idOrNodeOrOptions: string | Node | NodesGetParentOptions): Promise<Node[]>;
+    getAncestorAtLevel(idOrNodeOrOptions: string | Node | NodesGetAncestorAtLevelOptions): Promise<Node>;
+    getAncestors(idOrNodeOrOptions: string | Node | NodesGetAncestorsOptions): Promise<Node[]>;
+    getSiblings(idOrNodeOrOptions: string | Node | NodesGetSiblingOptions): Promise<Node[]>;
+}
+
 interface IParamsProvider {
     getParams(): ClientParams;
 }
@@ -222,6 +235,63 @@ interface ITaxonomyOperations {
     getNodeByKey(key: string | TaxonomyGetNodeByKeyOptions): Promise<TaxonomyNode>;
     getNodeByPath(path: string | TaxonomyGetNodeByPathOptions): Promise<TaxonomyNode>;
     resolveChildren(node: string | TaxonomyNode | TaxonomyResolveChildrenOptions): Promise<TaxonomyNode>;
+}
+
+interface Node {
+    id: string;
+    projectId: string;
+    title: string;
+    slug: string;
+    path: string;
+    parentId?: string;
+    language: string;
+    entryId?: string;
+    childCount: number;
+}
+
+interface NodesGetAncestorAtLevelOptions extends NodesGetAncestorsOptions {
+}
+
+interface NodesGetAncestorsOptions extends NodesOptions {
+    startLevel?: number;
+}
+
+interface NodesGetByEntryOptions extends NodesOptions {
+    entryId?: string;
+    entry?: Entry;
+}
+
+interface NodesGetByIdOptions extends NodesGetOptions {
+    id: string;
+}
+
+interface NodesGetByPathOptions extends NodesGetOptions {
+    path: string;
+}
+
+interface NodesGetChildrenOptions extends NodesOptions {
+    id?: string;
+    node?: Node;
+}
+
+interface NodesGetOptions extends NodesOptions {
+    depth?: number;
+}
+
+interface NodesGetParentOptions extends NodesGetOptions {
+    id?: string;
+    node?: Node;
+}
+
+interface NodesGetRootOptions extends NodesGetOptions {
+}
+
+interface NodesGetSiblingOptions extends NodesGetChildrenOptions {
+}
+
+interface NodesOptions {
+    language?: string;
+    fields?: string[];
 }
 
 declare type OperatorType = 'and' | 'between' | 'contains' | 'endsWith' | 'equalTo' | 'exists' | 'freeText' | 'greaterThan' | 'greaterThanOrEqualTo' | 'in' | 'lessThan' | 'lessThanOrEqualTo' | 'not' | 'or' | 'startsWith' | 'where';
