@@ -16,11 +16,7 @@ export class NodesOperations implements INodesOperations {
         throw new Error('Method not implemented.');
     }
 
-    getById(idOrOptions: string | NodesGetByIdOptions): Promise<Node> {
-        throw new Error('Method not implemented.');
-    }
-
-    getByPath(pathOrOptions: string | NodesGetByPathOptions): Promise<Node> {
+    get(idOrPathOrOptions: string | NodesGetByIdOptions | NodesGetByPathOptions): Promise<Node> {
         throw new Error('Method not implemented.');
     }
 

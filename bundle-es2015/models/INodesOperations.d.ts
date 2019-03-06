@@ -11,8 +11,7 @@ import { NodesGetAncestorAtLevelOptions } from './NodesGetAncestorAtLevelOptions
 import { NodesGetSiblingOptions } from './NodesGetSiblingOptions';
 export interface INodesOperations {
     getRoot(options?: NodesGetRootOptions): Promise<Node>;
-    getById(idOrOptions: string | NodesGetByIdOptions): Promise<Node>;
-    getByPath(pathOrOptions: string | NodesGetByPathOptions): Promise<Node>;
+    get(idOrPathOrOptions: string | NodesGetByIdOptions | NodesGetByPathOptions): Promise<Node>;
     getByEntry(entryIdOrEntryOrOptions: string | Entry | NodesGetByEntryOptions): Promise<Node[]>;
     getChildren(idOrNodeOrOptions: string | Node | NodesGetChildrenOptions): Promise<Node[]>;
     getParent(idOrNodeOrOptions: string | Node | NodesGetParentOptions): Promise<Node[]>;

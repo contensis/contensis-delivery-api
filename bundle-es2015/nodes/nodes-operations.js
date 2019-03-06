@@ -9,10 +9,7 @@ export class NodesOperations {
     getRoot(options) {
         throw new Error('Method not implemented.');
     }
-    getById(idOrOptions) {
-        throw new Error('Method not implemented.');
-    }
-    getByPath(pathOrOptions) {
+    get(idOrPathOrOptions) {
         throw new Error('Method not implemented.');
     }
     getByEntry(entryIdOrEntryOrOptions) {
