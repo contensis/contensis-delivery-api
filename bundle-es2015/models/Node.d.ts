@@ -1,3 +1,4 @@
+import { Entry } from './Entry';
 export interface Node {
     id: string;
     projectId: string;
@@ -7,5 +8,6 @@ export interface Node {
     parentId?: string;
     language: string;
     entryId?: string;
+    entry?: Entry;
     childCount: number;
 }

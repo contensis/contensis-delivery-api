@@ -21,7 +21,7 @@ export class NodesOperations {
     getParent(idOrNodeOrOptions) {
         throw new Error('Method not implemented.');
     }
-    getAncestorAtLevel(idOrNodeOrOptions) {
+    getAncestorAtLevel(options) {
         throw new Error('Method not implemented.');
     }
     getAncestors(idOrNodeOrOptions) {
