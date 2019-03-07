@@ -28,10 +28,10 @@ export class NodesOperations implements INodesOperations {
         throw new Error('Method not implemented.');
     }
 
-    getParent(idOrNodeOrOptions: string | Node | NodesGetParentOptions): Promise<Node[]> {
+    getParent(idOrNodeOrOptions: string | Node | NodesGetParentOptions): Promise<Node> {
         throw new Error('Method not implemented.');
     }
-    getAncestorAtLevel(idOrNodeOrOptions: string | Node | NodesGetAncestorAtLevelOptions): Promise<Node> {
+    getAncestorAtLevel(options: NodesGetAncestorAtLevelOptions): Promise<Node> {
         throw new Error('Method not implemented.');
     }
 
