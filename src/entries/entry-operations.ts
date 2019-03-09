@@ -5,6 +5,7 @@ import {
 
 import { LinkResolver } from './link-resolver';
 import { UrlBuilder } from '../http/url-builder';
+
 import '../polyfills';
 
 let getMappers = {
