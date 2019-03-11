@@ -1,4 +1,6 @@
-import { NodesGetChildrenOptions } from './NodesGetChildrenOptions';
 
-export interface NodesGetSiblingOptions extends NodesGetChildrenOptions {
+import { NodesNodeOptions } from './NodesNodeOptions';
+import { NodesDefaultOptions } from './NodesDefaultOptions';
+
+export interface NodesGetSiblingOptions extends NodesDefaultOptions, NodesNodeOptions {
 }

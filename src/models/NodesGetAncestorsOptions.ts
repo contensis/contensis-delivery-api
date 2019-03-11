@@ -1,7 +1,6 @@
-import { NodesOptions } from './NodesOptions';
+import { NodesDefaultOptions } from './NodesDefaultOptions';
+import { NodesNodeOptions } from './NodesNodeOptions';
 
-export interface NodesGetAncestorsOptions extends NodesOptions {
-	id?: string;
-    node?: Node;
-	startLevel?: number;
+export interface NodesGetAncestorsOptions extends NodesDefaultOptions, NodesNodeOptions {
+    startLevel?: number;
 }

@@ -1,6 +1,6 @@
-import { NodesOptions } from './NodesOptions';
+import { NodesDefaultOptions } from './NodesDefaultOptions';
 import { Entry } from './Entry';
-export interface NodesGetByEntryOptions extends NodesOptions {
+export interface NodesGetByEntryOptions extends NodesDefaultOptions {
 	entryId?: string;
 	entry?: Entry;
 }

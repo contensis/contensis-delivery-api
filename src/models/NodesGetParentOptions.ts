@@ -1,7 +1,5 @@
-import { Node } from './Node';
-import { NodesGetOptions } from './NodesGetOptions';
+import { NodesDefaultWithDepthOptions } from './NodesDefaultWithDepthOptions';
+import { NodesNodeOptions } from './NodesNodeOptions';
 
-export interface NodesGetParentOptions extends NodesGetOptions {
-	id?: string;
-	node?: Node;
+export interface NodesGetParentOptions extends NodesDefaultWithDepthOptions, NodesNodeOptions {
 }

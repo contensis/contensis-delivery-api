@@ -249,54 +249,52 @@ interface Node {
     childCount: number;
 }
 
-interface NodesGetAncestorAtLevelOptions extends NodesOptions {
-    id?: string;
-    node?: Node;
-    startAtLevel: number;
+interface NodesDefaultOptions {
+    language?: string;
+    entryFields?: string[];
+    entryLinkDepth?: number;
 }
 
-interface NodesGetAncestorsOptions extends NodesOptions {
-    id?: string;
-    node?: Node;
+interface NodesDefaultWithDepthOptions extends NodesDefaultOptions {
+    depth?: number;
+}
+
+interface NodesGetAncestorAtLevelOptions extends NodesDefaultWithDepthOptions, NodesNodeOptions {
+    startLevel: number;
+}
+
+interface NodesGetAncestorsOptions extends NodesDefaultOptions, NodesNodeOptions {
     startLevel?: number;
 }
 
-interface NodesGetByEntryOptions extends NodesOptions {
+interface NodesGetByEntryOptions extends NodesDefaultOptions {
     entryId?: string;
     entry?: Entry;
 }
 
-interface NodesGetByIdOptions extends NodesGetOptions {
+interface NodesGetByIdOptions extends NodesDefaultWithDepthOptions {
     id: string;
 }
 
-interface NodesGetByPathOptions extends NodesGetOptions {
+interface NodesGetByPathOptions extends NodesDefaultWithDepthOptions {
     path: string;
 }
 
-interface NodesGetChildrenOptions extends NodesOptions {
+interface NodesGetChildrenOptions extends NodesDefaultOptions, NodesNodeOptions {
+}
+
+interface NodesGetParentOptions extends NodesDefaultWithDepthOptions, NodesNodeOptions {
+}
+
+interface NodesGetRootOptions extends NodesDefaultWithDepthOptions {
+}
+
+interface NodesGetSiblingOptions extends NodesDefaultOptions, NodesNodeOptions {
+}
+
+interface NodesNodeOptions {
     id?: string;
     node?: Node;
-}
-
-interface NodesGetOptions extends NodesOptions {
-    depth?: number;
-}
-
-interface NodesGetParentOptions extends NodesGetOptions {
-    id?: string;
-    node?: Node;
-}
-
-interface NodesGetRootOptions extends NodesGetOptions {
-}
-
-interface NodesGetSiblingOptions extends NodesGetChildrenOptions {
-}
-
-interface NodesOptions {
-    language?: string;
-    fields?: string[];
 }
 
 declare type OperatorType = 'and' | 'between' | 'contains' | 'endsWith' | 'equalTo' | 'exists' | 'freeText' | 'greaterThan' | 'greaterThanOrEqualTo' | 'in' | 'lessThan' | 'lessThanOrEqualTo' | 'not' | 'or' | 'startsWith' | 'where';

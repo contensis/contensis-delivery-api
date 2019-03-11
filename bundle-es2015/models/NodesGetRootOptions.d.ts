@@ -1,3 +1,3 @@
-import { NodesGetOptions } from './NodesGetOptions';
-export interface NodesGetRootOptions extends NodesGetOptions {
+import { NodesDefaultWithDepthOptions } from './NodesDefaultWithDepthOptions';
+export interface NodesGetRootOptions extends NodesDefaultWithDepthOptions {
 }
