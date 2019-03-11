@@ -30,7 +30,7 @@ interface Config {
 interface ContensisClient extends IParamsProvider {
     entries: IEntryOperations;
     contentTypes: IContentTypeOperations;
-    nodes: INodesOperations;
+    nodes: INodeOperations;
     project: IProjectOperations;
     taxonomy: ITaxonomyOperations;
 }
@@ -211,15 +211,15 @@ interface ILogicalExpression extends IExpression {
     count(): number;
 }
 
-interface INodesOperations {
-    getRoot(options?: NodesGetRootOptions): Promise<Node>;
-    get(idOrPathOrOptions: string | NodesGetByIdOptions | NodesGetByPathOptions): Promise<Node>;
-    getByEntry(entryIdOrEntryOrOptions: string | Entry | NodesGetByEntryOptions): Promise<Node[]>;
-    getChildren(idOrNodeOrOptions: string | Node | NodesGetChildrenOptions): Promise<Node[]>;
-    getParent(idOrNodeOrOptions: string | Node | NodesGetParentOptions): Promise<Node>;
-    getAncestorAtLevel(options: NodesGetAncestorAtLevelOptions): Promise<Node>;
-    getAncestors(idOrNodeOrOptions: string | Node | NodesGetAncestorsOptions): Promise<Node[]>;
-    getSiblings(idOrNodeOrOptions: string | Node | NodesGetSiblingOptions): Promise<Node[]>;
+interface INodeOperations {
+    getRoot(options?: NodeGetRootOptions): Promise<Node>;
+    get(idOrPathOrOptions: string | NodeGetByIdOptions | NodeGetByPathOptions): Promise<Node>;
+    getByEntry(entryIdOrEntryOrOptions: string | Entry | NodeGetByEntryOptions): Promise<Node[]>;
+    getChildren(idOrNodeOrOptions: string | Node | NodeGetChildrenOptions): Promise<Node[]>;
+    getParent(idOrNodeOrOptions: string | Node | NodeGetParentOptions): Promise<Node>;
+    getAncestorAtLevel(options: NodeGetAncestorAtLevelOptions): Promise<Node>;
+    getAncestors(idOrNodeOrOptions: string | Node | NodeGetAncestorsOptions): Promise<Node[]>;
+    getSiblings(idOrNodeOrOptions: string | Node | NodeGetSiblingOptions): Promise<Node[]>;
 }
 
 interface IParamsProvider {
@@ -249,50 +249,50 @@ interface Node {
     childCount: number;
 }
 
-interface NodesDefaultOptions {
+interface NodeDefaultOptions {
     language?: string;
     entryFields?: string[];
     entryLinkDepth?: number;
 }
 
-interface NodesDefaultWithDepthOptions extends NodesDefaultOptions {
+interface NodeDefaultWithDepthOptions extends NodeDefaultOptions {
     depth?: number;
 }
 
-interface NodesGetAncestorAtLevelOptions extends NodesDefaultWithDepthOptions, NodesNodeOptions {
+interface NodeGetAncestorAtLevelOptions extends NodeDefaultWithDepthOptions, NodeIdOptions {
     startLevel: number;
 }
 
-interface NodesGetAncestorsOptions extends NodesDefaultOptions, NodesNodeOptions {
+interface NodeGetAncestorsOptions extends NodeDefaultOptions, NodeIdOptions {
     startLevel?: number;
 }
 
-interface NodesGetByEntryOptions extends NodesDefaultOptions {
+interface NodeGetByEntryOptions extends NodeDefaultOptions {
     entryId?: string;
     entry?: Entry;
 }
 
-interface NodesGetByIdOptions extends NodesDefaultWithDepthOptions {
+interface NodeGetByIdOptions extends NodeDefaultWithDepthOptions {
     id: string;
 }
 
-interface NodesGetByPathOptions extends NodesDefaultWithDepthOptions {
+interface NodeGetByPathOptions extends NodeDefaultWithDepthOptions {
     path: string;
 }
 
-interface NodesGetChildrenOptions extends NodesDefaultOptions, NodesNodeOptions {
+interface NodeGetChildrenOptions extends NodeDefaultOptions, NodeIdOptions {
 }
 
-interface NodesGetParentOptions extends NodesDefaultWithDepthOptions, NodesNodeOptions {
+interface NodeGetParentOptions extends NodeDefaultWithDepthOptions, NodeIdOptions {
 }
 
-interface NodesGetRootOptions extends NodesDefaultWithDepthOptions {
+interface NodeGetRootOptions extends NodeDefaultWithDepthOptions {
 }
 
-interface NodesGetSiblingOptions extends NodesDefaultOptions, NodesNodeOptions {
+interface NodeGetSiblingOptions extends NodeDefaultOptions, NodeIdOptions {
 }
 
-interface NodesNodeOptions {
+interface NodeIdOptions {
     id?: string;
     node?: Node;
 }

@@ -3,12 +3,12 @@ import { IContentTypeOperations } from './IContentTypeOperations';
 import { IProjectOperations } from './IProjectOperations';
 import { ITaxonomyOperations } from './ITaxonomyOperations';
 import { IParamsProvider } from './IParamsProvider';
-import { INodesOperations } from './INodesOperations';
+import { INodeOperations } from './INodeOperations';
 
 export interface ContensisClient extends IParamsProvider {
 	entries: IEntryOperations;
 	contentTypes: IContentTypeOperations;
-	nodes: INodesOperations;
+	nodes: INodeOperations;
 	project: IProjectOperations;
 	taxonomy: ITaxonomyOperations;
 }

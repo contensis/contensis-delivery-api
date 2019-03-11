@@ -4,7 +4,7 @@ import { ProjectOperations } from '../projects/project-operations';
 import { TaxonomyOperations } from '../taxonomy/taxonomy-operations';
 import { ClientConfig } from './client-config';
 import { HttpClient } from '../http/http-client';
-import { NodesOperations } from '../nodes/nodes-operations';
+import { NodeOperations } from '../nodes/node-operations';
 export class Client {
     constructor(config = null) {
         this.clientConfig = null;
@@ -13,7 +13,7 @@ export class Client {
         this.entries = new EntryOperations(this.httpClient, this);
         this.project = new ProjectOperations(this.httpClient, this);
         this.contentTypes = new ContentTypeOperations(this.httpClient, this);
-        this.nodes = new NodesOperations(this.httpClient, this);
+        this.nodes = new NodeOperations(this.httpClient, this);
         this.taxonomy = new TaxonomyOperations(this.httpClient, this);
     }
     static create(config = null) {

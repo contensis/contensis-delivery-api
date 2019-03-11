@@ -1,33 +1,34 @@
 import {
-    IHttpClient, IParamsProvider, INodesOperations, Node, NodesGetByEntryOptions,
-    NodesGetByIdOptions, NodesGetByPathOptions, NodesGetRootOptions, Entry, NodesGetChildrenOptions,
-    NodesGetParentOptions, NodesGetAncestorsOptions, NodesGetAncestorAtLevelOptions, NodesGetSiblingOptions
+    IHttpClient, IParamsProvider, INodeOperations, Node, NodeGetByEntryOptions,
+    NodeGetByIdOptions, NodeGetByPathOptions, NodeGetRootOptions, Entry, NodeGetChildrenOptions,
+    NodeGetParentOptions, NodeGetAncestorsOptions, NodeGetAncestorAtLevelOptions, NodeGetSiblingOptions
 } from '../models';
 import { UrlBuilder } from '../http/url-builder';
 import { isString } from '../utils';
 
-let nodesDefaultOptionsMappers = {
-    language: (value: string) => (!value) ? value : null,
+let nodeDefaultOptionsMappers = {
+    language: (value: string) => (!!value ) ? value : null,
+    versionStatus: (value: string) => (value === 'published') ? null : value,
     entryFields: (value: string[]) => (value && value.length > 0) ? value : null,
     entryLinkDepth: (value: number) => (value && (value > 0)) ? value : null,
 };
 
-let nodesDefaultWithDepthOptionsMappers = {
-    ...nodesDefaultOptionsMappers,
+let nodeDefaultWithDepthOptionsMappers = {
+    ...nodeDefaultOptionsMappers,
     depth: (value: number) => (value && (value > 0)) ? value : null,
 };
 
-let nodesGetAncestorAtLevelOptionsMappers = {
-    ...nodesDefaultWithDepthOptionsMappers,
+let nodeGetAncestorAtLevelOptionsMappers = {
+    ...nodeDefaultWithDepthOptionsMappers,
     startLevel: (value: number) => (value && (value > 0)) ? value : null,
 };
 
-let nodesGetAncestorsOptionsMappers = {
-    ...nodesDefaultOptionsMappers,
+let nodeGetAncestorsOptionsMappers = {
+    ...nodeDefaultOptionsMappers,
     startLevel: (value: number) => (value && (value > 0)) ? value : null,
 };
 
-export class NodesOperations implements INodesOperations {
+export class NodeOperations implements INodeOperations {
 
     constructor(private httpClient: IHttpClient, private paramsProvider: IParamsProvider) {
         if (!this.httpClient || !this.paramsProvider) {
@@ -35,21 +36,21 @@ export class NodesOperations implements INodesOperations {
         }
     }
 
-    getRoot(options?: NodesGetRootOptions): Promise<Node> {
+    getRoot(options?: NodeGetRootOptions): Promise<Node> {
         let url = UrlBuilder.create(
             '/api/delivery/projects/:projectId/nodes/root',
             { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .setOptions(options)
             .setParams(this.paramsProvider.getParams())
-            .addMappers(nodesDefaultWithDepthOptionsMappers)
+            .addMappers(nodeDefaultWithDepthOptionsMappers)
             .toUrl();
 
         return this.httpClient.request<Node>(url);
     }
 
-    get(idOrPathOrOptions: string | NodesGetByIdOptions | NodesGetByPathOptions): Promise<Node> {
+    get(idOrPathOrOptions: string | NodeGetByIdOptions | NodeGetByPathOptions): Promise<Node> {
         let isPath = (isString(idOrPathOrOptions) && (idOrPathOrOptions as string).startsWith('/'))
-            || (!!(idOrPathOrOptions as NodesGetByPathOptions) && !!(idOrPathOrOptions as NodesGetByPathOptions).path);
+            || (!!(idOrPathOrOptions as NodeGetByPathOptions) && !!(idOrPathOrOptions as NodeGetByPathOptions).path);
 
         let urlTemplate = isPath ? '/api/delivery/projects/:projectId/nodes:path' : '/api/delivery/projects/:projectId/nodes/:id';
 
@@ -58,84 +59,84 @@ export class NodesOperations implements INodesOperations {
             { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .setOptions(idOrPathOrOptions, isPath ? 'path' : 'id')
             .setParams(this.paramsProvider.getParams())
-            .addMappers(nodesDefaultWithDepthOptionsMappers)
+            .addMappers(nodeDefaultWithDepthOptionsMappers)
             .toUrl();
 
         return this.httpClient.request<Node>(url);
     }
 
-    getByEntry(entryIdOrEntryOrOptions: string | Entry | NodesGetByEntryOptions): Promise<Node[]> {
+    getByEntry(entryIdOrEntryOrOptions: string | Entry | NodeGetByEntryOptions): Promise<Node[]> {
         let url = UrlBuilder
         .create(
             '/api/delivery/projects/:projectId/nodes',
             { entryId: null, language: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
         .setOptions(entryIdOrEntryOrOptions, 'entryId')
         .setParams(this.paramsProvider.getParams())
-        .addMappers(nodesDefaultOptionsMappers)
+        .addMappers(nodeDefaultOptionsMappers)
         .toUrl();
 
     return this.httpClient.request<Node[]>(url);
     }
 
-    getChildren(idOrNodeOrOptions: string | Node | NodesGetChildrenOptions): Promise<Node[]> {
+    getChildren(idOrNodeOrOptions: string | Node | NodeGetChildrenOptions): Promise<Node[]> {
         let url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/children',
                 { language: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .setOptions(idOrNodeOrOptions, 'id')
             .setParams(this.paramsProvider.getParams())
-            .addMappers(nodesDefaultOptionsMappers)
+            .addMappers(nodeDefaultOptionsMappers)
             .toUrl();
 
         return this.httpClient.request<Node[]>(url);
     }
 
-    getParent(idOrNodeOrOptions: string | Node | NodesGetParentOptions): Promise<Node> {
+    getParent(idOrNodeOrOptions: string | Node | NodeGetParentOptions): Promise<Node> {
         let url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/parent',
                 { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .setOptions(idOrNodeOrOptions, 'id')
             .setParams(this.paramsProvider.getParams())
-            .addMappers(nodesDefaultWithDepthOptionsMappers)
+            .addMappers(nodeDefaultWithDepthOptionsMappers)
             .toUrl();
 
         return this.httpClient.request<Node>(url);
     }
-    getAncestorAtLevel(options: NodesGetAncestorAtLevelOptions): Promise<Node> {
+    getAncestorAtLevel(options: NodeGetAncestorAtLevelOptions): Promise<Node> {
         let url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/ancestor',
                 { language: null, startLevel: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .setOptions(options)
             .setParams(this.paramsProvider.getParams())
-            .addMappers(nodesGetAncestorAtLevelOptionsMappers)
+            .addMappers(nodeGetAncestorAtLevelOptionsMappers)
             .toUrl();
 
         return this.httpClient.request<Node>(url);
     }
 
-    getAncestors(idOrNodeOrOptions: string | Node | NodesGetAncestorsOptions): Promise<Node[]> {
+    getAncestors(idOrNodeOrOptions: string | Node | NodeGetAncestorsOptions): Promise<Node[]> {
         let url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/ancestors',
                 { language: null, startLevel: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .setOptions(idOrNodeOrOptions, 'id')
             .setParams(this.paramsProvider.getParams())
-            .addMappers(nodesGetAncestorsOptionsMappers)
+            .addMappers(nodeGetAncestorsOptionsMappers)
             .toUrl();
 
         return this.httpClient.request<Node[]>(url);
     }
 
-    getSiblings(idOrNodeOrOptions: string | Node | NodesGetSiblingOptions): Promise<Node[]> {
+    getSiblings(idOrNodeOrOptions: string | Node | NodeGetSiblingOptions): Promise<Node[]> {
         let url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/siblings',
                 { language: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .setOptions(idOrNodeOrOptions, 'id')
             .setParams(this.paramsProvider.getParams())
-            .addMappers(nodesDefaultOptionsMappers)
+            .addMappers(nodeDefaultOptionsMappers)
             .toUrl();
 
         return this.httpClient.request<Node[]>(url);

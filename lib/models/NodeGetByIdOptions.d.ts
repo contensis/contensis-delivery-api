@@ -1,4 +1,4 @@
-import { NodeGetOptions } from './NodeGetOptions';
-export interface NodeGetByIdOptions extends NodeGetOptions {
+import { NodeDefaultWithDepthOptions } from './NodeDefaultWithDepthOptions';
+export interface NodeGetByIdOptions extends NodeDefaultWithDepthOptions {
     id: string;
 }
