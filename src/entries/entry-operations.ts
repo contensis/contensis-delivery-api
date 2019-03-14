@@ -1,17 +1,18 @@
 import {
 	ClientParams, Entry, EntryGetOptions, EntryListOptions,
-	IEntryOperations, IHttpClient, IParamsProvider, PagedList
+	IEntryOperations, IHttpClient, IParamsProvider, MapperFn, PagedList
 } from '../models';
 
 import { LinkResolver } from './link-resolver';
 import { UrlBuilder } from '../http/url-builder';
-
 import '../polyfills';
+import { defaultMapperForLanguage, defaultMapperForVersionStatus } from '../utils';
 
-let getMappers = {
+let getMappers: { [key: string]: MapperFn } = {
+	language: defaultMapperForLanguage,
+	versionStatus: defaultMapperForVersionStatus,
 	fields: (value: string[]) => (value && value.length > 0) ? value : null,
 	linkDepth: (value: number) => (value && (value > 0)) ? value : null,
-	versionStatus: (value: string) => (value === 'published') ? null : value
 };
 
 let listUrl = (options: EntryListOptions, params: ClientParams) => {
@@ -20,16 +21,14 @@ let listUrl = (options: EntryListOptions, params: ClientParams) => {
 		: `/api/delivery/projects/:projectId/entries`;
 };
 
-let listMappers = {
-	fields: (value: string[]) => (value && value.length > 0) ? value : null,
-	linkDepth: (value: number) => (value && (value > 0)) ? value : null,
+let listMappers: { [key: string]: MapperFn } = {
+	...getMappers,
 	order: (value: string[]) => (value && value.length > 0) ? value : null,
 	pageIndex: (value: number, options: EntryListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
-	pageSize: (value: number, options: EntryListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
-	versionStatus: (value: string) => (value === 'published') ? null : value
+	pageSize: (value: number, options: EntryListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize)
 };
 
-let searchMappers = {
+let searchMappers: { [key: string]: MapperFn } = {
 	linkDepth: (value: number) => (value && (value > 0)) ? value : null
 };
 
@@ -40,8 +39,9 @@ export class EntryOperations implements IEntryOperations {
 	}
 
 	get(idOrOptions: string | EntryGetOptions): Promise<Entry> {
-		let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/:id', { language: null, versionStatus: null, linkDepth: null, fields: null })
-			.setOptions(idOrOptions, 'id')
+		let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/:id',
+			{ language: null, versionStatus: null, linkDepth: null, fields: null })
+			.addOptions(idOrOptions, 'id')
 			.setParams(this.paramsProvider.getParams())
 			.addMappers(getMappers)
 			.toUrl();
@@ -50,8 +50,10 @@ export class EntryOperations implements IEntryOperations {
 	}
 
 	list(contentTypeIdOrOptions: string | EntryListOptions): Promise<PagedList<Entry>> {
-		let url = UrlBuilder.create(listUrl, { language: null, versionStatus: null, linkDepth: null, order: null, fields: null, pageIndex: null, pageSize: null })
-			.setOptions(contentTypeIdOrOptions, 'contentTypeId')
+		let url = UrlBuilder.create(
+			listUrl,
+			{ language: null, versionStatus: null, linkDepth: null, order: null, fields: null, pageIndex: null, pageSize: null })
+			.addOptions(contentTypeIdOrOptions, 'contentTypeId')
 			.setParams(this.paramsProvider.getParams())
 			.addMappers(listMappers)
 			.toUrl();

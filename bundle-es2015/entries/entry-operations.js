@@ -1,10 +1,12 @@
 import { LinkResolver } from './link-resolver';
 import { UrlBuilder } from '../http/url-builder';
 import '../polyfills';
+import { defaultMapperForLanguage, defaultMapperForVersionStatus } from '../utils';
 let getMappers = {
+    language: defaultMapperForLanguage,
+    versionStatus: defaultMapperForVersionStatus,
     fields: (value) => (value && value.length > 0) ? value : null,
     linkDepth: (value) => (value && (value > 0)) ? value : null,
-    versionStatus: (value) => (value === 'published') ? null : value
 };
 let listUrl = (options, params) => {
     return !!options.contentTypeId
@@ -12,12 +14,10 @@ let listUrl = (options, params) => {
         : `/api/delivery/projects/:projectId/entries`;
 };
 let listMappers = {
-    fields: (value) => (value && value.length > 0) ? value : null,
-    linkDepth: (value) => (value && (value > 0)) ? value : null,
+    ...getMappers,
     order: (value) => (value && value.length > 0) ? value : null,
     pageIndex: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
-    pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
-    versionStatus: (value) => (value === 'published') ? null : value
+    pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize)
 };
 let searchMappers = {
     linkDepth: (value) => (value && (value > 0)) ? value : null
@@ -29,7 +29,7 @@ export class EntryOperations {
     }
     get(idOrOptions) {
         let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/:id', { language: null, versionStatus: null, linkDepth: null, fields: null })
-            .setOptions(idOrOptions, 'id')
+            .addOptions(idOrOptions, 'id')
             .setParams(this.paramsProvider.getParams())
             .addMappers(getMappers)
             .toUrl();
@@ -37,7 +37,7 @@ export class EntryOperations {
     }
     list(contentTypeIdOrOptions) {
         let url = UrlBuilder.create(listUrl, { language: null, versionStatus: null, linkDepth: null, order: null, fields: null, pageIndex: null, pageSize: null })
-            .setOptions(contentTypeIdOrOptions, 'contentTypeId')
+            .addOptions(contentTypeIdOrOptions, 'contentTypeId')
             .setParams(this.paramsProvider.getParams())
             .addMappers(listMappers)
             .toUrl();

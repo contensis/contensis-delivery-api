@@ -6,7 +6,7 @@ export class ContentTypeOperations {
     }
     get(contentTypeId) {
         let url = UrlBuilder.create('/api/delivery/projects/:projectId/contentTypes/:contentTypeId')
-            .setOptions(contentTypeId, 'contentTypeId')
+            .addOptions(contentTypeId, 'contentTypeId')
             .setParams(this.paramsProvider.getParams())
             .toUrl();
         return this.httpClient.request(url);

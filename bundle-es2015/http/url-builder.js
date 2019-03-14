@@ -1,29 +1,23 @@
 import '../polyfills';
-function hasProp(o, key) {
-    return !!o && typeof o[key] !== 'undefined';
-}
-function toQuery(values) {
-    let keys = Object.keys(values)
-        .filter((key) => key && (values[key] !== null) && (values[key] !== ''));
-    keys.sort(); // sort keys for easier testing
-    let query = keys
-        .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(values[key]));
-    return (query.length > 0)
-        ? '?' + query.join('&')
-        : '';
-}
+import { hasProp, isString, toQuery } from '../utils';
 export class UrlBuilder {
     constructor(url, query) {
         this.url = url;
         this.query = query;
         this.paramMatcher = /(:\b\D\w*)/g;
+        this.options = {};
         this.mappers = {};
     }
     static create(url, query = null) {
         return new UrlBuilder(url, query);
     }
-    setOptions(options, defaultParamName = null) {
-        this.options = typeof options === 'string' ? { [defaultParamName]: options } : options;
+    addOptions(options, defaultParamName = null) {
+        if (isString(options) && !!defaultParamName) {
+            this.options[defaultParamName] = options;
+        }
+        else {
+            this.options = { ...this.options, ...options };
+        }
         return this;
     }
     setParams(clientParams) {
@@ -45,20 +39,37 @@ export class UrlBuilder {
         if (paramNames) {
             paramNames.forEach(paramName => {
                 let key = paramName.substring(1);
-                let value = hasProp(this.options, key)
-                    ? this.options[key]
-                    : (hasProp(this.clientParams, key) ? this.clientParams[key] : null);
-                namedParams[paramName] = this.mappers[key] ? this.mappers[key](value, this.options, this.clientParams) : value;
+                let value = null;
+                if (hasProp(this.options, key)
+                    && this.options[key] !== null) {
+                    value = this.options[key];
+                }
+                else if (hasProp(this.clientParams, key)
+                    && this.clientParams[key] !== null) {
+                    value = this.clientParams[key];
+                }
+                let mapperValue = null;
+                if (this.mappers[paramName]) {
+                    mapperValue = this.mappers[paramName](value, this.options, this.clientParams);
+                }
+                namedParams[paramName] = mapperValue !== null ? mapperValue : value;
             });
         }
         let query = {};
         if (this.query) {
             query = { ...this.query };
             Object.keys(this.query).forEach(paramName => {
-                let value = hasProp(this.options, paramName)
-                    ? this.options[paramName]
-                    : (hasProp(this.clientParams, paramName) ? this.clientParams[paramName] : query[paramName]);
-                query[paramName] = this.mappers[paramName] ? this.mappers[paramName](value, this.options, this.clientParams) : value;
+                let value = query[paramName];
+                if (hasProp(this.options, paramName)
+                    && this.options[paramName] !== null) {
+                    value = this.options[paramName];
+                }
+                else if (hasProp(this.clientParams, paramName)
+                    && this.clientParams[paramName] !== null) {
+                    value = this.clientParams[paramName];
+                }
+                query[paramName] = this.mappers[paramName] ?
+                    this.mappers[paramName](value, this.options, this.clientParams) : value;
             });
         }
         let url = Object.keys(namedParams)

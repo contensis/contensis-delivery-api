@@ -9,7 +9,7 @@ export class TaxonomyOperations {
     }
     getNodeByKey(key) {
         let url = UrlBuilder.create('/api/delivery/projects/:projectId/taxonomy/nodes/:key', { order: null, childDepth: null, language: null })
-            .setOptions(key, 'key')
+            .addOptions(key, 'key')
             .setParams(this.paramsProvider.getParams())
             .addMappers(taxonomyMappers)
             .toUrl();
@@ -17,7 +17,7 @@ export class TaxonomyOperations {
     }
     getNodeByPath(path) {
         let url = UrlBuilder.create('/api/delivery/projects/:projectId/taxonomy/nodes', { order: null, childDepth: null, language: null, path: null })
-            .setOptions(path, 'path')
+            .addOptions(path, 'path')
             .setParams(this.paramsProvider.getParams())
             .addMappers(taxonomyMappers)
             .toUrl();

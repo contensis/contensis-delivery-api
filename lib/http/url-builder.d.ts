@@ -1,11 +1,5 @@
 import '../polyfills';
-import { ClientParams } from '../models';
-export interface UrlFn {
-    (options: any, params: ClientParams): string;
-}
-export interface MapperFn {
-    (value: any, options: any, params: ClientParams): any;
-}
+import { ClientParams, MapperFn, UrlFn } from '../models';
 export declare class UrlBuilder {
     private url;
     private query;
@@ -19,7 +13,7 @@ export declare class UrlBuilder {
     constructor(url: string | UrlFn, query: {
         [key: string]: any;
     });
-    setOptions(options: any, defaultParamName?: string): this;
+    addOptions(options: any, defaultParamName?: string): this;
     setParams(clientParams: ClientParams): this;
     addMappers(mappers: {
         [key: string]: MapperFn;

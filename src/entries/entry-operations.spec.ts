@@ -128,7 +128,24 @@ describe('Entry Operations', function () {
 		});
 		client.entries.get({ id: '1', language: '', linkDepth: 0, fields: [] });
 		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/1', Object({
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/1?language=en-US', Object({
+			method: 'GET',
+			mode: 'cors',
+			headers: {
+				'accessToken': 'XXXXXX'
+			}
+		}));
+	});
+
+	it('Get Live Version with no options', () => {
+		let client = Zengenti.Contensis.Client.create({
+			projectId: 'myProject',
+			rootUrl: 'http://my-website.com/',
+			accessToken: 'XXXXXX'
+		});
+		client.entries.get({ id: '1' });
+		expect(global.fetch).toHaveBeenCalled();
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/1?language=en-GB', Object({
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -257,7 +274,27 @@ describe('Entry Operations', function () {
 		client.entries.list({ contentTypeId: '', linkDepth: 0, language: '', order: [], fields: [], pageOptions: {} });
 		expect(global.fetch).toHaveBeenCalled();
 		expect(global.fetch).toHaveBeenCalledWith(
-			'http://my-website.com/api/delivery/projects/myProject/entries?pageIndex=0&pageSize=25',
+			'http://my-website.com/api/delivery/projects/myProject/entries?language=en-US&pageIndex=0&pageSize=25',
+			Object({
+				method: 'GET',
+				mode: 'cors',
+				headers: {
+					'accessToken': 'XXXXXX'
+				}
+			}));
+
+	});
+
+	it('List with no options', () => {
+		let client = Zengenti.Contensis.Client.create({
+			projectId: 'myProject',
+			rootUrl: 'http://my-website.com/',
+			accessToken: 'XXXXXX'
+		});
+		client.entries.list({});
+		expect(global.fetch).toHaveBeenCalled();
+		expect(global.fetch).toHaveBeenCalledWith(
+			'http://my-website.com/api/delivery/projects/myProject/entries?language=en-GB&pageIndex=0&pageSize=25',
 			Object({
 				method: 'GET',
 				mode: 'cors',

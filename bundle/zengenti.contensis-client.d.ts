@@ -236,6 +236,10 @@ interface ITaxonomyOperations {
     resolveChildren(node: string | TaxonomyNode | TaxonomyResolveChildrenOptions): Promise<TaxonomyNode>;
 }
 
+interface MapperFn {
+    (value: any, options: any, params: ClientParams): any;
+}
+
 interface Node {
     id: string;
     projectId: string;
@@ -344,6 +348,10 @@ interface TaxonomyNode {
 interface TaxonomyResolveChildrenOptions extends TaxonomyGetOptions {
     key?: string;
     node?: TaxonomyNode;
+}
+
+interface UrlFn {
+    (options: any, params: ClientParams): string;
 }
 
 interface VersionInfo {

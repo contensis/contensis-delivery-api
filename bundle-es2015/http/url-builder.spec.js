@@ -18,14 +18,14 @@ describe('Url Builder', function () {
     });
     it('should populate multiple named values', () => {
         let url = UrlBuilder.create('/api/delivery/taxomony/:projectId/:key/:id')
-            .setOptions({ key: 0, id: 1 })
+            .addOptions({ key: 0, id: 1 })
             .setParams(client.getParams())
             .toUrl();
         expect(url).toEqual('/api/delivery/taxomony/myProject/0/1');
     });
     it('should populate multiple named values in query string', () => {
         let url = UrlBuilder.create('/api/delivery/taxomony/:projectId', { key: null, id: null })
-            .setOptions({ key: 0, id: 1 })
+            .addOptions({ key: 0, id: 1 })
             .setParams(client.getParams())
             .toUrl();
         expect(url).toEqual('/api/delivery/taxomony/myProject?id=1&key=0');

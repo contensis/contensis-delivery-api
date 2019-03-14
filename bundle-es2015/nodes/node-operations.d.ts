@@ -11,4 +11,6 @@ export declare class NodeOperations implements INodeOperations {
     getAncestorAtLevel(options: NodeGetAncestorAtLevelOptions): Promise<Node>;
     getAncestors(idOrNodeOrOptions: string | Node | NodeGetAncestorsOptions): Promise<Node[]>;
     getSiblings(idOrNodeOrOptions: string | Node | NodeGetSiblingOptions): Promise<Node[]>;
+    private validateNodeId;
+    private getNodeIdFromOptions;
 }
