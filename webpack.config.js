@@ -52,7 +52,7 @@ module.exports = {
             }
         }),
 		new CopyWebpackPlugin([            
-            { from: 'node_modules/whatwg-fetch/fetch.js', to: '' },
+            { from: 'node_modules/whatwg-fetch/dist/fetch.umd.js', to: 'fetch.js' },
 			{ from: 'node_modules/es6-promise/dist/es6-promise.min.js', to: '' }
         ])
     ]
