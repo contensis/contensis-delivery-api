@@ -1,10 +1,15 @@
-import { Config, ClientParams, ContensisClient, IHttpClient, IEntryOperations, IContentTypeOperations, IProjectOperations, ITaxonomyOperations } from '../interfaces';
+import {
+	ClientParams, Config, ContensisClient, IContentTypeOperations,
+	IEntryOperations, IHttpClient, IProjectOperations, ITaxonomyOperations, INodeOperations
+} from '../models';
+
 import { EntryOperations } from '../entries/entry-operations';
 import { ContentTypeOperations } from '../content-types/content-type-operations';
 import { ProjectOperations } from '../projects/project-operations';
 import { TaxonomyOperations } from '../taxonomy/taxonomy-operations';
 import { ClientConfig } from './client-config';
 import { HttpClient } from '../http/http-client';
+import { NodeOperations } from '../nodes/node-operations';
 
 export class Client implements ContensisClient {
 	static defaultClientConfig: ClientConfig = null;
@@ -12,6 +17,7 @@ export class Client implements ContensisClient {
 	clientConfig: ClientConfig = null;
 	entries: IEntryOperations;
 	contentTypes: IContentTypeOperations;
+	nodes: INodeOperations;
 	project: IProjectOperations;
 	taxonomy: ITaxonomyOperations;
 
@@ -32,6 +38,7 @@ export class Client implements ContensisClient {
 		this.entries = new EntryOperations(this.httpClient, this);
 		this.project = new ProjectOperations(this.httpClient, this);
 		this.contentTypes = new ContentTypeOperations(this.httpClient, this);
+		this.nodes = new NodeOperations(this.httpClient, this);
 		this.taxonomy = new TaxonomyOperations(this.httpClient, this);
 	}
 

@@ -1,18 +1,26 @@
 var path = require('path');
 var fs = require('fs');
 
-var interfaceDts = path.join(__dirname, '../', 'bundle/es5/interfaces.d.ts');
-var generatedDts = path.join(__dirname, '../', 'bundle/zengenti.contensis-client.d.ts');
+var interfaceDtsDir = path.join(__dirname, '../', 'bundle/es5/models');
+var generatedDtsFile = path.join(__dirname, '../', 'bundle/zengenti.contensis-client.d.ts');
+var generatedDtsContent = '';
 
-var dtsContent = fs.readFileSync(interfaceDts, 'utf8');
+fs
+	.readdirSync(interfaceDtsDir)
+	.forEach(interfaceDtsFile => {
+		if (interfaceDtsFile.toLowerCase() === 'index.d.ts') {
+			return;
+		}
 
-var lines = dtsContent
-	.split('\n')
-	.map((line) => line.startsWith('export ') ? line.substr(7) : line);
+		var dtsFileContent = fs.readFileSync(path.join(interfaceDtsDir, interfaceDtsFile), 'utf8');
 
-dtsContent = lines.join('\n');
+		var lines = dtsFileContent
+			.split('\n')
+			.filter(line => !line.startsWith('import'))
+			.map(line => line.startsWith('export ') ? line.substr(7) : line);
+		generatedDtsContent += lines.join('\n') + '\n';
+	});
 
-dtsContent += '\n\ndeclare var Zengenti: ZengentiStatic;';
+generatedDtsContent += '\ndeclare var Zengenti: ZengentiStatic;';
 
-fs.writeFileSync(generatedDts, dtsContent, 'utf8');
-
+fs.writeFileSync(generatedDtsFile, generatedDtsContent, 'utf8');

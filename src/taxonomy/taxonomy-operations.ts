@@ -1,4 +1,7 @@
-import { IHttpClient, ITaxonomyOperations, IParamsProvider, TaxonomyNode, TaxonomyGetNodeByKeyOptions, TaxonomyGetNodeByPathOptions, TaxonomyResolveChildrenOptions } from '../interfaces';
+import {
+	IHttpClient, IParamsProvider, ITaxonomyOperations, TaxonomyGetNodeByKeyOptions,
+	TaxonomyGetNodeByPathOptions, TaxonomyNode, TaxonomyResolveChildrenOptions
+} from '../models';
 import { UrlBuilder } from '../http/url-builder';
 
 let taxonomyMappers = {
@@ -12,7 +15,7 @@ export class TaxonomyOperations implements ITaxonomyOperations {
 
 	getNodeByKey(key: string | TaxonomyGetNodeByKeyOptions): Promise<TaxonomyNode> {
 		let url = UrlBuilder.create('/api/delivery/projects/:projectId/taxonomy/nodes/:key', { order: null, childDepth: null, language: null })
-			.setOptions(key, 'key')
+			.addOptions(key, 'key')
 			.setParams(this.paramsProvider.getParams())
 			.addMappers(taxonomyMappers)
 			.toUrl();
@@ -21,7 +24,7 @@ export class TaxonomyOperations implements ITaxonomyOperations {
 
 	getNodeByPath(path: string | TaxonomyGetNodeByPathOptions): Promise<TaxonomyNode> {
 		let url = UrlBuilder.create('/api/delivery/projects/:projectId/taxonomy/nodes', { order: null, childDepth: null, language: null, path: null })
-			.setOptions(path, 'path')
+			.addOptions(path, 'path')
 			.setParams(this.paramsProvider.getParams())
 			.addMappers(taxonomyMappers)
 			.toUrl();

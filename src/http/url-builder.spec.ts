@@ -24,7 +24,7 @@ describe('Url Builder', function () {
 
 	it('should populate multiple named values', () => {
 		let url = UrlBuilder.create('/api/delivery/taxomony/:projectId/:key/:id')
-			.setOptions({ key: 0, id: 1 })
+			.addOptions({ key: 0, id: 1 })
 			.setParams(client.getParams())
 			.toUrl();
 
@@ -33,7 +33,7 @@ describe('Url Builder', function () {
 
 	it('should populate multiple named values in query string', () => {
 		let url = UrlBuilder.create('/api/delivery/taxomony/:projectId', { key: null, id: null })
-			.setOptions({ key: 0, id: 1 })
+			.addOptions({ key: 0, id: 1 })
 			.setParams(client.getParams())
 			.toUrl();
 
