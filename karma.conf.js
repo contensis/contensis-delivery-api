@@ -3,15 +3,19 @@
 var webpackConfig = require('./webpack.test.config');
 
 module.exports = function (config) {
-	config.set({
+	let originalConfig = {
+		client: {
+			args: ['--test-target', config.testTarget]
+		},
 
 		basePath: '',
 
 		frameworks: ['jasmine'],
 
-		files: [
-			{ pattern: './testing/karma-test-shim.js', watched: false }
-		],
+		files: [{
+			pattern: './testing/karma-test-shim.js',
+			watched: false
+		}],
 
 		preprocessors: {
 			'./testing/karma-test-shim.js': ['webpack', 'sourcemap']
@@ -25,7 +29,7 @@ module.exports = function (config) {
 
 		coverageReporter: {
 			type: 'html',
-   			dir: 'coverage/'
+			dir: 'coverage/'
 		},
 
 		reporters: ['kjhtml', 'mocha', 'coverage'],
@@ -37,5 +41,20 @@ module.exports = function (config) {
 		browsers: ['Chrome'],
 		singleRun: true,
 		concurrency: Infinity
-	})
+	};
+
+	if (config.testTarget === 'npm') {
+		
+		originalConfig.files = [{
+			pattern: './testing/karma-test-shim-npm.js',
+			watched: false
+		}];
+
+		originalConfig.preprocessors = {
+			'./testing/karma-test-shim-npm.js': ['webpack', 'sourcemap']
+		};
+
+	}
+
+	config.set(originalConfig);
 }

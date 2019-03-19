@@ -8,15 +8,16 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
+    "lint": "npx tslint src/**/*.ts",
     "pretest": "rimraf coverage/*",
     "test": "npm run lint && karma start",
+    "test:npm": "npm run lint && karma start --test-target npm",
     "test:watch": "npm run test -- --auto-watch --no-single-run",
-    "lint": "npx tslint src/**/*.ts",
     "build:es5": "npx tsc -p src",
     "build:esnext": "npx tsc -p src/tsconfig-esnext.json",
     "build:contensis": "rimraf bundle/* && webpack --progress --colors && node build/create-contensis-dts.js && rimraf bundle/es5",
     "build:npm": "npx tsc -p src/tsconfig-npm.json",
-    "all": "npm run build:esnext && npm run test && npm run build:npm && npm run build:contensis"
+    "all": "npm run build:esnext && npm run test && npm run build:npm && npm run test:npm && npm run build:contensis"
   },
   "repository": {
     "type": "git",
