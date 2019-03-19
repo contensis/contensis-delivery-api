@@ -30,7 +30,7 @@ describe('Taxonomy Operations', function () {
 		});
 		client.taxonomy.getNodeByKey('0/1');
 		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?language=en-GB', Object({
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1', Object({
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -73,7 +73,7 @@ describe('Taxonomy Operations', function () {
 			childDepth: 1
 		});
 		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=1&language=en-GB', Object({
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=1', Object({
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -101,7 +101,7 @@ describe('Taxonomy Operations', function () {
 		});
 		client.taxonomy.getNodeByPath('path/to/a/taxonomy/node');
 		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes?language=en-GB&path=path%2Fto%2Fa%2Ftaxonomy%2Fnode', Object({
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes?path=path%2Fto%2Fa%2Ftaxonomy%2Fnode', Object({
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -144,7 +144,7 @@ describe('Taxonomy Operations', function () {
 			childDepth: 1
 		});
 		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes?childDepth=1&language=en-GB&path=path%2Fto%2Fa%2Ftaxonomy%2Fnode', Object({
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes?childDepth=1&path=path%2Fto%2Fa%2Ftaxonomy%2Fnode', Object({
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -161,7 +161,7 @@ describe('Taxonomy Operations', function () {
 		});
 		client.taxonomy.resolveChildren('0/1');
 		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=1&language=en-GB', Object({
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=1', Object({
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -178,7 +178,7 @@ describe('Taxonomy Operations', function () {
 		});
 		client.taxonomy.resolveChildren({ key: '0/1', name: '', path: '/', hasChildren: true });
 		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=1&language=en-GB', Object({
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=1', Object({
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -215,7 +215,7 @@ describe('Taxonomy Operations', function () {
 		});
 		client.taxonomy.resolveChildren({ key: '0/1', name: '', path: '/', hasChildren: true });
 		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=1&language=en-GB', Object({
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=1', Object({
 			method: 'GET',
 			mode: 'cors',
 			headers: {

@@ -5,7 +5,7 @@ export class ClientConfig {
         this.rootUrl = null;
         this.accessToken = null;
         this.projectId = null;
-        this.language = 'en-GB';
+        this.language = null;
         this.versionStatus = 'published';
         this.pageSize = 25;
         this.rootUrl = this.getValue((c) => c.rootUrl);

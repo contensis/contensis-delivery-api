@@ -33,7 +33,7 @@ describe('Contensis Client', function () {
         let defaultSettings = new ClientConfig(null, null);
         expect(defaultSettings.projectId).toBeNull();
         expect(defaultSettings.rootUrl).toBeNull();
-        expect(defaultSettings.language).toEqual('en-GB');
+        expect(defaultSettings.language).toBeNull();
         expect(defaultSettings.versionStatus).toEqual('published');
         expect(defaultSettings.pageSize).toEqual(25);
     });
@@ -81,7 +81,7 @@ describe('Contensis Client', function () {
         let params = client.getParams();
         expect(params.projectId).toEqual('myProject');
         expect(params.rootUrl).toEqual('http://my-website.com');
-        expect(params.language).toEqual('en-GB');
+        expect(params.language).toBeNull();
         expect(params.versionStatus).toEqual('published');
         expect(params.pageSize).toEqual(100);
         expect(params.accessToken).toEqual('ZZZZZZ');

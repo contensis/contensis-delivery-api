@@ -107,7 +107,7 @@ describe('Nodes Operations', () => {
             });
             client.nodes.getRoot();
             expect(global.fetch).toHaveBeenCalled();
-            expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/nodes/root?language=en-GB', Object({
+            expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/nodes/root', Object({
                 method: 'GET',
                 mode: 'cors',
                 headers: {
@@ -248,7 +248,7 @@ describe('Nodes Operations', () => {
             });
             client.nodes.get({ id: nodeId, language: '', depth: 0, entryFields: [], entryLinkDepth: 0 });
             expect(global.fetch).toHaveBeenCalled();
-            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}?language=en-GB`, Object({
+            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}`, Object({
                 method: 'GET',
                 mode: 'cors',
                 headers: {
@@ -412,7 +412,7 @@ describe('Nodes Operations', () => {
             });
             client.nodes.get({ path: nodePath });
             expect(global.fetch).toHaveBeenCalled();
-            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes${nodePath}?language=en-GB`, Object({
+            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes${nodePath}`, Object({
                 method: 'GET',
                 mode: 'cors',
                 headers: {
@@ -576,7 +576,7 @@ describe('Nodes Operations', () => {
             });
             client.nodes.getByEntry({ entry });
             expect(global.fetch).toHaveBeenCalled();
-            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes/?entryId=${entryId}&language=en-GB`, Object({
+            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes/?entryId=${entryId}`, Object({
                 method: 'GET',
                 mode: 'cors',
                 headers: {
@@ -759,7 +759,7 @@ describe('Nodes Operations', () => {
             });
             client.nodes.getChildren({ node: { id: nodeId } as Node });
             expect(global.fetch).toHaveBeenCalled();
-            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/children?language=en-GB`, Object({
+            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/children`, Object({
                 method: 'GET',
                 mode: 'cors',
                 headers: {
@@ -943,7 +943,7 @@ describe('Nodes Operations', () => {
             });
             client.nodes.getParent({ node });
             expect(global.fetch).toHaveBeenCalled();
-            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/parent?language=en-GB`, Object({
+            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/parent`, Object({
                 method: 'GET',
                 mode: 'cors',
                 headers: {
@@ -1125,7 +1125,7 @@ describe('Nodes Operations', () => {
             });
             client.nodes.getAncestorAtLevel({ node, startLevel: 0 });
             expect(global.fetch).toHaveBeenCalled();
-            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?language=en-GB`, Object({
+            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor`, Object({
                 method: 'GET',
                 mode: 'cors',
                 headers: {
@@ -1307,7 +1307,7 @@ describe('Nodes Operations', () => {
             });
             client.nodes.getAncestors({ node });
             expect(global.fetch).toHaveBeenCalled();
-            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?language=en-GB`, Object({
+            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors`, Object({
                 method: 'GET',
                 mode: 'cors',
                 headers: {
@@ -1489,7 +1489,7 @@ describe('Nodes Operations', () => {
             });
             client.nodes.getSiblings({ node });
             expect(global.fetch).toHaveBeenCalled();
-            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/siblings?language=en-GB`, Object({
+            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/siblings`, Object({
                 method: 'GET',
                 mode: 'cors',
                 headers: {

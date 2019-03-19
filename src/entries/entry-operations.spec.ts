@@ -145,7 +145,7 @@ describe('Entry Operations', function () {
 		});
 		client.entries.get({ id: '1' });
 		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/1?language=en-GB', Object({
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/1', Object({
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -294,7 +294,7 @@ describe('Entry Operations', function () {
 		client.entries.list({});
 		expect(global.fetch).toHaveBeenCalled();
 		expect(global.fetch).toHaveBeenCalledWith(
-			'http://my-website.com/api/delivery/projects/myProject/entries?language=en-GB&pageIndex=0&pageSize=25',
+			'http://my-website.com/api/delivery/projects/myProject/entries?pageIndex=0&pageSize=25',
 			Object({
 				method: 'GET',
 				mode: 'cors',

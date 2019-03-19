@@ -4,7 +4,7 @@ export class ClientConfig implements Config {
     rootUrl: string = null;
     accessToken: string = null;
     projectId: string = null;
-    language: string = 'en-GB';
+    language: string = null;
     versionStatus: 'published' | 'latest' = 'published';
     pageSize: number = 25;
 
