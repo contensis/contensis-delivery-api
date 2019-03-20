@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgraded package locking file.
 - removed interfaces.ts and replaced it with models folder.
 - corrected default parameters processing.
+- stopped setting the default language to en-GB.
 
 ## [1.0.1] - 2019-03-05
 ### Changed
