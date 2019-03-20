@@ -21,6 +21,10 @@ export function isString(obj: any): boolean {
 	return typeof obj === 'string' || obj instanceof String;
 }
 
+export function isBrowser(): boolean {
+	return typeof window !== 'undefined';
+}
+
 export let defaultMapperForLanguage: MapperFn = (value: string, options: any, params: ClientParams) =>
 	!value && !!params ? params.language : value;
 

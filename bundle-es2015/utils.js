@@ -14,5 +14,8 @@ export function toQuery(values) {
 export function isString(obj) {
     return typeof obj === 'string' || obj instanceof String;
 }
+export function isBrowser() {
+    return typeof window !== 'undefined';
+}
 export let defaultMapperForLanguage = (value, options, params) => !value && !!params ? params.language : value;
 export let defaultMapperForVersionStatus = (value, options, params) => (value === 'published') ? null : value;
