@@ -10,6 +10,7 @@ interface ClientParams {
     projectId: string;
     pageIndex: number;
     pageSize: number;
+    responseHandler: ResponseHandler;
 }
 
 interface ClientStatic {
@@ -25,6 +26,7 @@ interface Config {
     language?: string;
     versionStatus?: VersionStatus;
     pageSize?: number;
+    responseHandler?: ResponseHandler;
 }
 
 interface ContensisClient extends IParamsProvider {
@@ -321,6 +323,11 @@ interface Project {
     description: string;
     primaryLanguage: string;
     supportedLanguages: string[];
+}
+
+interface ResponseHandler {
+    ['*']?: (response: Response) => any;
+    [statusCode: number]: (response: Response) => any;
 }
 
 interface TaxonomyGetNodeByKeyOptions extends TaxonomyGetOptions {

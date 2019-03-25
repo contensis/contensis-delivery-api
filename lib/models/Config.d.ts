@@ -1,4 +1,5 @@
 import { VersionStatus } from './VersionStatus';
+import { ResponseHandler } from './ResponseHandler';
 export interface Config {
     rootUrl?: string;
     accessToken?: string;
@@ -6,4 +7,5 @@ export interface Config {
     language?: string;
     versionStatus?: VersionStatus;
     pageSize?: number;
+    responseHandler?: ResponseHandler;
 }

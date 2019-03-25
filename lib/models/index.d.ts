@@ -44,6 +44,7 @@ export * from './OperatorType';
 export * from './PageOptions';
 export * from './PagedList';
 export * from './Project';
+export * from './ResponseHandler';
 export * from './TaxonomyGetNodeByKeyOptions';
 export * from './TaxonomyGetNodeByPathOptions';
 export * from './TaxonomyGetOptions';

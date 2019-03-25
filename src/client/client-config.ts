@@ -1,4 +1,4 @@
-import { Config, ClientParams } from '../models';
+import { Config, ClientParams, ResponseHandler } from '../models';
 
 export class ClientConfig implements Config {
     rootUrl: string = null;
@@ -7,6 +7,7 @@ export class ClientConfig implements Config {
     language: string = null;
     versionStatus: 'published' | 'latest' = 'published';
     pageSize: number = 25;
+    responseHandler: ResponseHandler = null;
 
     constructor(private currentConfig: Config, private previousConfig: Config) {
         this.rootUrl = this.getValue((c) => c.rootUrl);
@@ -15,6 +16,7 @@ export class ClientConfig implements Config {
         this.language = this.getValue((c) => c.language);
         this.versionStatus = this.getValue((c) => c.versionStatus);
         this.pageSize = this.getValue((c) => c.pageSize);
+        this.responseHandler = this.getValue((c) => c.responseHandler);
 
         while (this.rootUrl && this.rootUrl.substr(this.rootUrl.length - 1, 1) === '/') {
             this.rootUrl = this.rootUrl.substr(0, this.rootUrl.length - 1);
@@ -29,18 +31,19 @@ export class ClientConfig implements Config {
             versionStatus: this.versionStatus,
             projectId: this.projectId,
             pageIndex: 0,
-            pageSize: this.pageSize
+            pageSize: this.pageSize,
+            responseHandler: this.responseHandler
         };
     }
 
     private getValue<T>(getter: (c: Config) => T): T {
         let result = null;
         if (this.currentConfig) {
-			result = getter(this.currentConfig);
-		}
+            result = getter(this.currentConfig);
+        }
         if (this.previousConfig && !result) {
-			result = getter(this.previousConfig);
-		}
+            result = getter(this.previousConfig);
+        }
         return result || getter(this);
     }
 }

@@ -46,6 +46,7 @@ describe('Contensis Client', function () {
         expect(defaultSettings.language).toBeNull();
         expect(defaultSettings.versionStatus).toEqual('published');
         expect(defaultSettings.pageSize).toEqual(25);
+        expect(defaultSettings.responseHandler).toBeNull();
     });
 
     it('Static Settable Default Settings', () => {
@@ -55,7 +56,8 @@ describe('Contensis Client', function () {
             language: 'fr-fr',
             versionStatus: 'latest',
             accessToken: 'XXXXXX',
-            pageSize: 50
+            pageSize: 50,
+            responseHandler: {}
         });
 
         expect(Zengenti.Contensis.Client.defaultClientConfig.projectId).toEqual('myProject');
@@ -64,6 +66,7 @@ describe('Contensis Client', function () {
         expect(Zengenti.Contensis.Client.defaultClientConfig.versionStatus).toEqual('latest');
         expect(Zengenti.Contensis.Client.defaultClientConfig.pageSize).toEqual(50);
         expect(Zengenti.Contensis.Client.defaultClientConfig.accessToken).toEqual('XXXXXX');
+        expect(Zengenti.Contensis.Client.defaultClientConfig.responseHandler).toEqual({});
     });
 
     it('Instance Default Settings', () => {
@@ -84,6 +87,7 @@ describe('Contensis Client', function () {
         expect(params.versionStatus).toEqual('latest');
         expect(params.pageSize).toEqual(50);
         expect(params.accessToken).toEqual('YYYYYY');
+        expect(params.responseHandler).toBeNull();
     });
 
     it('Instance Settable Settings', () => {
@@ -91,7 +95,8 @@ describe('Contensis Client', function () {
             projectId: 'myProject',
             rootUrl: 'http://my-website.com/',
             pageSize: 100,
-            accessToken: 'ZZZZZZ'
+            accessToken: 'ZZZZZZ',
+            responseHandler: {}
         });
         let params = client.getParams();
         expect(params.projectId).toEqual('myProject');
@@ -100,6 +105,7 @@ describe('Contensis Client', function () {
         expect(params.versionStatus).toEqual('published');
         expect(params.pageSize).toEqual(100);
         expect(params.accessToken).toEqual('ZZZZZZ');
+        expect(params.responseHandler).toEqual({});
     });
 
 });

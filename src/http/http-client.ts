@@ -29,8 +29,23 @@ export class HttpClient {
 		const requestUrl = isRelativeRequestUrl ? `${url}` : `${params.rootUrl}${url}`;
 		return fetch(requestUrl, request)
 			.then((response) => {
-				if (!response || response.status === 404) {
-					return null;
+				if (!response.ok) {
+					let responseHandlerFunction: (response: Response) => any = null;
+					if (!!params.responseHandler) {
+						if (!!params.responseHandler['*']) {
+							responseHandlerFunction = params.responseHandler['*'];
+						}
+
+						if (!!params.responseHandler[response.status]) {
+							responseHandlerFunction = params.responseHandler[response.status];
+						}
+					}
+
+					if (!!responseHandlerFunction) {
+						return responseHandlerFunction(response);
+					}
+
+					return Promise.reject(response);
 				}
 
 				return response.json();

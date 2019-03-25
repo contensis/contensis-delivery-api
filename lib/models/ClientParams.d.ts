@@ -1,4 +1,5 @@
 import { VersionStatus } from './VersionStatus';
+import { ResponseHandler } from './ResponseHandler';
 export interface ClientParams {
     rootUrl: string;
     accessToken: string;
@@ -7,4 +8,5 @@ export interface ClientParams {
     projectId: string;
     pageIndex: number;
     pageSize: number;
+    responseHandler: ResponseHandler;
 }

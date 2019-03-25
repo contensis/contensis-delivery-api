@@ -1,4 +1,4 @@
-import { Config, ClientParams } from '../models';
+import { Config, ClientParams, ResponseHandler } from '../models';
 export declare class ClientConfig implements Config {
     private currentConfig;
     private previousConfig;
@@ -8,6 +8,7 @@ export declare class ClientConfig implements Config {
     language: string;
     versionStatus: 'published' | 'latest';
     pageSize: number;
+    responseHandler: ResponseHandler;
     constructor(currentConfig: Config, previousConfig: Config);
     toParams(): ClientParams;
     private getValue;

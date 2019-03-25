@@ -8,12 +8,14 @@ export class ClientConfig {
         this.language = null;
         this.versionStatus = 'published';
         this.pageSize = 25;
+        this.responseHandler = null;
         this.rootUrl = this.getValue((c) => c.rootUrl);
         this.accessToken = this.getValue((c) => c.accessToken);
         this.projectId = this.getValue((c) => c.projectId);
         this.language = this.getValue((c) => c.language);
         this.versionStatus = this.getValue((c) => c.versionStatus);
         this.pageSize = this.getValue((c) => c.pageSize);
+        this.responseHandler = this.getValue((c) => c.responseHandler);
         while (this.rootUrl && this.rootUrl.substr(this.rootUrl.length - 1, 1) === '/') {
             this.rootUrl = this.rootUrl.substr(0, this.rootUrl.length - 1);
         }
@@ -26,7 +28,8 @@ export class ClientConfig {
             versionStatus: this.versionStatus,
             projectId: this.projectId,
             pageIndex: 0,
-            pageSize: this.pageSize
+            pageSize: this.pageSize,
+            responseHandler: this.responseHandler
         };
     }
     getValue(getter) {
