@@ -28,7 +28,13 @@ export class HttpClient {
 
 		const requestUrl = isRelativeRequestUrl ? `${url}` : `${params.rootUrl}${url}`;
 		return fetch(requestUrl, request)
-			.then((response) => response.json())
+			.then((response) => {
+				if (!response || response.status === 404) {
+					return null;
+				}
+
+				return response.json();
+			})
 			.then(result => result as any);
 	}
 
