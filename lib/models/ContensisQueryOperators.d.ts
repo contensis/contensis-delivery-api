@@ -16,4 +16,5 @@ export interface ContensisQueryOperators {
     lessThanOrEqualTo(name: string, value: any): IExpression;
     startsWith(name: string, value: string): IExpression;
     in(name: string, ...values: any[]): IExpression;
+    distanceWithin(name: string, lat: number, lon: number, distance: string): IExpression;
 }
