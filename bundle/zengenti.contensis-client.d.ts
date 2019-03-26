@@ -2,6 +2,13 @@ interface ClientConfigFactory {
     new (value: Config, previous: Config): Config;
 }
 
+interface ClientError {
+    status: number;
+    statusText: string;
+    url: string;
+    data: any;
+}
+
 interface ClientParams {
     rootUrl: string;
     accessToken: string;
@@ -325,9 +332,10 @@ interface Project {
     supportedLanguages: string[];
 }
 
+declare type ResponseHandlerFunction = (response: Response, clientError: ClientError) => any;
 interface ResponseHandler {
-    ['*']?: (response: Response) => any;
-    [statusCode: number]: (response: Response) => any;
+    ['*']?: ResponseHandlerFunction;
+    [statusCode: number]: ResponseHandlerFunction;
 }
 
 interface TaxonomyGetNodeByKeyOptions extends TaxonomyGetOptions {

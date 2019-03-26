@@ -21,22 +21,35 @@ export class HttpClient {
         const requestUrl = isRelativeRequestUrl ? `${url}` : `${params.rootUrl}${url}`;
         return fetch(requestUrl, request)
             .then((response) => {
-            if (!response.ok) {
-                let responseHandlerFunction = null;
-                if (!!params.responseHandler) {
-                    if (!!params.responseHandler['*']) {
-                        responseHandlerFunction = params.responseHandler['*'];
-                    }
-                    if (!!params.responseHandler[response.status]) {
-                        responseHandlerFunction = params.responseHandler[response.status];
-                    }
-                }
-                if (!!responseHandlerFunction) {
-                    return responseHandlerFunction(response);
-                }
-                return Promise.reject(response);
+            if (response.ok) {
+                return response.json();
             }
-            return response.json();
+            let responseHandlerFunction = null;
+            if (!!params.responseHandler) {
+                if (!!params.responseHandler['*']) {
+                    responseHandlerFunction = params.responseHandler['*'];
+                }
+                if (!!params.responseHandler[response.status]) {
+                    responseHandlerFunction = params.responseHandler[response.status];
+                }
+            }
+            let clientError = {
+                status: response.status,
+                statusText: response.statusText,
+                url: response.url,
+                data: null
+            };
+            return response.json().then(responseJson => {
+                clientError.data = responseJson;
+                return !!responseHandlerFunction ?
+                    responseHandlerFunction(response, clientError)
+                    : Promise.reject(clientError);
+            }, reason => {
+                clientError.data = reason;
+                return !!responseHandlerFunction ?
+                    responseHandlerFunction(response, clientError)
+                    : Promise.reject(clientError);
+            });
         })
             .then(result => result);
     }

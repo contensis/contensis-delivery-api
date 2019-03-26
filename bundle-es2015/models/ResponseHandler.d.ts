@@ -1,4 +1,6 @@
+import { ClientError } from './ClientError';
+export declare type ResponseHandlerFunction = (response: Response, clientError: ClientError) => any;
 export interface ResponseHandler {
-    ['*']?: (response: Response) => any;
-    [statusCode: number]: (response: Response) => any;
+    ['*']?: ResponseHandlerFunction;
+    [statusCode: number]: ResponseHandlerFunction;
 }

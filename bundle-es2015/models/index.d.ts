@@ -1,4 +1,5 @@
 export * from './ClientConfigFactory';
+export * from './ClientError';
 export * from './ClientParams';
 export * from './ClientStatic';
 export * from './Config';
