@@ -1,4 +1,5 @@
 import * as Contensis from '../index';
+import { toQuery } from '../utils';
 
 const Zengenti = { Contensis };
 
@@ -401,50 +402,46 @@ describe('Entry Operations', function () {
 			versionStatus: 'published',
 			accessToken: 'XXXXXX'
 		});
-		client.entries.search({
+
+		let orderBy = [{
+			asc: 'name'
+		}, {
+			desc: 'brewTypeCount'
+		}];
+
+		let where = [{
+			field: 'brewTypeCount',
+			greaterThan: 5
+		}, {
+			field: 'Origin',
+			in: ['Peru', 'Columbia']
+		}];
+
+		let query = {
 			pageIndex: 1,
 			pageSize: 50,
-			orderBy: [{
-				asc: 'name'
-			}, {
-				desc: 'brewTypeCount'
-			}],
-			where: [{
-				field: 'brewTypeCount',
-				greaterThan: 5
-			}, {
-				field: 'Origin',
-				in: ['Peru', 'Columbia']
-			}]
-		});
+			orderBy,
+			where
+		};
+
+		client.entries.search(query);
 		expect(global.fetch).toHaveBeenCalled();
 
+		let expectedQueryString = toQuery({
+			...query,
+			orderBy: JSON.stringify(orderBy),
+			where: JSON.stringify(where)
+		});
 
 		expect(global.fetch).toHaveBeenCalledWith(
-			'http://my-website.com/api/delivery/projects/myProject/entries/search',
+			`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
 			Object({
-				method: 'POST',
+				method: 'GET',
 				mode: 'cors',
 				headers: {
 					'accessToken': 'XXXXXX',
 					'Content-Type': 'application/json; charset=utf-8'
-				},
-				body: JSON.stringify({
-					pageIndex: 1,
-					pageSize: 50,
-					orderBy: [{
-						asc: 'name'
-					}, {
-						desc: 'brewTypeCount'
-					}],
-					where: [{
-						field: 'brewTypeCount',
-						greaterThan: 5
-					}, {
-						field: 'Origin',
-						in: ['Peru', 'Columbia']
-					}]
-				})
+				}
 			}));
 
 	});
@@ -457,40 +454,42 @@ describe('Entry Operations', function () {
 			versionStatus: 'published',
 			accessToken: 'XXXXXX'
 		});
-		client.entries.search({
+
+		let orderBy = [{
+			asc: 'authorName'
+		}];
+
+		let where = [{
+			field: 'authorName',
+			startsWith: 'W'
+		}];
+
+		let query = {
 			pageIndex: 1,
 			pageSize: 50,
-			orderBy: [{
-				asc: 'authorName'
-			}],
-			where: [{
-				field: 'authorName',
-				startsWith: 'W'
-			}]
-		});
+			orderBy,
+			where
+		};
+
+		client.entries.search(query);
 		expect(global.fetch).toHaveBeenCalled();
 
+		let expectedQueryString = toQuery({
+			...query,
+			orderBy: JSON.stringify(orderBy),
+			where: JSON.stringify(where)
+		});
 
 		expect(global.fetch).toHaveBeenCalledWith(
-			'http://my-website.com/api/delivery/projects/myProject/entries/search',
+			`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
+
 			Object({
-				method: 'POST',
+				method: 'GET',
 				mode: 'cors',
 				headers: {
 					'accessToken': 'XXXXXX',
 					'Content-Type': 'application/json; charset=utf-8'
-				},
-				body: JSON.stringify({
-					pageIndex: 1,
-					pageSize: 50,
-					orderBy: [{
-						asc: 'authorName'
-					}],
-					where: [{
-						field: 'authorName',
-						startsWith: 'W'
-					}]
-				})
+				}
 			}));
 
 	});
@@ -503,45 +502,48 @@ describe('Entry Operations', function () {
 			versionStatus: 'published',
 			accessToken: 'XXXXXX'
 		});
-		client.entries.search({
+
+		let orderBy = [{
+			asc: 'authorName'
+		}];
+
+		let where = [{
+			field: 'authorName',
+			startsWith: 'W'
+		}];
+
+		let query = {
 			pageIndex: 1,
 			pageSize: 50,
-			orderBy: [{
-				asc: 'authorName'
-			}],
-			where: [{
-				field: 'authorName',
-				startsWith: 'W'
-			}]
-		}, 99);
+			orderBy,
+			where
+		};
+
+		client.entries.search(query, 99);
 		expect(global.fetch).toHaveBeenCalled();
 
+		let expectedQueryString = toQuery({
+			...query,
+			orderBy: JSON.stringify(orderBy),
+			where: JSON.stringify(where),
+			linkDepth: 99
+		});
 
 		expect(global.fetch).toHaveBeenCalledWith(
-			'http://my-website.com/api/delivery/projects/myProject/entries/search?linkDepth=99',
+			`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
+
 			Object({
-				method: 'POST',
+				method: 'GET',
 				mode: 'cors',
 				headers: {
 					'accessToken': 'XXXXXX',
 					'Content-Type': 'application/json; charset=utf-8'
-				},
-				body: JSON.stringify({
-					pageIndex: 1,
-					pageSize: 50,
-					orderBy: [{
-						asc: 'authorName'
-					}],
-					where: [{
-						field: 'authorName',
-						startsWith: 'W'
-					}]
-				})
+				}
 			}));
 
 	});
 
-	it('Do Search via the Client API with all options', () => {
+	fit('Do Search via the Client API with all options', () => {
 		let client = Zengenti.Contensis.Client.create({
 			projectId: 'myProject',
 			rootUrl: 'http://my-website.com/',
@@ -549,42 +551,41 @@ describe('Entry Operations', function () {
 			versionStatus: 'published',
 			accessToken: 'XXXXXX'
 		});
-		client.entries.search({
+
+		let orderBy = [{
+			asc: 'authorName'
+		}];
+		let where = [{
+			field: 'authorName',
+			startsWith: 'W'
+		}];
+		let query = {
 			pageIndex: 1,
 			pageSize: 50,
-			orderBy: [{
-				asc: 'authorName'
-			}],
-			where: [{
-				field: 'authorName',
-				startsWith: 'W'
-			}],
+			orderBy,
+			where,
 			fields: ['title']
-		}, 99);
+		};
+		client.entries.search(query, 99);
+
 		expect(global.fetch).toHaveBeenCalled();
 
+		let expectedQueryString = toQuery({
+			...query,
+			orderBy: JSON.stringify(orderBy),
+			where: JSON.stringify(where),
+			linkDepth: 99
+		});
 
 		expect(global.fetch).toHaveBeenCalledWith(
-			'http://my-website.com/api/delivery/projects/myProject/entries/search?linkDepth=99',
+			`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
 			Object({
-				method: 'POST',
+				method: 'GET',
 				mode: 'cors',
 				headers: {
 					'accessToken': 'XXXXXX',
 					'Content-Type': 'application/json; charset=utf-8'
-				},
-				body: JSON.stringify({
-					pageIndex: 1,
-					pageSize: 50,
-					orderBy: [{
-						asc: 'authorName'
-					}],
-					where: [{
-						field: 'authorName',
-						startsWith: 'W'
-					}],
-					fields: ['title']
-				})
+				}
 			}));
 	});
 
@@ -602,19 +603,18 @@ describe('Entry Operations', function () {
 
 		expect(global.fetch).toHaveBeenCalled();
 
+		let expectedQueryString = toQuery({
+			...query
+		});
+
 		expect(global.fetch).toHaveBeenCalledWith(
-			'http://my-website.com/api/delivery/projects/myProject/entries/search',
+			`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
 			Object({
-				method: 'POST',
+				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json; charset=utf-8',
 					'accessToken': 'XXXXXX',
 				},
-				body: JSON.stringify({
-					pageIndex: 0,
-					pageSize: 20,
-					where: []
-				}),
 				mode: 'cors'
 			}));
 
@@ -641,7 +641,7 @@ describe('Entry Operations', function () {
 		expect(global.fetch).toHaveBeenCalledWith(
 			'http://my-website.com/api/delivery/projects/myProject/entries/search?linkDepth=99',
 			Object({
-				method: 'POST',
+				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json; charset=utf-8',
 					'accessToken': 'XXXXXX',

@@ -48,16 +48,28 @@ export class EntryOperations {
             return new Promise((resolve) => { resolve(null); });
         }
         let params = this.paramsProvider.getParams();
-        query.pageSize = query.pageSize || params.pageSize;
-        query.pageIndex = query.pageIndex || 0;
-        let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/search', { linkDepth })
-            .setParams(this.paramsProvider.getParams())
+        let pageSize = query.pageSize || params.pageSize;
+        let pageIndex = query.pageIndex || 0;
+        let orderBy = (query.orderBy && (query.orderBy._items || query.orderBy)) || params.orderBy;
+        let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
+        let payload = {
+            ...requestParams,
+            linkDepth,
+            pageSize,
+            pageIndex,
+            fields: query.fields || null,
+            where: JSON.stringify(query.where),
+        };
+        if (orderBy && orderBy.length > 0) {
+            payload['orderBy'] = JSON.stringify(orderBy);
+        }
+        let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/search', { ...payload })
+            .setParams({ ...payload, projectId })
             .addMappers(searchMappers)
             .toUrl();
         return this.httpClient.request(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            body: JSON.stringify(query)
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
         });
     }
     resolve(entryOrList, fields = null) {
