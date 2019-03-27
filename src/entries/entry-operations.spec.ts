@@ -543,7 +543,7 @@ describe('Entry Operations', function () {
 
 	});
 
-	fit('Do Search via the Client API with all options', () => {
+	it('Do Search via the Client API with all options', () => {
 		let client = Zengenti.Contensis.Client.create({
 			projectId: 'myProject',
 			rootUrl: 'http://my-website.com/',
@@ -568,8 +568,6 @@ describe('Entry Operations', function () {
 		};
 		client.entries.search(query, 99);
 
-		expect(global.fetch).toHaveBeenCalled();
-
 		let expectedQueryString = toQuery({
 			...query,
 			orderBy: JSON.stringify(orderBy),
@@ -577,6 +575,7 @@ describe('Entry Operations', function () {
 			linkDepth: 99
 		});
 
+		expect(global.fetch).toHaveBeenCalled();
 		expect(global.fetch).toHaveBeenCalledWith(
 			`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
 			Object({
@@ -604,7 +603,9 @@ describe('Entry Operations', function () {
 		expect(global.fetch).toHaveBeenCalled();
 
 		let expectedQueryString = toQuery({
-			...query
+			pageIndex: 0,
+			pageSize: 20,
+			where: JSON.stringify([])
 		});
 
 		expect(global.fetch).toHaveBeenCalledWith(
@@ -636,28 +637,30 @@ describe('Entry Operations', function () {
 		query.pageSize = 50;
 		client.entries.search(query, 99);
 
+		let expectedQueryString = toQuery({
+			pageIndex: 1,
+			pageSize: 50,
+			orderBy: JSON.stringify([{
+				asc: 'authorName'
+			}]),
+			where: JSON.stringify([{
+				field: 'authorName',
+				startsWith: 'W'
+			}]),
+			fields: ['title'],
+			linkDepth: 99
+		});
+
 		expect(global.fetch).toHaveBeenCalled();
 
 		expect(global.fetch).toHaveBeenCalledWith(
-			'http://my-website.com/api/delivery/projects/myProject/entries/search?linkDepth=99',
+			`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
 			Object({
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json; charset=utf-8',
 					'accessToken': 'XXXXXX',
 				},
-				body: JSON.stringify({
-					pageIndex: 1,
-					pageSize: 50,
-					orderBy: [{
-						asc: 'authorName'
-					}],
-					where: [{
-						field: 'authorName',
-						startsWith: 'W'
-					}],
-					fields: ['title']
-				}),
 				mode: 'cors'
 			}));
 
