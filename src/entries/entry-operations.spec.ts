@@ -674,50 +674,43 @@ describe('Entry Operations', function () {
 			versionStatus: 'published',
 			accessToken: 'XXXXXX'
 		});
-		client.entries.search({
+
+		let orderBy = [{
+			asc: 'authorName'
+		}];
+		let where = [{
+			field: 'authorLocation',
+			distanceWithin: {
+				lat: 52.377,
+				lon: -2.749,
+				distance: '10mi'
+			}
+		}];
+		let query = {
 			pageIndex: 1,
 			pageSize: 50,
-			orderBy: [{
-				asc: 'authorName'
-			}],
-			where: [{
-				field: 'authorLocation',
-				distanceWithin: {
-					lat: 52.377,
-					lon: -2.749,
-					distance: '10mi'
-				}
-			}]
+			orderBy,
+			where
+		};
+
+		client.entries.search(query);
+		let expectedQueryString = toQuery({
+			...query,
+			orderBy: JSON.stringify(orderBy),
+			where: JSON.stringify(where)
 		});
+
 		expect(global.fetch).toHaveBeenCalled();
-
-
 		expect(global.fetch).toHaveBeenCalledWith(
-			'http://my-website.com/api/delivery/projects/myProject/entries/search',
+			`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
 			Object({
-				method: 'POST',
+				method: 'GET',
 				mode: 'cors',
 				headers: {
 					'accessToken': 'XXXXXX',
 					'Content-Type': 'application/json; charset=utf-8'
-				},
-				body: JSON.stringify({
-					pageIndex: 1,
-					pageSize: 50,
-					orderBy: [{
-						asc: 'authorName'
-					}],
-					where: [{
-						field: 'authorLocation',
-						distanceWithin: {
-							lat: 52.377,
-							lon: -2.749,
-							distance: '10mi'
-						}
-					}]
-				})
+				}
 			}));
-
 	});
 
 	it('Do Search via the Client API for distanceWithin using a Query instance', () => {
@@ -736,34 +729,34 @@ describe('Entry Operations', function () {
 		query.pageSize = 50;
 		client.entries.search(query, 99);
 
+		let expectedQueryString = toQuery({
+			pageIndex: 1,
+			pageSize: 50,
+			orderBy: JSON.stringify([{
+				asc: 'authorName'
+			}]),
+			where: JSON.stringify([{
+				field: 'authorLocation',
+				distanceWithin: {
+					lat: 52.377,
+					lon: -2.749,
+					distance: '10mi'
+				}
+			}]),
+			fields: ['title'],
+			linkDepth: 99
+		});
+
 		expect(global.fetch).toHaveBeenCalled();
-
 		expect(global.fetch).toHaveBeenCalledWith(
-			'http://my-website.com/api/delivery/projects/myProject/entries/search?linkDepth=99',
+			`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
 			Object({
-				method: 'POST',
+				method: 'GET',
+				mode: 'cors',
 				headers: {
-					'Content-Type': 'application/json; charset=utf-8',
 					'accessToken': 'XXXXXX',
-				},
-				body: JSON.stringify({
-					pageIndex: 1,
-					pageSize: 50,
-					orderBy: [{
-						asc: 'authorName'
-					}],
-					where: [{
-						field: 'authorLocation',
-						distanceWithin: {
-							lat: 52.377,
-							lon: -2.749,
-							distance: '10mi'
-						}
-					}],
-					fields: ['title']
-				}),
-				mode: 'cors'
+					'Content-Type': 'application/json; charset=utf-8'
+				}
 			}));
-
 	});
 });

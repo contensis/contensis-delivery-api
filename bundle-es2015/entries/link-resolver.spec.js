@@ -1,31 +1,25 @@
 import * as Contensis from '../index';
+import { toQuery } from '../utils';
 const Zengenti = { Contensis };
 const global = window || this;
 describe('Link Resolver', function () {
-    function request(language, ...ids) {
-        return Object({
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'accessToken': 'XXXXXX',
-                'Content-Type': 'application/json; charset=utf-8'
-            },
-            body: JSON.stringify({
-                pageIndex: 0,
-                pageSize: ids.length,
-                where: [{
-                        or: ids.map(id => {
-                            return {
-                                and: [
-                                    { field: 'sys.id', equalTo: id },
-                                    { field: 'sys.language', equalTo: language },
-                                    { field: 'sys.versionStatus', equalTo: 'published' }
-                                ]
-                            };
-                        })
-                    }]
-            })
-        });
+    function getQueryString(language, ...ids) {
+        let query = {
+            pageIndex: 0,
+            pageSize: ids.length,
+            where: JSON.stringify([{
+                    or: ids.map(id => {
+                        return {
+                            and: [
+                                { field: 'sys.id', equalTo: id },
+                                { field: 'sys.language', equalTo: language },
+                                { field: 'sys.versionStatus', equalTo: 'published' }
+                            ]
+                        };
+                    })
+                }])
+        };
+        return toQuery(query);
     }
     beforeEach(() => {
         Zengenti.Contensis.Client.defaultClientConfig = null;
@@ -53,8 +47,16 @@ describe('Link Resolver', function () {
             }
         };
         client.entries.resolve(testEntry);
+        let expectedQueryString = getQueryString('en-GB', 99);
         expect(global.fetch).toHaveBeenCalled();
-        expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/search', request('en-GB', 99));
+        expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`, Object({
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'accessToken': 'XXXXXX',
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        }));
     });
     it('should resolve single entry with multiple entry property', () => {
         let client = Zengenti.Contensis.Client.create({
@@ -70,8 +72,16 @@ describe('Link Resolver', function () {
             ]
         };
         client.entries.resolve(testEntry);
+        let expectedQueryString = getQueryString('en-GB', 100, 101, 102);
         expect(global.fetch).toHaveBeenCalled();
-        expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/search', request('en-GB', 100, 101, 102));
+        expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`, Object({
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'accessToken': 'XXXXXX',
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        }));
     });
     it('should resolve array of entries', () => {
         let client = Zengenti.Contensis.Client.create({
@@ -85,8 +95,16 @@ describe('Link Resolver', function () {
             { entry: { sys: { id: 102, language: 'en-GB' } } }
         ];
         client.entries.resolve(testEntries);
+        let expectedQueryString = getQueryString('en-GB', 100, 101, 102);
         expect(global.fetch).toHaveBeenCalled();
-        expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/search', request('en-GB', 100, 101, 102));
+        expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`, Object({
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'accessToken': 'XXXXXX',
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        }));
     });
     it('should resolve paged list of entries', () => {
         let client = Zengenti.Contensis.Client.create({
@@ -105,8 +123,16 @@ describe('Link Resolver', function () {
             ]
         };
         client.entries.resolve(testEntries);
+        let expectedQueryString = getQueryString('en-GB', 100, 101, 102);
         expect(global.fetch).toHaveBeenCalled();
-        expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/search', request('en-GB', 100, 101, 102));
+        expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`, Object({
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'accessToken': 'XXXXXX',
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        }));
     });
     it('should resolve single image', () => {
         let client = Zengenti.Contensis.Client.create({
@@ -120,7 +146,15 @@ describe('Link Resolver', function () {
             }
         };
         client.entries.resolve(testEntry);
+        let expectedQueryString = getQueryString('en-GB', 99);
         expect(global.fetch).toHaveBeenCalled();
-        expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/search', request('en-GB', 99));
+        expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`, Object({
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'accessToken': 'XXXXXX',
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        }));
     });
 });

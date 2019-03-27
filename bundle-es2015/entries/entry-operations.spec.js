@@ -455,7 +455,7 @@ describe('Entry Operations', function () {
             }
         }));
     });
-    fit('Do Search via the Client API with all options', () => {
+    it('Do Search via the Client API with all options', () => {
         let client = Zengenti.Contensis.Client.create({
             projectId: 'myProject',
             rootUrl: 'http://my-website.com/',
@@ -478,13 +478,13 @@ describe('Entry Operations', function () {
             fields: ['title']
         };
         client.entries.search(query, 99);
-        expect(global.fetch).toHaveBeenCalled();
         let expectedQueryString = toQuery({
             ...query,
             orderBy: JSON.stringify(orderBy),
             where: JSON.stringify(where),
             linkDepth: 99
         });
+        expect(global.fetch).toHaveBeenCalled();
         expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`, Object({
             method: 'GET',
             mode: 'cors',
@@ -506,7 +506,9 @@ describe('Entry Operations', function () {
         client.entries.search(query);
         expect(global.fetch).toHaveBeenCalled();
         let expectedQueryString = toQuery({
-            ...query
+            pageIndex: 0,
+            pageSize: 20,
+            where: JSON.stringify([])
         });
         expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`, Object({
             method: 'GET',
@@ -531,25 +533,26 @@ describe('Entry Operations', function () {
         query.pageIndex = 1;
         query.pageSize = 50;
         client.entries.search(query, 99);
+        let expectedQueryString = toQuery({
+            pageIndex: 1,
+            pageSize: 50,
+            orderBy: JSON.stringify([{
+                    asc: 'authorName'
+                }]),
+            where: JSON.stringify([{
+                    field: 'authorName',
+                    startsWith: 'W'
+                }]),
+            fields: ['title'],
+            linkDepth: 99
+        });
         expect(global.fetch).toHaveBeenCalled();
-        expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/search?linkDepth=99', Object({
+        expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`, Object({
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
                 'accessToken': 'XXXXXX',
             },
-            body: JSON.stringify({
-                pageIndex: 1,
-                pageSize: 50,
-                orderBy: [{
-                        asc: 'authorName'
-                    }],
-                where: [{
-                        field: 'authorName',
-                        startsWith: 'W'
-                    }],
-                fields: ['title']
-            }),
             mode: 'cors'
         }));
     });
@@ -561,44 +564,37 @@ describe('Entry Operations', function () {
             versionStatus: 'published',
             accessToken: 'XXXXXX'
         });
-        client.entries.search({
+        let orderBy = [{
+                asc: 'authorName'
+            }];
+        let where = [{
+                field: 'authorLocation',
+                distanceWithin: {
+                    lat: 52.377,
+                    lon: -2.749,
+                    distance: '10mi'
+                }
+            }];
+        let query = {
             pageIndex: 1,
             pageSize: 50,
-            orderBy: [{
-                    asc: 'authorName'
-                }],
-            where: [{
-                    field: 'authorLocation',
-                    distanceWithin: {
-                        lat: 52.377,
-                        lon: -2.749,
-                        distance: '10mi'
-                    }
-                }]
+            orderBy,
+            where
+        };
+        client.entries.search(query);
+        let expectedQueryString = toQuery({
+            ...query,
+            orderBy: JSON.stringify(orderBy),
+            where: JSON.stringify(where)
         });
         expect(global.fetch).toHaveBeenCalled();
-        expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/search', Object({
-            method: 'POST',
+        expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`, Object({
+            method: 'GET',
             mode: 'cors',
             headers: {
                 'accessToken': 'XXXXXX',
                 'Content-Type': 'application/json; charset=utf-8'
-            },
-            body: JSON.stringify({
-                pageIndex: 1,
-                pageSize: 50,
-                orderBy: [{
-                        asc: 'authorName'
-                    }],
-                where: [{
-                        field: 'authorLocation',
-                        distanceWithin: {
-                            lat: 52.377,
-                            lon: -2.749,
-                            distance: '10mi'
-                        }
-                    }]
-            })
+            }
         }));
     });
     it('Do Search via the Client API for distanceWithin using a Query instance', () => {
@@ -615,30 +611,31 @@ describe('Entry Operations', function () {
         query.pageIndex = 1;
         query.pageSize = 50;
         client.entries.search(query, 99);
+        let expectedQueryString = toQuery({
+            pageIndex: 1,
+            pageSize: 50,
+            orderBy: JSON.stringify([{
+                    asc: 'authorName'
+                }]),
+            where: JSON.stringify([{
+                    field: 'authorLocation',
+                    distanceWithin: {
+                        lat: 52.377,
+                        lon: -2.749,
+                        distance: '10mi'
+                    }
+                }]),
+            fields: ['title'],
+            linkDepth: 99
+        });
         expect(global.fetch).toHaveBeenCalled();
-        expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/search?linkDepth=99', Object({
-            method: 'POST',
+        expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`, Object({
+            method: 'GET',
+            mode: 'cors',
             headers: {
-                'Content-Type': 'application/json; charset=utf-8',
                 'accessToken': 'XXXXXX',
-            },
-            body: JSON.stringify({
-                pageIndex: 1,
-                pageSize: 50,
-                orderBy: [{
-                        asc: 'authorName'
-                    }],
-                where: [{
-                        field: 'authorLocation',
-                        distanceWithin: {
-                            lat: 52.377,
-                            lon: -2.749,
-                            distance: '10mi'
-                        }
-                    }],
-                fields: ['title']
-            }),
-            mode: 'cors'
+                'Content-Type': 'application/json; charset=utf-8'
+            }
         }));
     });
 });

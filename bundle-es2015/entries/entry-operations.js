@@ -50,14 +50,14 @@ export class EntryOperations {
         let params = this.paramsProvider.getParams();
         let pageSize = query.pageSize || params.pageSize;
         let pageIndex = query.pageIndex || 0;
-        let orderBy = (query.orderBy && (query.orderBy._items || query.orderBy)) || params.orderBy;
+        let orderBy = (query.orderBy && (query.orderBy._items || query.orderBy));
         let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
         let payload = {
             ...requestParams,
             linkDepth,
             pageSize,
             pageIndex,
-            fields: query.fields || null,
+            fields: query.fields && query.fields.length > 0 ? query.fields : null,
             where: JSON.stringify(query.where),
         };
         if (orderBy && orderBy.length > 0) {
