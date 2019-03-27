@@ -45,6 +45,7 @@ export declare class Operators implements ContensisQueryOperators {
     lessThanOrEqualTo(name: string, value: any): IExpression;
     startsWith(name: string, value: string): IExpression;
     in(name: string, ...values: any[]): IExpression;
+    distanceWithin(name: string, lat: number, lon: number, distance: string): IExpression;
 }
 export declare const Op: Operators;
 export declare const OrderBy: ContensisQueryOrderBy;

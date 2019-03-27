@@ -20,7 +20,8 @@ const OperatorTypeEnum = {
     Not: 'not',
     Or: 'or',
     StartsWith: 'startsWith',
-    Where: 'where'
+    Where: 'where',
+    DistanceWithin: 'distanceWithin'
 };
 export class ExpressionBase {
     constructor(fieldName, values = [], operatorName, valueType) {
@@ -194,6 +195,11 @@ export class WhereExpression extends LogicalExpression {
         return result[OperatorTypeEnum.Where];
     }
 }
+class DistanceWithinExpression extends ExpressionBase {
+    constructor(fieldName, value) {
+        super(fieldName, [value], OperatorTypeEnum.DistanceWithin, ExpressionValueTypeEnum.Single);
+    }
+}
 export class Operators {
     and(...values) {
         return new AndExpression(values);
@@ -239,6 +245,9 @@ export class Operators {
     }
     in(name, ...values) {
         return new InExpression(name, values);
+    }
+    distanceWithin(name, lat, lon, distance) {
+        return new DistanceWithinExpression(name, { lat, lon, distance });
     }
 }
 export const Op = new Operators();
