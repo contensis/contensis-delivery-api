@@ -4,6 +4,12 @@ import {
 } from '../models';
 import '../polyfills';
 
+interface DistanceSearch {
+    lat: number;
+    lon: number;
+    distance: string;
+}
+
 const ExpressionValueTypeEnum = {
     Single: 'single' as ExpressionValueType,
     Array: 'array' as ExpressionValueType,
@@ -26,7 +32,8 @@ const OperatorTypeEnum = {
     Not: 'not' as OperatorType,
     Or: 'or' as OperatorType,
     StartsWith: 'startsWith' as OperatorType,
-    Where: 'where' as OperatorType
+    Where: 'where' as OperatorType,
+    DistanceWithin: 'distanceWithin' as OperatorType
 };
 
 export abstract class ExpressionBase implements IExpression {
@@ -231,6 +238,13 @@ export class WhereExpression extends LogicalExpression {
     }
 }
 
+class DistanceWithinExpression extends ExpressionBase {
+    constructor(fieldName: string, value: DistanceSearch) {
+        super(fieldName, [value], OperatorTypeEnum.DistanceWithin, ExpressionValueTypeEnum.Single);
+    }
+}
+
+
 export class Operators implements ContensisQueryOperators {
     and(...values: IExpression[]): ILogicalExpression {
         return new AndExpression(values);
@@ -290,6 +304,10 @@ export class Operators implements ContensisQueryOperators {
 
     in(name: string, ...values: any[]): IExpression {
         return new InExpression(name, values);
+    }
+
+    distanceWithin(name: string, lat: number, lon: number, distance: string): IExpression {
+        return new DistanceWithinExpression(name, { lat, lon, distance });
     }
 }
 
