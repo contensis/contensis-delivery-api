@@ -1,7 +1,7 @@
 import { LinkResolver } from './link-resolver';
 import { UrlBuilder } from '../http/url-builder';
 import '../polyfills';
-import { defaultMapperForLanguage, defaultMapperForVersionStatus } from '../utils';
+import { defaultMapperForLanguage, defaultMapperForVersionStatus, isBrowser, isIE } from '../utils';
 let getMappers = {
     language: defaultMapperForLanguage,
     versionStatus: defaultMapperForVersionStatus,
@@ -67,9 +67,30 @@ export class EntryOperations {
             .setParams({ ...payload, projectId })
             .addMappers(searchMappers)
             .toUrl();
+        console.log('url.length', url.length);
+        if (isBrowser() && isIE() && url.length > 2083) {
+            return this.searchUsingPost(query, linkDepth);
+        }
         return this.httpClient.request(url, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        });
+    }
+    searchUsingPost(query, linkDepth = 0) {
+        if (!query) {
+            return new Promise((resolve) => { resolve(null); });
+        }
+        let params = this.paramsProvider.getParams();
+        query.pageSize = query.pageSize || params.pageSize;
+        query.pageIndex = query.pageIndex || 0;
+        let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/search', { linkDepth })
+            .setParams(this.paramsProvider.getParams())
+            .addMappers(searchMappers)
+            .toUrl();
+        return this.httpClient.request(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify(query)
         });
     }
     resolve(entryOrList, fields = null) {

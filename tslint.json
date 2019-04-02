@@ -22,7 +22,7 @@
 			"variables-before-functions"
 		],
 		"no-arg": true,
-		"no-console": true,
+		"no-console": false,
 		"no-construct": true,
 		"no-debugger": true,
 		"no-duplicate-variable": true,
