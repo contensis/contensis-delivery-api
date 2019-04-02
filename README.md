@@ -10,9 +10,10 @@ It can be used in any ES5 compatible project.
 * React
 * React Native
 * NativeScript
+* Node.js
 * Express
 
-The *examples* folder contains Express, React and Angular test applications.
+The *[contensis-delivery-api-examples](https://github.com/contensis/contensis-delivery-api-examples)* repo contains Express, React and Angular test applications, as well as a Node.js nodes api extended example.
 
 ## Installation
 
