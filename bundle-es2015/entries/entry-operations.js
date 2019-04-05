@@ -67,7 +67,6 @@ export class EntryOperations {
             .setParams({ ...payload, projectId })
             .addMappers(searchMappers)
             .toUrl();
-        console.log('url.length', url.length);
         if (isBrowser() && isIE() && url.length > 2083) {
             return this.searchUsingPost(query, linkDepth);
         }
@@ -75,6 +74,11 @@ export class EntryOperations {
             method: 'GET',
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         });
+    }
+    resolve(entryOrList, fields = null) {
+        let params = this.paramsProvider.getParams();
+        let resolver = new LinkResolver(entryOrList, fields, params.versionStatus, (query) => this.search(query));
+        return resolver.resolve();
     }
     searchUsingPost(query, linkDepth = 0) {
         if (!query) {
@@ -92,10 +96,5 @@ export class EntryOperations {
             headers: { 'Content-Type': 'application/json; charset=utf-8' },
             body: JSON.stringify(query)
         });
-    }
-    resolve(entryOrList, fields = null) {
-        let params = this.paramsProvider.getParams();
-        let resolver = new LinkResolver(entryOrList, fields, params.versionStatus, (query) => this.search(query));
-        return resolver.resolve();
     }
 }

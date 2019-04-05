@@ -91,8 +91,6 @@ export class EntryOperations implements IEntryOperations {
 			.addMappers(searchMappers)
 			.toUrl();
 
-		console.log('url.length', url.length);
-
 		if (isBrowser() && isIE() && url.length > 2083) {
 			return this.searchUsingPost(query, linkDepth);
 		}
@@ -103,10 +101,17 @@ export class EntryOperations implements IEntryOperations {
 		});
 	}
 
-	searchUsingPost(query: any, linkDepth: number = 0): Promise<PagedList<Entry>> {
+	resolve<T extends Entry | Entry[] | PagedList<Entry>>(entryOrList: T, fields: string[] = null): Promise<T> {
+		let params = this.paramsProvider.getParams();
+		let resolver = new LinkResolver(entryOrList, fields, params.versionStatus, (query: any) => this.search(query));
+		return resolver.resolve();
+	}
+
+	private searchUsingPost(query: any, linkDepth: number = 0): Promise<PagedList<Entry>> {
 		if (!query) {
 			return new Promise((resolve) => { resolve(null); });
 		}
+
 		let params = this.paramsProvider.getParams();
 		query.pageSize = query.pageSize || params.pageSize;
 		query.pageIndex = query.pageIndex || 0;
@@ -122,11 +127,4 @@ export class EntryOperations implements IEntryOperations {
 			body: JSON.stringify(query)
 		});
 	}
-
-	resolve<T extends Entry | Entry[] | PagedList<Entry>>(entryOrList: T, fields: string[] = null): Promise<T> {
-		let params = this.paramsProvider.getParams();
-		let resolver = new LinkResolver(entryOrList, fields, params.versionStatus, (query: any) => this.search(query));
-		return resolver.resolve();
-	}
-
 }
