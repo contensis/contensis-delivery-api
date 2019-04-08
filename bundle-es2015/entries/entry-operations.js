@@ -1,7 +1,7 @@
 import { LinkResolver } from './link-resolver';
 import { UrlBuilder } from '../http/url-builder';
 import '../polyfills';
-import { defaultMapperForLanguage, defaultMapperForVersionStatus } from '../utils';
+import { defaultMapperForLanguage, defaultMapperForVersionStatus, isBrowser, isIE } from '../utils';
 let getMappers = {
     language: defaultMapperForLanguage,
     versionStatus: defaultMapperForVersionStatus,
@@ -48,6 +48,43 @@ export class EntryOperations {
             return new Promise((resolve) => { resolve(null); });
         }
         let params = this.paramsProvider.getParams();
+        let pageSize = query.pageSize || params.pageSize;
+        let pageIndex = query.pageIndex || 0;
+        let orderBy = (query.orderBy && (query.orderBy._items || query.orderBy));
+        let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
+        let payload = {
+            ...requestParams,
+            linkDepth,
+            pageSize,
+            pageIndex,
+            fields: query.fields && query.fields.length > 0 ? query.fields : null,
+            where: JSON.stringify(query.where),
+        };
+        if (orderBy && orderBy.length > 0) {
+            payload['orderBy'] = JSON.stringify(orderBy);
+        }
+        let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/search', { ...payload })
+            .setParams({ ...payload, projectId })
+            .addMappers(searchMappers)
+            .toUrl();
+        if (isBrowser() && isIE() && url.length > 2083) {
+            return this.searchUsingPost(query, linkDepth);
+        }
+        return this.httpClient.request(url, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        });
+    }
+    resolve(entryOrList, fields = null) {
+        let params = this.paramsProvider.getParams();
+        let resolver = new LinkResolver(entryOrList, fields, params.versionStatus, (query) => this.search(query));
+        return resolver.resolve();
+    }
+    searchUsingPost(query, linkDepth = 0) {
+        if (!query) {
+            return new Promise((resolve) => { resolve(null); });
+        }
+        let params = this.paramsProvider.getParams();
         query.pageSize = query.pageSize || params.pageSize;
         query.pageIndex = query.pageIndex || 0;
         let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/search', { linkDepth })
@@ -59,10 +96,5 @@ export class EntryOperations {
             headers: { 'Content-Type': 'application/json; charset=utf-8' },
             body: JSON.stringify(query)
         });
-    }
-    resolve(entryOrList, fields = null) {
-        let params = this.paramsProvider.getParams();
-        let resolver = new LinkResolver(entryOrList, fields, params.versionStatus, (query) => this.search(query));
-        return resolver.resolve();
     }
 }
