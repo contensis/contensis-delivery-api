@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+### Changed
+- restored promise support on IE 11.
+
 ## [1.1.0-beta.7] 2019-04-28
 ### Added
 - entries api: use POST based searches if the browser is IE and the url length is greater than 2083.
