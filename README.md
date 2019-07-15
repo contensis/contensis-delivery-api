@@ -22,7 +22,7 @@ The Contensis JavaScript Delivery API can be installed using npm.
 **npm install contensis-delivery-api**
 
 ## Contensis support
-This version supports the current Contensis 11.4 beta release.. For Contensis 11.3 support use [this version](https://github.com/contensis/contensis-delivery-api/tree/release/1.0) .
+This version supports the current Contensis 11.4 beta release. For Contensis 11.3 support use [this version](https://github.com/contensis/contensis-delivery-api/tree/release/1.0) .
 
 ## Examples
 
