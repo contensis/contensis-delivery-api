@@ -5,7 +5,7 @@ import {
 import { UrlBuilder } from '../http/url-builder';
 
 let taxonomyMappers = {
-	order: (value) => (value === 'alphabetical') ? value : null
+	order: (value) => (value === 'defined') ? value : null
 };
 
 export class TaxonomyOperations implements ITaxonomyOperations {

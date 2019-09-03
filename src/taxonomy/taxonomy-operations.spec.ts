@@ -39,7 +39,7 @@ describe('Taxonomy Operations', function () {
 		}));
 	});
 
-	it('Get Node By Key Options', () => {
+	it('Get Node By Key Options - alphabetical order', () => {
 		let client = Zengenti.Contensis.Client.create({
 			projectId: 'myProject',
 			rootUrl: 'http://my-website.com/',
@@ -52,7 +52,7 @@ describe('Taxonomy Operations', function () {
 			language: 'fr-FR'
 		});
 		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=10&language=fr-FR&order=alphabetical', Object({
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=10&language=fr-FR', Object({
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -61,7 +61,7 @@ describe('Taxonomy Operations', function () {
 		}));
 	});
 
-	it('Get Node By Key Options - Ignore order by defined', () => {
+	it('Get Node By Key Options - defined order', () => {
 		let client = Zengenti.Contensis.Client.create({
 			projectId: 'myProject',
 			rootUrl: 'http://my-website.com/',
@@ -73,7 +73,7 @@ describe('Taxonomy Operations', function () {
 			childDepth: 1
 		});
 		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=1', Object({
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=1&order=defined', Object({
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -110,7 +110,7 @@ describe('Taxonomy Operations', function () {
 		}));
 	});
 
-	it('Get Node By Path Options', () => {
+	it('Get Node By Path Options - alphabetical order', () => {
 		let client = Zengenti.Contensis.Client.create({
 			projectId: 'myProject',
 			rootUrl: 'http://my-website.com/',
@@ -123,7 +123,7 @@ describe('Taxonomy Operations', function () {
 			language: 'fr-FR'
 		});
 		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes?childDepth=10&language=fr-FR&order=alphabetical&path=path%2Fto%2Fa%2Ftaxonomy%2Fnode', Object({
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes?childDepth=10&language=fr-FR&path=path%2Fto%2Fa%2Ftaxonomy%2Fnode', Object({
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -132,7 +132,7 @@ describe('Taxonomy Operations', function () {
 		}));
 	});
 
-	it('Get Node By Path Options - Ignore order by defined', () => {
+	it('Get Node By Path Options - defined order', () => {
 		let client = Zengenti.Contensis.Client.create({
 			projectId: 'myProject',
 			rootUrl: 'http://my-website.com/',
@@ -144,7 +144,7 @@ describe('Taxonomy Operations', function () {
 			childDepth: 1
 		});
 		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes?childDepth=1&path=path%2Fto%2Fa%2Ftaxonomy%2Fnode', Object({
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes?childDepth=1&order=defined&path=path%2Fto%2Fa%2Ftaxonomy%2Fnode', Object({
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -203,7 +203,7 @@ describe('Taxonomy Operations', function () {
 			rootUrl: 'http://my-website.com/',
 			accessToken: 'XXXXXX'
 		});
-		client.taxonomy.resolveChildren({ key: '0/1', name: '', path: '/', hasChildren: true, children: [{ key: '', name: '', path: '', hasChildren: false}] });
+		client.taxonomy.resolveChildren({ key: '0/1', name: '', path: '/', hasChildren: true, children: [{ key: '', name: '', path: '', hasChildren: false }] });
 		expect(global.fetch).not.toHaveBeenCalled();
 	});
 
@@ -225,84 +225,13 @@ describe('Taxonomy Operations', function () {
 	});
 
 
-	it('Resolve Children with Key by Options', () => {
+	it('Resolve Children with Key by Options - alphabetical order', () => {
 		let client = Zengenti.Contensis.Client.create({
 			projectId: 'myProject',
 			rootUrl: 'http://my-website.com/',
 			accessToken: 'XXXXXX'
 		});
 		client.taxonomy.resolveChildren({ key: '0/1', order: 'alphabetical', childDepth: 99, language: 'fr-FR' });
-		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=99&language=fr-FR&order=alphabetical', Object({
-			method: 'GET',
-			mode: 'cors',
-			headers: {
-				'accessToken': 'XXXXXX'
-			}
-		}));
-	});
-
-	it('Resolve Children with Taxonomy Node With children by Options', () => {
-		let client = Zengenti.Contensis.Client.create({
-			projectId: 'myProject',
-			rootUrl: 'http://my-website.com/',
-			accessToken: 'XXXXXX'
-		});
-		client.taxonomy.resolveChildren({ node: { key: '0/1', name: '', path: '', hasChildren: true }, order: 'alphabetical', childDepth: 99, language: 'fr-FR' });
-		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=99&language=fr-FR&order=alphabetical', Object({
-			method: 'GET',
-			mode: 'cors',
-			headers: {
-				'accessToken': 'XXXXXX'
-			}
-		}));
-	});
-
-	it('Resolve Children with Taxonomy Node without children by Options', () => {
-		let client = Zengenti.Contensis.Client.create({
-			projectId: 'myProject',
-			rootUrl: 'http://my-website.com/',
-			accessToken: 'XXXXXX'
-		});
-		client.taxonomy.resolveChildren({ node: { key: '0/1', name: '', path: '', hasChildren: false }, order: 'alphabetical', childDepth: 99, language: 'fr-FR' });
-		expect(global.fetch).not.toHaveBeenCalled();
-	});
-
-	it('Resolve Children with Taxonomy Node with children populated by Options', () => {
-		let client = Zengenti.Contensis.Client.create({
-			projectId: 'myProject',
-			rootUrl: 'http://my-website.com/',
-			accessToken: 'XXXXXX'
-		});
-		client.taxonomy.resolveChildren({ node: { key: '0/1', name: '', path: '', hasChildren: true, children: [{ key: '', name: '', path: '', hasChildren: false}] }, order: 'alphabetical', childDepth: 99, language: 'fr-FR' });
-		expect(global.fetch).not.toHaveBeenCalled();
-	});
-
-	it('Resolve Children with Taxonomy Node with children not populated by Options', () => {
-		let client = Zengenti.Contensis.Client.create({
-			projectId: 'myProject',
-			rootUrl: 'http://my-website.com/',
-			accessToken: 'XXXXXX'
-		});
-		client.taxonomy.resolveChildren({ node: { key: '0/1', name: '', path: '', hasChildren: true }, order: 'alphabetical', childDepth: 99, language: 'fr-FR' });
-		expect(global.fetch).toHaveBeenCalled();
-		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=99&language=fr-FR&order=alphabetical', Object({
-			method: 'GET',
-			mode: 'cors',
-			headers: {
-				'accessToken': 'XXXXXX'
-			}
-		}));
-	});
-
-	it('Resolve Children with Key by Options - Ignore order by defined', () => {
-		let client = Zengenti.Contensis.Client.create({
-			projectId: 'myProject',
-			rootUrl: 'http://my-website.com/',
-			accessToken: 'XXXXXX'
-		});
-		client.taxonomy.resolveChildren({ key: '0/1', order: 'defined', childDepth: 99, language: 'fr-FR' });
 		expect(global.fetch).toHaveBeenCalled();
 		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=99&language=fr-FR', Object({
 			method: 'GET',
@@ -312,4 +241,76 @@ describe('Taxonomy Operations', function () {
 			}
 		}));
 	});
+
+	it('Resolve Children with Key by Options - defined order', () => {
+		let client = Zengenti.Contensis.Client.create({
+			projectId: 'myProject',
+			rootUrl: 'http://my-website.com/',
+			accessToken: 'XXXXXX'
+		});
+		client.taxonomy.resolveChildren({ key: '0/1', order: 'defined', childDepth: 99, language: 'fr-FR' });
+		expect(global.fetch).toHaveBeenCalled();
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=99&language=fr-FR&order=defined', Object({
+			method: 'GET',
+			mode: 'cors',
+			headers: {
+				'accessToken': 'XXXXXX'
+			}
+		}));
+	});
+
+	it('Resolve Children with Taxonomy Node: with children, by Options', () => {
+		let client = Zengenti.Contensis.Client.create({
+			projectId: 'myProject',
+			rootUrl: 'http://my-website.com/',
+			accessToken: 'XXXXXX'
+		});
+		client.taxonomy.resolveChildren({ node: { key: '0/1', name: '', path: '', hasChildren: true }, order: 'alphabetical', childDepth: 99, language: 'fr-FR' });
+		expect(global.fetch).toHaveBeenCalled();
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=99&language=fr-FR', Object({
+			method: 'GET',
+			mode: 'cors',
+			headers: {
+				'accessToken': 'XXXXXX'
+			}
+		}));
+	});
+
+	it('Resolve Children with Taxonomy Node: without children, by Options', () => {
+		let client = Zengenti.Contensis.Client.create({
+			projectId: 'myProject',
+			rootUrl: 'http://my-website.com/',
+			accessToken: 'XXXXXX'
+		});
+		client.taxonomy.resolveChildren({ node: { key: '0/1', name: '', path: '', hasChildren: false }, order: 'alphabetical', childDepth: 99, language: 'fr-FR' });
+		expect(global.fetch).not.toHaveBeenCalled();
+	});
+
+	it('Resolve Children with Taxonomy Node: with children populated by Options', () => {
+		let client = Zengenti.Contensis.Client.create({
+			projectId: 'myProject',
+			rootUrl: 'http://my-website.com/',
+			accessToken: 'XXXXXX'
+		});
+		client.taxonomy.resolveChildren({ node: { key: '0/1', name: '', path: '', hasChildren: true, children: [{ key: '', name: '', path: '', hasChildren: false }] }, order: 'alphabetical', childDepth: 99, language: 'fr-FR' });
+		expect(global.fetch).not.toHaveBeenCalled();
+	});
+
+	it('Resolve Children with Taxonomy Node: with children not populated by Options', () => {
+		let client = Zengenti.Contensis.Client.create({
+			projectId: 'myProject',
+			rootUrl: 'http://my-website.com/',
+			accessToken: 'XXXXXX'
+		});
+		client.taxonomy.resolveChildren({ node: { key: '0/1', name: '', path: '', hasChildren: true }, order: 'defined', childDepth: 99, language: 'fr-FR' });
+		expect(global.fetch).toHaveBeenCalled();
+		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/taxonomy/nodes/0/1?childDepth=99&language=fr-FR&order=defined', Object({
+			method: 'GET',
+			mode: 'cors',
+			headers: {
+				'accessToken': 'XXXXXX'
+			}
+		}));
+	});
+
 });
