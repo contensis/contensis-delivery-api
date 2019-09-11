@@ -1,16 +1,18 @@
 var webpack = require("webpack");
 var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var UglifyJS = require('uglify-js');
+
 
 
 var rootDir = path.resolve(__dirname);
 
 
-module.exports = {	
+module.exports = {
 
     devtool: 'source-map',
 
-	entry: {
+    entry: {
         'zengenti.contensis-client': './src/index.ts'
     },
 
@@ -36,7 +38,7 @@ module.exports = {
         ]
     },
 
-	resolve: {
+    resolve: {
         extensions: ['.ts']
     },
 
@@ -51,9 +53,29 @@ module.exports = {
                 keep_fnames: true
             }
         }),
-		new CopyWebpackPlugin([            
+        new CopyWebpackPlugin([
             { from: 'node_modules/whatwg-fetch/dist/fetch.umd.js', to: 'fetch.js' },
-			{ from: 'node_modules/es6-promise/dist/es6-promise.auto.min.js', to: 'es6-promise.min.js' }
+            {
+                from: 'node_modules/whatwg-fetch/dist/fetch.umd.js', to: 'fetch.min.js', transform(content, path) {
+                    return UglifyJS.minify(content.toString(), {
+                        sourceMap: {
+                            filename: "fetch.min.js",
+                            url: "fetch.js.map"
+                        }
+                    }).code;
+                }
+            },
+            {
+                from: 'node_modules/whatwg-fetch/dist/fetch.umd.js', to: 'fetch.js.map', transform(content, path) {
+                    return UglifyJS.minify(content.toString(), {
+                        sourceMap: {
+                            filename: "fetch.min.js",
+                            url: "fetch.js.map"
+                        }
+                    }).map;
+                }
+            },
+            { from: 'node_modules/es6-promise/dist/es6-promise.min.js', to: '' }
         ])
     ]
 };
