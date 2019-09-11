@@ -53,29 +53,13 @@ module.exports = {
                 keep_fnames: true
             }
         }),
-        new CopyWebpackPlugin([
-            { from: 'node_modules/whatwg-fetch/dist/fetch.umd.js', to: 'fetch.js' },
+        new CopyWebpackPlugin([            
             {
                 from: 'node_modules/whatwg-fetch/dist/fetch.umd.js', to: 'fetch.min.js', transform(content, path) {
-                    return UglifyJS.minify(content.toString(), {
-                        sourceMap: {
-                            filename: "fetch.min.js",
-                            url: "fetch.js.map"
-                        }
-                    }).code;
+                    return UglifyJS.minify(content.toString()).code;
                 }
-            },
-            {
-                from: 'node_modules/whatwg-fetch/dist/fetch.umd.js', to: 'fetch.js.map', transform(content, path) {
-                    return UglifyJS.minify(content.toString(), {
-                        sourceMap: {
-                            filename: "fetch.min.js",
-                            url: "fetch.js.map"
-                        }
-                    }).map;
-                }
-            },
-            { from: 'node_modules/es6-promise/dist/es6-promise.min.js', to: '' }
+            },            
+            { from: 'node_modules/es6-promise/dist/es6-promise.auto.min.js', to: 'es6-promise.min.js' }
         ])
     ]
 };
