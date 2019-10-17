@@ -342,9 +342,9 @@ describe('Nodes Operations', () => {
                 versionStatus: 'published',
                 accessToken: 'XXXXXX'
             });
-            client.nodes.get({ path: nodePath, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1 });
+            client.nodes.get({ path: nodePath, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, allowPartialMatch: true });
             expect(global.fetch).toHaveBeenCalled();
-            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes${nodePath}?depth=2&entryFields=title&entryLinkDepth=1&language=de`, Object({
+            expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes${nodePath}?allowPartialMatch=true&depth=2&entryFields=title&entryLinkDepth=1&language=de`, Object({
                 method: 'GET',
                 mode: 'cors',
                 headers: {
@@ -360,7 +360,7 @@ describe('Nodes Operations', () => {
                 versionStatus: 'published',
                 accessToken: 'XXXXXX'
             });
-            client.nodes.get({ path: nodePath, language: '', depth: 0, entryFields: [], entryLinkDepth: 0 });
+            client.nodes.get({ path: nodePath, language: '', depth: 0, entryFields: [], entryLinkDepth: 0, allowPartialMatch: false });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch).toHaveBeenCalledWith(`http://my-website.com/api/delivery/projects/myProject/nodes${nodePath}?language=en-US`, Object({
                 method: 'GET',

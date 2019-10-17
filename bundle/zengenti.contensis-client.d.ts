@@ -292,6 +292,7 @@ interface NodeGetByIdOptions extends NodeDefaultWithDepthOptions {
 
 interface NodeGetByPathOptions extends NodeDefaultWithDepthOptions {
     path: string;
+    allowPartialMatch?: boolean;
 }
 
 interface NodeGetChildrenOptions extends NodeDefaultOptions, NodeIdOptions {
