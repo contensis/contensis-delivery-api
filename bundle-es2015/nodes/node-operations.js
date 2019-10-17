@@ -10,6 +10,10 @@ let nodeDefaultWithDepthOptionsMappers = {
     ...nodeDefaultOptionsMappers,
     depth: (value) => (value && (value > 0)) ? value : null,
 };
+let nodeGetByPathOptions = {
+    ...nodeDefaultWithDepthOptionsMappers,
+    allowPartialMatch: (value) => (!!value) ? true : null,
+};
 let nodeGetByEntryOptions = {
     ...nodeDefaultOptionsMappers,
     entryId: (value) => (!!value) ? value : null,
@@ -48,10 +52,10 @@ export class NodeOperations {
         let isPath = (isString(idOrPathOrOptions) && idOrPathOrOptions.startsWith('/'))
             || (!!idOrPathOrOptions && !!idOrPathOrOptions.path);
         let urlTemplate = isPath ? '/api/delivery/projects/:projectId/nodes:path' : '/api/delivery/projects/:projectId/nodes/:id';
-        let url = UrlBuilder.create(urlTemplate, { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
+        let url = UrlBuilder.create(urlTemplate, { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, allowPartialMatch: null })
             .addOptions(idOrPathOrOptions, isPath ? 'path' : 'id')
             .setParams(this.paramsProvider.getParams())
-            .addMappers(nodeDefaultWithDepthOptionsMappers)
+            .addMappers(nodeGetByPathOptions)
             .toUrl();
         return this.httpClient.request(url);
     }
