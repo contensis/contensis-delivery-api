@@ -18,6 +18,11 @@ let nodeDefaultWithDepthOptionsMappers = {
     depth: (value: number) => (value && (value > 0)) ? value : null,
 };
 
+let nodeGetByPathOptions = {
+    ...nodeDefaultWithDepthOptionsMappers,
+    allowPartialMatch: (value: boolean) => (!!value) ? true : null,
+};
+
 let nodeGetByEntryOptions = {
     ...nodeDefaultOptionsMappers,
     entryId: (value: string) => (!!value) ? value : null,
@@ -68,10 +73,10 @@ export class NodeOperations implements INodeOperations {
 
         let url = UrlBuilder.create(
             urlTemplate,
-            { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
+            { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, allowPartialMatch: null })
             .addOptions(idOrPathOrOptions, isPath ? 'path' : 'id')
             .setParams(this.paramsProvider.getParams())
-            .addMappers(nodeDefaultWithDepthOptionsMappers)
+            .addMappers(nodeGetByPathOptions)
             .toUrl();
 
         return this.httpClient.request<Node>(url);
