@@ -44,18 +44,17 @@
     "karma-webpack": "^3.0.5",
     "rimraf": "^2.6.3",
     "ts-loader": "^3.5.0",
-    "tslint": "^5.14.0",
+    "tslint": "^5.20.1",
     "typescript": "3.3.1",
-    "uglify-js": "^3.6.0",
+    "uglify-js": "^3.6.9",
     "webpack": "3.12.0"
   },
   "dependencies": {
     "es6-promise": "^4.2.6",
-    "tslib": "^1.9.3",
+    "tslib": "^1.10.0",
     "whatwg-fetch": "^3.0.0"
   },
   "directories": {
-    "example": "examples",
     "lib": "lib"
   },
   "keywords": [

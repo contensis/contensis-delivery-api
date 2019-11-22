@@ -1,7 +1,5 @@
 import { LinkResolver } from './link-resolver';
-import { UrlBuilder } from '../http/url-builder';
-import '../polyfills';
-import { defaultMapperForLanguage, defaultMapperForVersionStatus, isBrowser, isIE } from '../utils';
+import { defaultMapperForLanguage, defaultMapperForVersionStatus, isBrowser, isIE, UrlBuilder } from 'contensis-core-api';
 let getMappers = {
     language: defaultMapperForLanguage,
     versionStatus: defaultMapperForVersionStatus,

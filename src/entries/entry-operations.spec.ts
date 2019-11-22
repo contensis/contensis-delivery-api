@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { toQuery } from '../utils';
+import { toQuery } from 'contensis-core-api';
 
 const Zengenti = { Contensis };
 

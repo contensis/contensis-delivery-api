@@ -1,5 +1,6 @@
-import { Entry, IExpression, PagedList, VersionStatus } from '../models';
+import { Entry, IExpression, PagedList } from '../models';
 import { Query, Op } from './query';
+import { VersionStatus } from 'contensis-core-api';
 
 interface ResolvedEntry {
     entries: Entry[];
@@ -105,7 +106,7 @@ class ListResolver {
 
             return Promise.all(promises).then(() => Promise.resolve(list));
         })
-        .then((value) => (this.deferredEntries.length > 0) ? this.nestedSearch() : value);
+            .then((value) => (this.deferredEntries.length > 0) ? this.nestedSearch() : value);
     }
 }
 

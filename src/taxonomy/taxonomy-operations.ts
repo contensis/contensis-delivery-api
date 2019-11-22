@@ -1,8 +1,8 @@
 import {
-	IHttpClient, IParamsProvider, ITaxonomyOperations, TaxonomyGetNodeByKeyOptions,
-	TaxonomyGetNodeByPathOptions, TaxonomyNode, TaxonomyResolveChildrenOptions
+	ITaxonomyOperations, TaxonomyGetNodeByKeyOptions, TaxonomyGetNodeByPathOptions,
+	TaxonomyNode, TaxonomyResolveChildrenOptions
 } from '../models';
-import { UrlBuilder } from '../http/url-builder';
+import { IHttpClient, IParamsProvider, UrlBuilder } from 'contensis-core-api';
 
 let taxonomyMappers = {
 	order: (value) => (value === 'defined') ? value : null

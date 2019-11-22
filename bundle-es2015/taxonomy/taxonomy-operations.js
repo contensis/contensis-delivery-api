@@ -1,4 +1,4 @@
-import { UrlBuilder } from '../http/url-builder';
+import { UrlBuilder } from 'contensis-core-api';
 let taxonomyMappers = {
     order: (value) => (value === 'defined') ? value : null
 };

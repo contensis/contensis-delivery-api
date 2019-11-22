@@ -1,5 +1,4 @@
-import { UrlBuilder } from '../http/url-builder';
-import { isString, defaultMapperForLanguage, defaultMapperForVersionStatus } from '../utils';
+import { defaultMapperForLanguage, defaultMapperForVersionStatus, isString, UrlBuilder } from 'contensis-core-api';
 let nodeDefaultOptionsMappers = {
     language: defaultMapperForLanguage,
     versionStatus: defaultMapperForVersionStatus,

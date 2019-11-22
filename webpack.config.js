@@ -3,13 +3,9 @@ var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var UglifyJS = require('uglify-js');
 
-
-
 var rootDir = path.resolve(__dirname);
 
-
 module.exports = {
-
     devtool: 'source-map',
 
     entry: {
@@ -39,7 +35,7 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.ts']
+        extensions: ['.ts', '.js']
     },
 
 

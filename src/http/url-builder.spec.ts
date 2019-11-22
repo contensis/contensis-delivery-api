@@ -1,4 +1,4 @@
-import { UrlBuilder } from './url-builder';
+import { UrlBuilder } from 'contensis-core-api';
 import * as Contensis from '../index';
 
 const Zengenti = { Contensis };

@@ -2,9 +2,14 @@
     "compilerOptions": {
         "target": "es2017",
         "module": "commonjs",
-        "lib": ["es2017", "dom", "dom.iterable", "scripthost"],
-        "skipLibCheck": true,
         "moduleResolution": "node",
+        "lib": [
+            "es2017",
+            "dom",
+            "dom.iterable",
+            "scripthost"
+        ],
+        "skipLibCheck": true,
         "sourceMap": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,

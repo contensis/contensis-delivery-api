@@ -2,7 +2,6 @@ import {
     ContensisQuery, ContensisQueryOperators, ContensisQueryOrderBy, ContensisQueryOrderByDto,
     ExpressionValueType, IExpression, ILogicalExpression, OperatorType
 } from '../models';
-import '../polyfills';
 
 interface DistanceSearch {
     lat: number;

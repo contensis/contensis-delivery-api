@@ -1,4 +1,3 @@
-import '../polyfills';
 const ExpressionValueTypeEnum = {
     Single: 'single',
     Array: 'array',

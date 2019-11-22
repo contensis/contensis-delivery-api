@@ -1,7 +1,3 @@
-interface ClientConfigFactory {
-    new (value: Config, previous: Config): Config;
-}
-
 interface ClientError {
     status: number;
     statusText: string;
@@ -9,6 +5,8 @@ interface ClientError {
     data: any;
 }
 
+//# sourceMappingURL=ClientError.js.map
+{"version":3,"file":"ClientError.js","sourceRoot":"","sources":["../../src/models/ClientError.ts"],"names":[],"mappings":""}
 interface ClientParams {
     rootUrl: string;
     accessToken: string;
@@ -18,6 +16,50 @@ interface ClientParams {
     pageIndex: number;
     pageSize: number;
     responseHandler: ResponseHandler;
+}
+
+//# sourceMappingURL=ClientParams.js.map
+{"version":3,"file":"ClientParams.js","sourceRoot":"","sources":["../../src/models/ClientParams.ts"],"names":[],"mappings":""}
+interface IHttpClient {
+    request<T>(url: string, request?: RequestInit): Promise<T>;
+}
+
+//# sourceMappingURL=IHttpClient.js.map
+{"version":3,"file":"IHttpClient.js","sourceRoot":"","sources":["../../src/models/IHttpClient.ts"],"names":[],"mappings":""}
+//# sourceMappingURL=index.js.map
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/models/index.ts"],"names":[],"mappings":""}
+interface IParamsProvider {
+    getParams(): ClientParams;
+}
+
+//# sourceMappingURL=IParamsProvider.js.map
+{"version":3,"file":"IParamsProvider.js","sourceRoot":"","sources":["../../src/models/IParamsProvider.ts"],"names":[],"mappings":""}
+interface MapperFn {
+    (value: any, options: any, params: ClientParams): any;
+}
+
+//# sourceMappingURL=MapperFn.js.map
+{"version":3,"file":"MapperFn.js","sourceRoot":"","sources":["../../src/models/MapperFn.ts"],"names":[],"mappings":""}
+declare type ResponseHandlerFunction = (response: Response, clientError: ClientError) => any;
+interface ResponseHandler {
+    ['*']?: ResponseHandlerFunction;
+    [statusCode: number]: ResponseHandlerFunction;
+}
+
+//# sourceMappingURL=ResponseHandler.js.map
+{"version":3,"file":"ResponseHandler.js","sourceRoot":"","sources":["../../src/models/ResponseHandler.ts"],"names":[],"mappings":""}
+interface UrlFn {
+    (options: any, params: ClientParams): string;
+}
+
+//# sourceMappingURL=UrlFn.js.map
+{"version":3,"file":"UrlFn.js","sourceRoot":"","sources":["../../src/models/UrlFn.ts"],"names":[],"mappings":""}
+declare type VersionStatus = 'published' | 'latest';
+
+//# sourceMappingURL=VersionStatus.js.map
+{"version":3,"file":"VersionStatus.js","sourceRoot":"","sources":["../../src/models/VersionStatus.ts"],"names":[],"mappings":""}
+interface ClientConfigFactory {
+    new (value: Config, previous: Config): Config;
 }
 
 interface ClientStatic {
@@ -203,10 +245,6 @@ interface IExpression {
     toJSON(): any;
 }
 
-interface IHttpClient {
-    request<T>(url: string, request?: RequestInit): Promise<T>;
-}
-
 interface ILogicalExpression extends IExpression {
     getItem(index: number): IExpression;
     setItem(index: number, item: IExpression): any;
@@ -232,10 +270,6 @@ interface INodeOperations {
     getSiblings(idOrNodeOrOptions: string | Node | NodeGetSiblingOptions): Promise<Node[]>;
 }
 
-interface IParamsProvider {
-    getParams(): ClientParams;
-}
-
 interface IProjectOperations {
     get(): Promise<Project>;
 }
@@ -244,10 +278,6 @@ interface ITaxonomyOperations {
     getNodeByKey(key: string | TaxonomyGetNodeByKeyOptions): Promise<TaxonomyNode>;
     getNodeByPath(path: string | TaxonomyGetNodeByPathOptions): Promise<TaxonomyNode>;
     resolveChildren(node: string | TaxonomyNode | TaxonomyResolveChildrenOptions): Promise<TaxonomyNode>;
-}
-
-interface MapperFn {
-    (value: any, options: any, params: ClientParams): any;
 }
 
 interface Node {
@@ -334,12 +364,6 @@ interface Project {
     supportedLanguages: string[];
 }
 
-declare type ResponseHandlerFunction = (response: Response, clientError: ClientError) => any;
-interface ResponseHandler {
-    ['*']?: ResponseHandlerFunction;
-    [statusCode: number]: ResponseHandlerFunction;
-}
-
 interface TaxonomyGetNodeByKeyOptions extends TaxonomyGetOptions {
     key: string;
 }
@@ -367,10 +391,6 @@ interface TaxonomyResolveChildrenOptions extends TaxonomyGetOptions {
     node?: TaxonomyNode;
 }
 
-interface UrlFn {
-    (options: any, params: ClientParams): string;
-}
-
 interface VersionInfo {
     createdBy: string;
     created: string;
@@ -380,8 +400,6 @@ interface VersionInfo {
     published: string;
     versionNo: string;
 }
-
-declare type VersionStatus = 'published' | 'latest';
 
 interface ZengentiStatic {
     Contensis: ContensisStatic;

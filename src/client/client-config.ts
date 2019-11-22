@@ -1,4 +1,5 @@
-import { Config, ClientParams, ResponseHandler } from '../models';
+import { Config } from '../models';
+import { ClientParams, ResponseHandler } from 'contensis-core-api';
 
 export class ClientConfig implements Config {
     rootUrl: string = null;

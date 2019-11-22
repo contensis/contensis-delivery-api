@@ -1,5 +1,4 @@
-import { VersionStatus } from './VersionStatus';
-import { ResponseHandler } from './ResponseHandler';
+import { ResponseHandler, VersionStatus } from 'contensis-core-api';
 export interface Config {
     rootUrl?: string;
     accessToken?: string;

@@ -1,4 +1,5 @@
-import { Entry, PagedList, VersionStatus } from '../models';
+import { Entry, PagedList } from '../models';
+import { VersionStatus } from 'contensis-core-api';
 export declare class LinkResolver<T extends Entry | Entry[] | PagedList<Entry>> {
     private entryOrList;
     private paths;

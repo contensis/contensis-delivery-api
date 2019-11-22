@@ -2,9 +2,14 @@
     "compilerOptions": {
         "target": "esnext",
         "module": "es2015",
-        "lib": [ "es2015", "es2017", "dom", "es2015.iterable" ],
-        "skipLibCheck": true,
         "moduleResolution": "node",
+        "lib": [
+            "es2015",
+            "es2017",
+            "dom",
+            "es2015.iterable"
+        ],
+        "skipLibCheck": true,
         "sourceMap": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
@@ -13,7 +18,7 @@
         "suppressImplicitAnyIndexErrors": true,
         "allowSyntheticDefaultImports": true,
         "importHelpers": true,
-		"outDir": "../bundle-es2015",
-		"declaration": true
+        "outDir": "../bundle-es2015",
+        "declaration": true
     }
 }

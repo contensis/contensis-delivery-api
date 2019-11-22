@@ -3,8 +3,8 @@ import { ContentTypeOperations } from '../content-types/content-type-operations'
 import { ProjectOperations } from '../projects/project-operations';
 import { TaxonomyOperations } from '../taxonomy/taxonomy-operations';
 import { ClientConfig } from './client-config';
-import { HttpClient } from '../http/http-client';
 import { NodeOperations } from '../nodes/node-operations';
+import { HttpClient } from 'contensis-core-api';
 export class Client {
     constructor(config = null) {
         this.clientConfig = null;

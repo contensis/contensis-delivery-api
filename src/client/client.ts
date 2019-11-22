@@ -1,6 +1,6 @@
 import {
-	ClientParams, Config, ContensisClient, IContentTypeOperations,
-	IEntryOperations, IHttpClient, IProjectOperations, ITaxonomyOperations, INodeOperations
+	Config, ContensisClient, IContentTypeOperations,
+	IEntryOperations, IProjectOperations, ITaxonomyOperations, INodeOperations
 } from '../models';
 
 import { EntryOperations } from '../entries/entry-operations';
@@ -8,8 +8,8 @@ import { ContentTypeOperations } from '../content-types/content-type-operations'
 import { ProjectOperations } from '../projects/project-operations';
 import { TaxonomyOperations } from '../taxonomy/taxonomy-operations';
 import { ClientConfig } from './client-config';
-import { HttpClient } from '../http/http-client';
 import { NodeOperations } from '../nodes/node-operations';
+import { ClientParams, HttpClient, IHttpClient } from 'contensis-core-api';
 
 export class Client implements ContensisClient {
 	static defaultClientConfig: ClientConfig = null;

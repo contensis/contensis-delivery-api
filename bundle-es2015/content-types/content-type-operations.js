@@ -1,4 +1,4 @@
-import { UrlBuilder } from '../http/url-builder';
+import { UrlBuilder } from 'contensis-core-api';
 export class ContentTypeOperations {
     constructor(httpClient, paramsProvider) {
         this.httpClient = httpClient;

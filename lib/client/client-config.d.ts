@@ -1,4 +1,5 @@
-import { Config, ClientParams, ResponseHandler } from '../models';
+import { Config } from '../models';
+import { ClientParams, ResponseHandler } from 'contensis-core-api';
 export declare class ClientConfig implements Config {
     private currentConfig;
     private previousConfig;

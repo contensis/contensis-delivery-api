@@ -1,10 +1,12 @@
 import {
-    IHttpClient, IParamsProvider, INodeOperations, Node, NodeGetByEntryOptions,
+    INodeOperations, Node, NodeGetByEntryOptions,
     NodeGetByIdOptions, NodeGetByPathOptions, NodeGetRootOptions, Entry, NodeGetChildrenOptions,
     NodeGetParentOptions, NodeGetAncestorsOptions, NodeGetAncestorAtLevelOptions, NodeGetSiblingOptions
 } from '../models';
-import { UrlBuilder } from '../http/url-builder';
-import { isString, defaultMapperForLanguage, defaultMapperForVersionStatus } from '../utils';
+import {
+    defaultMapperForLanguage, defaultMapperForVersionStatus, IHttpClient, IParamsProvider,
+    isString, UrlBuilder
+} from 'contensis-core-api';
 
 let nodeDefaultOptionsMappers = {
     language: defaultMapperForLanguage,
