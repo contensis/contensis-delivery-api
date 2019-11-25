@@ -1,18 +1,18 @@
 import {
-	Entry, EntryGetOptions, EntryListOptions,
-	IEntryOperations, PagedList
+	EntryGetOptions, EntryListOptions,
+	IEntryOperations
 } from '../models';
 
 import { LinkResolver } from './link-resolver';
 import {
-	ClientParams, defaultMapperForLanguage, defaultMapperForVersionStatus, IHttpClient,
-	IParamsProvider, isBrowser, isIE, MapperFn, UrlBuilder
+	ClientParams, defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, Entry,
+	IHttpClient, IParamsProvider, isBrowser, isIE, MapperFn, PagedList, UrlBuilder
 } from 'contensis-core-api';
 
 
 let getMappers: { [key: string]: MapperFn } = {
 	language: defaultMapperForLanguage,
-	versionStatus: defaultMapperForVersionStatus,
+	versionStatus: defaultMapperForPublishedVersionStatus,
 	fields: (value: string[]) => (value && value.length > 0) ? value : null,
 	linkDepth: (value: number) => (value && (value > 0)) ? value : null,
 };

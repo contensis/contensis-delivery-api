@@ -1,4 +1,4 @@
-import { Entry } from './Entry';
+import { Entry } from 'contensis-core-api';
 
 export interface Node {
     id: string;

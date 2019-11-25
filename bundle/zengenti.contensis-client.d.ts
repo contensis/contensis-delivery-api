@@ -9,17 +9,100 @@ interface ClientError {
 {"version":3,"file":"ClientError.js","sourceRoot":"","sources":["../../src/models/ClientError.ts"],"names":[],"mappings":""}
 interface ClientParams {
     rootUrl: string;
-    accessToken: string;
-    language: string;
-    versionStatus: VersionStatus;
     projectId: string;
-    pageIndex: number;
-    pageSize: number;
-    responseHandler: ResponseHandler;
+    accessToken?: string;
+    clientId?: string;
+    clientSecret?: string;
+    language?: string;
+    versionStatus?: VersionStatus;
+    pageIndex?: number;
+    pageSize?: number;
+    responseHandler?: ResponseHandler;
 }
 
 //# sourceMappingURL=ClientParams.js.map
 {"version":3,"file":"ClientParams.js","sourceRoot":"","sources":["../../src/models/ClientParams.ts"],"names":[],"mappings":""}
+interface ContentType {
+    id: string;
+    projectId: string;
+    name: {
+        [key: string]: string;
+    };
+    description: {
+        [key: string]: string;
+    };
+    entryTitleField: string;
+    fields: Field[];
+    enabled: boolean;
+    defaultLanguage: string;
+    supportedLanguages: string[];
+    workflowId: string;
+    dataFormat: string;
+    previewUrl: string;
+    version: VersionInfo;
+}
+
+//# sourceMappingURL=ContentType.js.map
+{"version":3,"file":"ContentType.js","sourceRoot":"","sources":["../../src/models/ContentType.ts"],"names":[],"mappings":""}
+interface Editor {
+    id: string;
+    instructions: {
+        [key: string]: string;
+    };
+    properties: {
+        [key: string]: any;
+    };
+}
+
+//# sourceMappingURL=Editor.js.map
+{"version":3,"file":"Editor.js","sourceRoot":"","sources":["../../src/models/Editor.ts"],"names":[],"mappings":""}
+interface Entry {
+    sys: EntrySys;
+    [key: string]: any;
+}
+
+//# sourceMappingURL=Entry.js.map
+{"version":3,"file":"Entry.js","sourceRoot":"","sources":["../../src/models/Entry.ts"],"names":[],"mappings":""}
+interface EntrySys {
+    id: string;
+    uri: string;
+    projectId: string;
+    contentTypeId: string;
+    dataFormat: string;
+    language: string;
+    metadata: {
+        [key: string]: any;
+    };
+    properties: {
+        [key: string]: any;
+    };
+    version: VersionInfo;
+    owner: string;
+}
+
+//# sourceMappingURL=EntrySys.js.map
+{"version":3,"file":"EntrySys.js","sourceRoot":"","sources":["../../src/models/EntrySys.ts"],"names":[],"mappings":""}
+interface Field {
+    id: string;
+    name: {
+        [key: string]: string;
+    };
+    description: {
+        [key: string]: string;
+    };
+    dataType: string;
+    dataFormat: string;
+    default: {
+        [key: string]: any;
+    };
+    validations: {
+        [key: string]: any;
+    };
+    editor: Editor;
+}
+
+//# sourceMappingURL=Field.js.map
+{"version":3,"file":"Field.js","sourceRoot":"","sources":["../../src/models/Field.ts"],"names":[],"mappings":""}
 interface IHttpClient {
     request<T>(url: string, request?: RequestInit): Promise<T>;
 }
@@ -40,6 +123,32 @@ interface MapperFn {
 
 //# sourceMappingURL=MapperFn.js.map
 {"version":3,"file":"MapperFn.js","sourceRoot":"","sources":["../../src/models/MapperFn.ts"],"names":[],"mappings":""}
+interface PagedList<T> {
+    pageIndex: number;
+    pageSize: number;
+    totalCount: number;
+    items: T[];
+}
+
+//# sourceMappingURL=PagedList.js.map
+{"version":3,"file":"PagedList.js","sourceRoot":"","sources":["../../src/models/PagedList.ts"],"names":[],"mappings":""}
+interface PageOptions {
+    pageIndex?: number;
+    pageSize?: number;
+}
+
+//# sourceMappingURL=PageOptions.js.map
+{"version":3,"file":"PageOptions.js","sourceRoot":"","sources":["../../src/models/PageOptions.ts"],"names":[],"mappings":""}
+interface Project {
+    id: string;
+    name: string;
+    description: string;
+    primaryLanguage: string;
+    supportedLanguages: string[];
+}
+
+//# sourceMappingURL=Project.js.map
+{"version":3,"file":"Project.js","sourceRoot":"","sources":["../../src/models/Project.ts"],"names":[],"mappings":""}
 declare type ResponseHandlerFunction = (response: Response, clientError: ClientError) => any;
 interface ResponseHandler {
     ['*']?: ResponseHandlerFunction;
@@ -54,6 +163,18 @@ interface UrlFn {
 
 //# sourceMappingURL=UrlFn.js.map
 {"version":3,"file":"UrlFn.js","sourceRoot":"","sources":["../../src/models/UrlFn.ts"],"names":[],"mappings":""}
+interface VersionInfo {
+    createdBy: string;
+    created: string;
+    modifiedBy: string;
+    modified: string;
+    publishedBy: string;
+    published: string;
+    versionNo: string;
+}
+
+//# sourceMappingURL=VersionInfo.js.map
+{"version":3,"file":"VersionInfo.js","sourceRoot":"","sources":["../../src/models/VersionInfo.ts"],"names":[],"mappings":""}
 declare type VersionStatus = 'published' | 'latest';
 
 //# sourceMappingURL=VersionStatus.js.map
@@ -135,41 +256,6 @@ interface ContensisStatic {
     OrderBy: ContensisQueryOrderBy;
 }
 
-interface ContentType {
-    id: string;
-    projectId: string;
-    name: {
-        [key: string]: string;
-    };
-    description: {
-        [key: string]: string;
-    };
-    entryTitleField: string;
-    fields: Field[];
-    enabled: boolean;
-    defaultLanguage: string;
-    supportedLanguages: string[];
-    workflowId: string;
-    dataFormat: string;
-    previewUrl: string;
-    version: VersionInfo;
-}
-
-interface Editor {
-    id: string;
-    instructions: {
-        [key: string]: string;
-    };
-    properties: {
-        [key: string]: any;
-    };
-}
-
-interface Entry {
-    sys: EntrySys;
-    [key: string]: any;
-}
-
 interface EntryGetOptions {
     id: string;
     language?: string;
@@ -186,43 +272,7 @@ interface EntryListOptions {
     fields?: string[];
 }
 
-interface EntrySys {
-    id: string;
-    uri: string;
-    projectId: string;
-    contentTypeId: string;
-    dataFormat: string;
-    language: string;
-    metadata: {
-        [key: string]: any;
-    };
-    properties: {
-        [key: string]: any;
-    };
-    version: VersionInfo;
-    owner: string;
-}
-
 declare type ExpressionValueType = 'single' | 'array' | 'unknown';
-
-interface Field {
-    id: string;
-    name: {
-        [key: string]: string;
-    };
-    description: {
-        [key: string]: string;
-    };
-    dataType: string;
-    dataFormat: string;
-    default: {
-        [key: string]: any;
-    };
-    validations: {
-        [key: string]: any;
-    };
-    editor: Editor;
-}
 
 interface IContentTypeOperations {
     get(contentTypeId: string): Promise<ContentType>;
@@ -344,26 +394,6 @@ interface NodeIdOptions {
 
 declare type OperatorType = 'and' | 'between' | 'contains' | 'endsWith' | 'equalTo' | 'exists' | 'freeText' | 'greaterThan' | 'greaterThanOrEqualTo' | 'in' | 'lessThan' | 'lessThanOrEqualTo' | 'not' | 'or' | 'startsWith' | 'where' | 'distanceWithin';
 
-interface PagedList<T> {
-    pageIndex: number;
-    pageSize: number;
-    totalCount: number;
-    items: T[];
-}
-
-interface PageOptions {
-    pageIndex?: number;
-    pageSize?: number;
-}
-
-interface Project {
-    id: string;
-    name: string;
-    description: string;
-    primaryLanguage: string;
-    supportedLanguages: string[];
-}
-
 interface TaxonomyGetNodeByKeyOptions extends TaxonomyGetOptions {
     key: string;
 }
@@ -389,16 +419,6 @@ interface TaxonomyNode {
 interface TaxonomyResolveChildrenOptions extends TaxonomyGetOptions {
     key?: string;
     node?: TaxonomyNode;
-}
-
-interface VersionInfo {
-    createdBy: string;
-    created: string;
-    modifiedBy: string;
-    modified: string;
-    publishedBy: string;
-    published: string;
-    versionNo: string;
 }
 
 interface ZengentiStatic {

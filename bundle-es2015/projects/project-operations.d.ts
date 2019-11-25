@@ -1,5 +1,5 @@
-import { IProjectOperations, Project } from '../models';
-import { IHttpClient, IParamsProvider } from 'contensis-core-api';
+import { IProjectOperations } from '../models';
+import { IHttpClient, IParamsProvider, Project } from 'contensis-core-api';
 export declare class ProjectOperations implements IProjectOperations {
     private httpClient;
     private paramsProvider;

@@ -1,5 +1,5 @@
-import { ContentType, IContentTypeOperations } from '../models';
-import { IHttpClient, IParamsProvider } from 'contensis-core-api';
+import { IContentTypeOperations } from '../models';
+import { ContentType, IHttpClient, IParamsProvider } from 'contensis-core-api';
 export declare class ContentTypeOperations implements IContentTypeOperations {
     private httpClient;
     private paramsProvider;

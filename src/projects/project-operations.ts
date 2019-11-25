@@ -1,5 +1,5 @@
-import { IProjectOperations, Project } from '../models';
-import { IHttpClient, IParamsProvider, UrlBuilder } from 'contensis-core-api';
+import { IProjectOperations } from '../models';
+import { IHttpClient, IParamsProvider, Project, UrlBuilder } from 'contensis-core-api';
 
 export class ProjectOperations implements IProjectOperations {
     constructor(private httpClient: IHttpClient, private paramsProvider: IParamsProvider) {

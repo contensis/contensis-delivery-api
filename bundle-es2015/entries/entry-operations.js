@@ -1,8 +1,8 @@
 import { LinkResolver } from './link-resolver';
-import { defaultMapperForLanguage, defaultMapperForVersionStatus, isBrowser, isIE, UrlBuilder } from 'contensis-core-api';
+import { defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, isBrowser, isIE, UrlBuilder } from 'contensis-core-api';
 let getMappers = {
     language: defaultMapperForLanguage,
-    versionStatus: defaultMapperForVersionStatus,
+    versionStatus: defaultMapperForPublishedVersionStatus,
     fields: (value) => (value && value.length > 0) ? value : null,
     linkDepth: (value) => (value && (value > 0)) ? value : null,
 };

@@ -1,7 +1,7 @@
-import { defaultMapperForLanguage, defaultMapperForVersionStatus, isString, UrlBuilder } from 'contensis-core-api';
+import { defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, isString, UrlBuilder } from 'contensis-core-api';
 let nodeDefaultOptionsMappers = {
     language: defaultMapperForLanguage,
-    versionStatus: defaultMapperForVersionStatus,
+    versionStatus: defaultMapperForPublishedVersionStatus,
     entryFields: (value) => (value && value.length > 0) ? value : null,
     entryLinkDepth: (value) => (value && (value > 0)) ? value : null,
 };

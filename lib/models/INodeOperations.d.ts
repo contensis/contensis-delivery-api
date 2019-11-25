@@ -3,7 +3,7 @@ import { NodeGetByIdOptions } from './NodeGetByIdOptions';
 import { NodeGetByPathOptions } from './NodeGetByPathOptions';
 import { NodeGetByEntryOptions } from './NodeGetByEntryOptions';
 import { NodeGetRootOptions } from './NodeGetRootOptions';
-import { Entry } from './Entry';
+import { Entry } from 'contensis-core-api';
 import { NodeGetChildrenOptions } from './NodeGetChildrenOptions';
 import { NodeGetParentOptions } from './NodeGetParentOptions';
 import { NodeGetAncestorsOptions } from './NodeGetAncestorsOptions';

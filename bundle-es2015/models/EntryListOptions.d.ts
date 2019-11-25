@@ -1,4 +1,4 @@
-import { PageOptions } from './PageOptions';
+import { PageOptions } from 'contensis-core-api';
 export interface EntryListOptions {
     contentTypeId?: string;
     language?: string;

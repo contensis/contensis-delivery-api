@@ -1,5 +1,6 @@
 import * as Contensis from '../index';
-import { Node, Entry } from '../models';
+import { Node } from '../models';
+import { Entry } from 'contensis-core-api';
 
 const Zengenti = { Contensis };
 

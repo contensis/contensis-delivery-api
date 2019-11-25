@@ -1,16 +1,16 @@
 import {
     INodeOperations, Node, NodeGetByEntryOptions,
-    NodeGetByIdOptions, NodeGetByPathOptions, NodeGetRootOptions, Entry, NodeGetChildrenOptions,
+    NodeGetByIdOptions, NodeGetByPathOptions, NodeGetRootOptions, NodeGetChildrenOptions,
     NodeGetParentOptions, NodeGetAncestorsOptions, NodeGetAncestorAtLevelOptions, NodeGetSiblingOptions
 } from '../models';
 import {
-    defaultMapperForLanguage, defaultMapperForVersionStatus, IHttpClient, IParamsProvider,
+    Entry, defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, IHttpClient, IParamsProvider,
     isString, UrlBuilder
 } from 'contensis-core-api';
 
 let nodeDefaultOptionsMappers = {
     language: defaultMapperForLanguage,
-    versionStatus: defaultMapperForVersionStatus,
+    versionStatus: defaultMapperForPublishedVersionStatus,
     entryFields: (value: string[]) => (value && value.length > 0) ? value : null,
     entryLinkDepth: (value: number) => (value && (value > 0)) ? value : null,
 };
