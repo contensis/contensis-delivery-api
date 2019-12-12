@@ -11,4 +11,5 @@ export interface Node {
     entryId?: string;
     entry?: Entry;
     childCount: number;
+    includeInMenu: boolean;
 }
