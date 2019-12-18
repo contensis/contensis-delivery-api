@@ -4,6 +4,7 @@ export class ClientConfig {
         this.previousConfig = previousConfig;
         this.rootUrl = null;
         this.accessToken = null;
+        this.defaultHeaders = null;
         this.projectId = null;
         this.language = null;
         this.versionStatus = 'published';
@@ -11,6 +12,7 @@ export class ClientConfig {
         this.responseHandler = null;
         this.rootUrl = this.getValue((c) => c.rootUrl);
         this.accessToken = this.getValue((c) => c.accessToken);
+        this.defaultHeaders = this.getValue((c) => c.defaultHeaders);
         this.projectId = this.getValue((c) => c.projectId);
         this.language = this.getValue((c) => c.language);
         this.versionStatus = this.getValue((c) => c.versionStatus);
@@ -24,6 +26,7 @@ export class ClientConfig {
         return {
             rootUrl: this.rootUrl,
             accessToken: this.accessToken,
+            defaultHeaders: this.defaultHeaders,
             language: this.language,
             versionStatus: this.versionStatus,
             projectId: this.projectId,

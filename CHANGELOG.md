@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.5-beta.0] - 2019-12-13
 ### Added
--  moved code to contensis-core-api;
+- moved code to contensis-core-api; 
+- support for default headers;
 
 ### Removed
  - polyfills for IE < 11

@@ -1,3 +1,9 @@
+interface AssetUpload {
+    fileId: string;
+}
+
+//# sourceMappingURL=AssetUpload.js.map
+{"version":3,"file":"AssetUpload.js","sourceRoot":"","sources":["../../src/models/AssetUpload.ts"],"names":[],"mappings":""}
 interface ClientError {
     status: number;
     statusText: string;
@@ -13,6 +19,9 @@ interface ClientParams {
     accessToken?: string;
     clientId?: string;
     clientSecret?: string;
+    defaultHeaders?: {
+        [key: string]: string;
+    };
     language?: string;
     versionStatus?: VersionStatus;
     pageIndex?: number;
@@ -22,7 +31,7 @@ interface ClientParams {
 
 //# sourceMappingURL=ClientParams.js.map
 {"version":3,"file":"ClientParams.js","sourceRoot":"","sources":["../../src/models/ClientParams.ts"],"names":[],"mappings":""}
-interface ContentType {
+interface Component {
     id: string;
     projectId: string;
     name: {
@@ -31,15 +40,20 @@ interface ContentType {
     description: {
         [key: string]: string;
     };
-    entryTitleField: string;
     fields: Field[];
     enabled: boolean;
-    defaultLanguage: string;
-    supportedLanguages: string[];
-    workflowId: string;
     dataFormat: string;
     previewUrl: string;
     version: VersionInfo;
+}
+
+//# sourceMappingURL=Component.js.map
+{"version":3,"file":"Component.js","sourceRoot":"","sources":["../../src/models/Component.ts"],"names":[],"mappings":""}
+interface ContentType extends Component {
+    entryTitleField: string;
+    defaultLanguage: string;
+    supportedLanguages: string[];
+    workflowId: string;
 }
 
 //# sourceMappingURL=ContentType.js.map
@@ -57,7 +71,7 @@ interface Editor {
 //# sourceMappingURL=Editor.js.map
 {"version":3,"file":"Editor.js","sourceRoot":"","sources":["../../src/models/Editor.ts"],"names":[],"mappings":""}
 interface Entry {
-    sys: EntrySys;
+    sys: Partial<EntrySys>;
     [key: string]: any;
 }
 
@@ -157,6 +171,13 @@ interface ResponseHandler {
 
 //# sourceMappingURL=ResponseHandler.js.map
 {"version":3,"file":"ResponseHandler.js","sourceRoot":"","sources":["../../src/models/ResponseHandler.ts"],"names":[],"mappings":""}
+interface SysAssetFile {
+    fileId: string;
+    parentNodePath?: string;
+}
+
+//# sourceMappingURL=SysAssetFile.js.map
+{"version":3,"file":"SysAssetFile.js","sourceRoot":"","sources":["../../src/models/SysAssetFile.ts"],"names":[],"mappings":""}
 interface UrlFn {
     (options: any, params: ClientParams): string;
 }
@@ -192,6 +213,9 @@ interface ClientStatic {
 interface Config {
     rootUrl?: string;
     accessToken?: string;
+    defaultHeaders?: {
+        [key: string]: string;
+    };
     projectId?: string;
     language?: string;
     versionStatus?: VersionStatus;

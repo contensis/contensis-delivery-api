@@ -5,6 +5,9 @@ export declare class ClientConfig implements Config {
     private previousConfig;
     rootUrl: string;
     accessToken: string;
+    defaultHeaders: {
+        [key: string]: string;
+    };
     projectId: string;
     language: string;
     versionStatus: 'published' | 'latest';

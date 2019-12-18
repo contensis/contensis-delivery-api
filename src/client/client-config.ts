@@ -4,6 +4,7 @@ import { ClientParams, ResponseHandler } from 'contensis-core-api';
 export class ClientConfig implements Config {
     rootUrl: string = null;
     accessToken: string = null;
+    defaultHeaders: { [key: string]: string } = null;
     projectId: string = null;
     language: string = null;
     versionStatus: 'published' | 'latest' = 'published';
@@ -13,6 +14,7 @@ export class ClientConfig implements Config {
     constructor(private currentConfig: Config, private previousConfig: Config) {
         this.rootUrl = this.getValue((c) => c.rootUrl);
         this.accessToken = this.getValue((c) => c.accessToken);
+        this.defaultHeaders = this.getValue((c) => c.defaultHeaders);
         this.projectId = this.getValue((c) => c.projectId);
         this.language = this.getValue((c) => c.language);
         this.versionStatus = this.getValue((c) => c.versionStatus);
@@ -28,6 +30,7 @@ export class ClientConfig implements Config {
         return {
             rootUrl: this.rootUrl,
             accessToken: this.accessToken,
+            defaultHeaders: this.defaultHeaders,
             language: this.language,
             versionStatus: this.versionStatus,
             projectId: this.projectId,

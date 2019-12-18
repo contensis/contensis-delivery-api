@@ -97,7 +97,7 @@ class ListResolver {
 
             let promises = [];
             for (let item of list.items) {
-                let deferredEntries = allDeferredEntries.filter(deferredEntry => deferredEntry.is(item.sys));
+                let deferredEntries = allDeferredEntries.filter(deferredEntry => deferredEntry.is(item.sys as { id: string, language: string }));
                 for (let deferredEntry of deferredEntries) {
                     deferredEntry.resolve(item);
                     promises.push(deferredEntry.promise);
