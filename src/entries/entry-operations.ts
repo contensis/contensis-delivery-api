@@ -1,11 +1,11 @@
 import {
-	EntryGetOptions, EntryListOptions,
+	Entry, EntryGetOptions, EntryListOptions,
 	IEntryOperations
 } from '../models';
 
 import { LinkResolver } from './link-resolver';
 import {
-	ClientParams, defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, Entry,
+	ClientParams, defaultMapperForLanguage, defaultMapperForPublishedVersionStatus,
 	IHttpClient, IParamsProvider, isBrowser, isIE, MapperFn, PagedList, UrlBuilder
 } from 'contensis-core-api';
 

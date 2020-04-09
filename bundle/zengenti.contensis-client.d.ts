@@ -280,6 +280,11 @@ interface ContensisStatic {
     OrderBy: ContensisQueryOrderBy;
 }
 
+interface Entry {
+    sys: Partial<EntrySys>;
+    [key: string]: any;
+}
+
 interface EntryGetOptions {
     id: string;
     language?: string;
@@ -294,6 +299,27 @@ interface EntryListOptions {
     order?: string[];
     linkDepth?: number;
     fields?: string[];
+}
+
+interface EntrySys {
+    id: string;
+    projectId: string;
+    contentTypeId: string;
+    dataFormat: string;
+    language: string;
+    availableLanguage: string[];
+    uri: string;
+    allUris: string[];
+    metadata: {
+        [key: string]: any;
+    };
+    workflow: Workflow;
+    isPublished: boolean;
+    version: VersionInfo;
+    properties: {
+        [key: string]: any;
+    };
+    owner: string;
 }
 
 declare type ExpressionValueType = 'single' | 'array' | 'unknown';
@@ -444,6 +470,11 @@ interface TaxonomyNode {
 interface TaxonomyResolveChildrenOptions extends TaxonomyGetOptions {
     key?: string;
     node?: TaxonomyNode;
+}
+
+interface Workflow {
+    id: string;
+    state: string;
 }
 
 interface ZengentiStatic {

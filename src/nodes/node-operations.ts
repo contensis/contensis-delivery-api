@@ -1,10 +1,10 @@
 import {
-    INodeOperations, Node, NodeGetByEntryOptions,
+    Entry, INodeOperations, Node, NodeGetByEntryOptions,
     NodeGetByIdOptions, NodeGetByPathOptions, NodeGetRootOptions, NodeGetChildrenOptions,
     NodeGetParentOptions, NodeGetAncestorsOptions, NodeGetAncestorAtLevelOptions, NodeGetSiblingOptions
 } from '../models';
 import {
-    Entry, defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, IHttpClient, IParamsProvider,
+    defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, IHttpClient, IParamsProvider,
     isString, UrlBuilder
 } from 'contensis-core-api';
 

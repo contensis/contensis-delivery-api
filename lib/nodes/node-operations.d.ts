@@ -1,5 +1,5 @@
-import { INodeOperations, Node, NodeGetByEntryOptions, NodeGetByIdOptions, NodeGetByPathOptions, NodeGetRootOptions, NodeGetChildrenOptions, NodeGetParentOptions, NodeGetAncestorsOptions, NodeGetAncestorAtLevelOptions, NodeGetSiblingOptions } from '../models';
-import { Entry, IHttpClient, IParamsProvider } from 'contensis-core-api';
+import { Entry, INodeOperations, Node, NodeGetByEntryOptions, NodeGetByIdOptions, NodeGetByPathOptions, NodeGetRootOptions, NodeGetChildrenOptions, NodeGetParentOptions, NodeGetAncestorsOptions, NodeGetAncestorAtLevelOptions, NodeGetSiblingOptions } from '../models';
+import { IHttpClient, IParamsProvider } from 'contensis-core-api';
 export declare class NodeOperations implements INodeOperations {
     private httpClient;
     private paramsProvider;

@@ -1,5 +1,5 @@
-import { EntryGetOptions, EntryListOptions, IEntryOperations } from '../models';
-import { Entry, IHttpClient, IParamsProvider, PagedList } from 'contensis-core-api';
+import { Entry, EntryGetOptions, EntryListOptions, IEntryOperations } from '../models';
+import { IHttpClient, IParamsProvider, PagedList } from 'contensis-core-api';
 export declare class EntryOperations implements IEntryOperations {
     private httpClient;
     private paramsProvider;
