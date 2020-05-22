@@ -1,9 +1,10 @@
 import * as Contensis from '../index';
+import fetch from 'cross-fetch';
 const Zengenti = { Contensis };
 const global = window || this;
+global.fetch = fetch;
 describe('Content Type Operations', function () {
     beforeEach(() => {
-        Zengenti.Contensis.Client.defaultClientConfig = null;
         spyOn(global, 'fetch').and.callFake((...args) => {
             return new Promise((resolve, reject) => {
                 resolve({
@@ -14,6 +15,10 @@ describe('Content Type Operations', function () {
                     }
                 });
             });
+        });
+        Zengenti.Contensis.Client.defaultClientConfig = null;
+        Zengenti.Contensis.Client.configure({
+            fetchFn: global.fetch
         });
     });
     it('Get', () => {

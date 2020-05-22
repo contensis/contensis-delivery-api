@@ -10,6 +10,7 @@ export class ClientConfig {
         this.versionStatus = 'published';
         this.pageSize = 25;
         this.responseHandler = null;
+        this.fetchFn = null;
         this.rootUrl = this.getValue((c) => c.rootUrl);
         this.accessToken = this.getValue((c) => c.accessToken);
         this.defaultHeaders = this.getValue((c) => c.defaultHeaders);
@@ -18,6 +19,7 @@ export class ClientConfig {
         this.versionStatus = this.getValue((c) => c.versionStatus);
         this.pageSize = this.getValue((c) => c.pageSize);
         this.responseHandler = this.getValue((c) => c.responseHandler);
+        this.fetchFn = this.getValue((c) => c.fetchFn);
         while (this.rootUrl && this.rootUrl.substr(this.rootUrl.length - 1, 1) === '/') {
             this.rootUrl = this.rootUrl.substr(0, this.rootUrl.length - 1);
         }

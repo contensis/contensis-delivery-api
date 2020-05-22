@@ -1,15 +1,15 @@
 import * as Contensis from '../index';
 import { toQuery } from 'contensis-core-api';
 
-const Zengenti = { Contensis };
+import fetch from 'cross-fetch';
 
+const Zengenti = { Contensis };
 const global = window || this;
+global.fetch = fetch;
 
 describe('Entry Operations', function () {
 
 	beforeEach(() => {
-		Zengenti.Contensis.Client.defaultClientConfig = null;
-
 		spyOn(global, 'fetch').and.callFake((...args) => {
 			return new Promise((resolve, reject) => {
 				resolve({
@@ -21,6 +21,11 @@ describe('Entry Operations', function () {
 				});
 			});
 		});
+
+		Zengenti.Contensis.Client.defaultClientConfig = null;
+		Zengenti.Contensis.Client.configure({
+			fetchFn: global.fetch
+		});
 	});
 
 	it('Get Live Version', () => {
@@ -31,6 +36,7 @@ describe('Entry Operations', function () {
 			versionStatus: 'published',
 			accessToken: 'XXXXXX'
 		});
+
 		client.entries.get('1');
 		expect(global.fetch).toHaveBeenCalled();
 		expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/1?language=en-US', Object({
@@ -764,8 +770,6 @@ describe('Entry Operations', function () {
 describe('Entry Operations in IE browser', function () {
 
 	beforeEach(() => {
-		Zengenti.Contensis.Client.defaultClientConfig = null;
-
 		spyOn(global, 'fetch').and.callFake((...args) => {
 			return new Promise((resolve, reject) => {
 				resolve({
@@ -776,6 +780,11 @@ describe('Entry Operations in IE browser', function () {
 					}
 				});
 			});
+		});
+
+		Zengenti.Contensis.Client.defaultClientConfig = null;
+		Zengenti.Contensis.Client.configure({
+			fetchFn: global.fetch
 		});
 
 		global.document.documentMode = 11;

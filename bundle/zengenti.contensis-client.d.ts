@@ -742,6 +742,7 @@ interface Config {
     versionStatus?: VersionStatus;
     pageSize?: number;
     responseHandler?: ResponseHandler;
+    fetchFn?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 }
 
 interface ContensisClient extends IParamsProvider {

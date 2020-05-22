@@ -13,6 +13,7 @@ export declare class ClientConfig implements Config {
     versionStatus: 'published' | 'latest';
     pageSize: number;
     responseHandler: ResponseHandler;
+    fetchFn: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
     constructor(currentConfig: Config, previousConfig: Config);
     toParams(): ClientParams;
     private getValue;

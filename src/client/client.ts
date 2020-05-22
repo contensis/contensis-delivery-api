@@ -11,10 +11,14 @@ import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
 import { ClientParams, HttpClient, IHttpClient } from 'contensis-core-api';
 
+import fetch from 'cross-fetch';
+
 export class Client implements ContensisClient {
 	static defaultClientConfig: ClientConfig = null;
 
 	clientConfig: ClientConfig = null;
+	fetchFn: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+
 	entries: IEntryOperations;
 	contentTypes: IContentTypeOperations;
 	nodes: INodeOperations;
@@ -33,8 +37,9 @@ export class Client implements ContensisClient {
 
 	constructor(config: Config = null) {
 		this.clientConfig = new ClientConfig(config, Client.defaultClientConfig);
+		this.fetchFn = !this.clientConfig.fetchFn ? fetch : this.clientConfig.fetchFn;
+		this.httpClient = new HttpClient(this, this.fetchFn);
 
-		this.httpClient = new HttpClient(this);
 		this.entries = new EntryOperations(this.httpClient, this);
 		this.project = new ProjectOperations(this.httpClient, this);
 		this.contentTypes = new ContentTypeOperations(this.httpClient, this);

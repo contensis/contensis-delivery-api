@@ -1,9 +1,11 @@
 import * as Contensis from '../index';
 import { toQuery } from 'contensis-core-api';
 
-const Zengenti = { Contensis };
+import fetch from 'cross-fetch';
 
+const Zengenti = { Contensis };
 const global = window || this;
+global.fetch = fetch;
 
 describe('Link Resolver', function () {
 
@@ -27,8 +29,6 @@ describe('Link Resolver', function () {
 	}
 
 	beforeEach(() => {
-		Zengenti.Contensis.Client.defaultClientConfig = null;
-
 		spyOn(global, 'fetch').and.callFake((...args) => {
 			return new Promise((resolve, reject) => {
 				resolve({
@@ -39,6 +39,11 @@ describe('Link Resolver', function () {
 					}
 				});
 			});
+		});
+
+		Zengenti.Contensis.Client.defaultClientConfig = null;
+		Zengenti.Contensis.Client.configure({
+			fetchFn: global.fetch
 		});
 	});
 
