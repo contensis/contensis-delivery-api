@@ -1,4 +1,4 @@
-import { Query, Op } from './query';
+import { Op, Query } from 'contensis-core-api';
 function isUnresolvedEntry(value) {
     if (value && value.sys && value.sys.id) {
         let keys = Object.keys(value);

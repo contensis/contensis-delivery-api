@@ -1,8 +1,7 @@
 import { ClientStatic } from './ClientStatic';
 import { ClientConfigFactory } from './ClientConfigFactory';
-import { ContensisQueryFactory } from './ContensisQueryFactory';
-import { ContensisQueryOperators } from './ContensisQueryOperators';
-import { ContensisQueryOrderBy } from './ContensisQueryOrderBy';
+import { ContensisQueryFactory, ContensisQueryOperators, ContensisQueryOrderBy } from 'contensis-core-api';
+
 export interface ContensisStatic {
 	Client: ClientStatic;
 	ClientConfig: ClientConfigFactory;

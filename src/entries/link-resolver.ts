@@ -1,6 +1,5 @@
-import { Entry, IExpression } from '../models';
-import { Query, Op } from './query';
-import { VersionStatus, PagedList } from 'contensis-core-api';
+import { Entry,  } from '../models';
+import { IExpression, Op, Query, PagedList, VersionStatus } from 'contensis-core-api';
 
 interface ResolvedEntry {
     entries: Entry[];
