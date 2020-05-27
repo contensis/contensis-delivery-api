@@ -1,6 +1,6 @@
 {
   "name": "contensis-delivery-api",
-  "version": "1.1.5-beta.2",
+  "version": "1.1.5-beta.3",
   "description": "Contensis Javascript Delivery API",
   "engines": {
     "node": ">=8"
@@ -10,13 +10,13 @@
   "scripts": {
     "lint": "npx tslint src/**/*.ts",
     "pretest": "rimraf coverage/*",
-    "test": "npm run lint && karma start",
-    "test:npm": "npm run lint && karma start --test-target npm",
+    "test": "karma start",
+    "test:npm": "karma start --test-target npm",
     "test:watch": "npm run test -- --auto-watch --no-single-run",
     "build:es5": "npx tsc -p src",
-    "build:esnext": "npx tsc -p src/tsconfig-esnext.json",
+    "build:esnext": "npx tsc -p src/tsconfig-esnext.json && npm run lint",
     "build:contensis": "rimraf bundle/* && webpack --progress --colors && node build/create-contensis-dts.js && rimraf bundle/es5",
-    "build:npm": "npx tsc -p src/tsconfig-npm.json",
+    "build:npm": "npx tsc -p src/tsconfig-npm.json && npm run lint",
     "all": "npm run build:esnext && npm run test && npm run build:npm && npm run test:npm && npm run build:contensis"
   },
   "repository": {
@@ -50,7 +50,8 @@
     "webpack": "3.12.0"
   },
   "dependencies": {
-    "contensis-core-api": "^1.0.0-beta.5",
+    "contensis-core-api": "^1.0.0-beta.6",
+    "cross-fetch": "^3.0.4",
     "es6-promise": "^4.2.6",
     "tslib": "^1.10.0",
     "whatwg-fetch": "^3.0.0"

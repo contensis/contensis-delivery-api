@@ -4,6 +4,7 @@ import { ClientParams } from 'contensis-core-api';
 export declare class Client implements ContensisClient {
     static defaultClientConfig: ClientConfig;
     clientConfig: ClientConfig;
+    fetchFn: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
     entries: IEntryOperations;
     contentTypes: IContentTypeOperations;
     nodes: INodeOperations;

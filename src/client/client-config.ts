@@ -10,6 +10,7 @@ export class ClientConfig implements Config {
     versionStatus: 'published' | 'latest' = 'published';
     pageSize: number = 25;
     responseHandler: ResponseHandler = null;
+    fetchFn: (input: RequestInfo, init?: RequestInit) => Promise<Response> = null;
 
     constructor(private currentConfig: Config, private previousConfig: Config) {
         this.rootUrl = this.getValue((c) => c.rootUrl);
@@ -20,6 +21,7 @@ export class ClientConfig implements Config {
         this.versionStatus = this.getValue((c) => c.versionStatus);
         this.pageSize = this.getValue((c) => c.pageSize);
         this.responseHandler = this.getValue((c) => c.responseHandler);
+        this.fetchFn = this.getValue((c) => c.fetchFn);
 
         while (this.rootUrl && this.rootUrl.substr(this.rootUrl.length - 1, 1) === '/') {
             this.rootUrl = this.rootUrl.substr(0, this.rootUrl.length - 1);

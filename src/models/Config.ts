@@ -9,4 +9,5 @@ export interface Config {
 	versionStatus?: VersionStatus;
 	pageSize?: number;
 	responseHandler?: ResponseHandler;
+	fetchFn?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 }

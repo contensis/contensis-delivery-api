@@ -5,11 +5,13 @@ import { TaxonomyOperations } from '../taxonomy/taxonomy-operations';
 import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
 import { HttpClient } from 'contensis-core-api';
+import fetch from 'cross-fetch';
 export class Client {
     constructor(config = null) {
         this.clientConfig = null;
         this.clientConfig = new ClientConfig(config, Client.defaultClientConfig);
-        this.httpClient = new HttpClient(this);
+        this.fetchFn = !this.clientConfig.fetchFn ? fetch : this.clientConfig.fetchFn;
+        this.httpClient = new HttpClient(this, this.fetchFn);
         this.entries = new EntryOperations(this.httpClient, this);
         this.project = new ProjectOperations(this.httpClient, this);
         this.contentTypes = new ContentTypeOperations(this.httpClient, this);
