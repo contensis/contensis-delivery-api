@@ -50,7 +50,7 @@
     "webpack": "3.12.0"
   },
   "dependencies": {
-    "contensis-core-api": "^1.0.0-beta.6",
+    "contensis-core-api": "^1.0.0-rc.1",
     "cross-fetch": "^3.0.4",
     "es6-promise": "^4.2.6",
     "tslib": "^1.10.0",
