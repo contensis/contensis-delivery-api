@@ -842,24 +842,23 @@ interface EntryListOptions {
 }
 
 interface EntrySys {
-    id: string;
-    projectId: string;
+    allUris: string[];
+    availableLanguages: string[];
     contentTypeId: string;
     dataFormat: string;
-    language: string;
-    availableLanguage: string[];
-    uri: string;
-    allUris: string[];
-    metadata: {
-        [key: string]: any;
-    };
-    workflow: Workflow;
+    id: string;
     isPublished: boolean;
-    version: VersionInfo;
+    language: string;
+    owner: string;
+    projectId: string;
     properties: {
         [key: string]: any;
     };
-    owner: string;
+    slug: string;
+    uri: string;
+    version: VersionInfo;
+    versionStatus: string;
+    workflow: Workflow;
 }
 
 interface IContentTypeOperations {

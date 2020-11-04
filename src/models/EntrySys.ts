@@ -5,18 +5,18 @@ export interface EntrySys {
 	allUris: string[];
 	availableLanguages: string[];
 	contentTypeId: string;
-	dataFormat: string;	
+	dataFormat: string;
 	id: string;
-	isPublished: boolean;	
+	isPublished: boolean;
 	language: string;
-	owner: string;	
-	projectId: string;	
+	owner: string;
+	projectId: string;
 	properties: {
 		[key: string]: any;
 	};
 	slug: string;
-	uri: string;	
+	uri: string;
 	version: VersionInfo;
 	versionStatus: string;
-	workflow: Workflow;	
+	workflow: Workflow;
 }
