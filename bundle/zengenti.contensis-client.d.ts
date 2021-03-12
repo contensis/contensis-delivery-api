@@ -34,20 +34,7 @@ interface ClientParams {
 
 //# sourceMappingURL=ClientParams.js.map
 {"version":3,"file":"ClientParams.js","sourceRoot":"","sources":["../../src/models/ClientParams.ts"],"names":[],"mappings":""}
-interface Component {
-    id: string;
-    projectId: string;
-    name: {
-        [key: string]: string;
-    };
-    description: {
-        [key: string]: string;
-    };
-    fields: Field[];
-    enabled: boolean;
-    dataFormat: string;
-    previewUrl: string;
-    version: VersionInfo;
+interface Component extends ContentTypeBase<'component'> {
 }
 
 //# sourceMappingURL=Component.js.map
@@ -116,24 +103,76 @@ interface ContensisQueryOrderByDto {
 
 //# sourceMappingURL=ContensisQueryOrderByDto.js.map
 {"version":3,"file":"ContensisQueryOrderByDto.js","sourceRoot":"","sources":["../../src/models/ContensisQueryOrderByDto.ts"],"names":[],"mappings":""}
-interface ContentType extends Component {
-    entryTitleField: string;
-    defaultLanguage: string;
-    supportedLanguages: string[];
-    workflowId: string;
+interface ContentType extends ContentTypeBase<'entry' | 'asset'> {
+    defaultLanguage?: string;
+    entryTitleField?: string;
+    entryDescriptionField?: string;
+    supportedLanguages?: string[];
+    workflowId?: string;
+    previewUrl?: string;
+    defaultParentNodeId?: string;
+    groups?: ContentTypeGroup[];
 }
 
 //# sourceMappingURL=ContentType.js.map
 {"version":3,"file":"ContentType.js","sourceRoot":"","sources":["../../src/models/ContentType.ts"],"names":[],"mappings":""}
-interface Editor {
+declare type ContentTypeFormatMap<T> = {
+    entry: T;
+    component: T;
+    asset: T;
+};
+declare type ContentTypeFormat = keyof ContentTypeFormatMap<any>;
+interface ContentTypeBase<TFormat extends ContentTypeFormat> {
+    description?: LocalisedString;
+    enabled?: boolean;
     id: string;
-    instructions: {
-        [key: string]: string;
-    };
-    properties: {
-        [key: string]: any;
-    };
+    name: LocalisedString;
+    projectId?: string;
+    version?: VersionInfo;
+    uuid?: string;
+    fields?: Field[];
+    dataFormat?: TFormat;
 }
+interface ContentTypeGroup extends LocalisedIdAndValue {
+}
+{};
+
+//# sourceMappingURL=ContentTypeBase.js.map
+{"version":3,"file":"ContentTypeBase.js","sourceRoot":"","sources":["../../src/models/ContentTypeBase.ts"],"names":[],"mappings":""}
+interface Editor {
+    id?: string;
+    instructions?: LocalisedString;
+    properties?: EditorProperties;
+}
+interface EditorProperties {
+    readOnly?: boolean;
+    showSlug?: boolean;
+    repeatableItemDefault?: LocalisedValue<any>;
+    placeholderText?: LocalisedString | string;
+    trueText?: LocalisedString | string;
+    falseText?: LocalisedString | string;
+    fromPlaceholderText?: LocalisedString | string;
+    toPlaceholderText?: LocalisedString | string;
+    decimalPlaces?: number;
+    size?: 'small' | 'medium' | 'large' | 'auto';
+    headingLevel?: string;
+    showSearch?: boolean;
+    showLatLon?: boolean;
+    lat?: number;
+    lon?: number;
+    allowFullScreen?: boolean;
+    enableToolbar?: boolean;
+    enableStatusBar?: boolean;
+    useDarkTheme?: boolean;
+    quotePlaceholderText?: LocalisedString | string;
+    sourcePlaceholderText?: LocalisedString | string;
+    uploadPath?: string;
+    filterPaths?: string[];
+    displayCaption?: boolean;
+    displayAltText?: boolean;
+    displayField?: string;
+}
+{};
 
 //# sourceMappingURL=Editor.js.map
 {"version":3,"file":"Editor.js","sourceRoot":"","sources":["../../src/models/Editor.ts"],"names":[],"mappings":""}
@@ -174,24 +213,50 @@ declare type ExpressionValueType = 'single' | 'array' | 'unknown';
 
 //# sourceMappingURL=ExpressionValueType.js.map
 {"version":3,"file":"ExpressionValueType.js","sourceRoot":"","sources":["../../src/models/ExpressionValueType.ts"],"names":[],"mappings":""}
+declare type FieldDataTypeMap<T> = {
+    'boolean': T;
+    'booleanArray': T;
+    'dateTime': T;
+    'dateTimeArray': T;
+    'decimal': T;
+    'decimalArray': T;
+    'integer': T;
+    'integerArray': T;
+    'object': T;
+    'objectArray': T;
+    'string': T;
+    'stringArray': T;
+};
+declare type FieldDataFormatMap<T> = {
+    'asset': T;
+    'daterange': T;
+    'embed': T;
+    'entry': T;
+    'field': T;
+    'heading': T;
+    'html': T;
+    'image': T;
+    'location': T;
+    'markdown': T;
+    'quote': T;
+    'taxonomy': T;
+    'component': T;
+};
+declare type FieldDataType = keyof FieldDataTypeMap<any>;
+declare type FieldDataFormat = keyof FieldDataFormatMap<any> | string;
 interface Field {
     id: string;
-    name: {
-        [key: string]: string;
-    };
-    description: {
-        [key: string]: string;
-    };
-    dataType: string;
-    dataFormat: string;
-    default: {
-        [key: string]: any;
-    };
-    validations: {
-        [key: string]: any;
-    };
-    editor: Editor;
+    name: LocalisedString;
+    description?: LocalisedString;
+    dataType: FieldDataType;
+    dataFormat?: FieldDataFormat;
+    default?: LocalisedValue<any>;
+    groupId?: string;
+    validations?: Validations<Field>;
+    editor?: Editor;
+    readonly fields?: Field[];
 }
+{};
 
 //# sourceMappingURL=Field.js.map
 {"version":3,"file":"Field.js","sourceRoot":"","sources":["../../src/models/Field.ts"],"names":[],"mappings":""}
@@ -239,6 +304,17 @@ interface IParamsProvider {
 
 //# sourceMappingURL=IParamsProvider.js.map
 {"version":3,"file":"IParamsProvider.js","sourceRoot":"","sources":["../../src/models/IParamsProvider.ts"],"names":[],"mappings":""}
+declare type LocalisedValue<T> = {
+    [key: string]: T;
+};
+declare type LocalisedString = LocalisedValue<string>;
+declare type LocalisedIdAndValue = {
+    id: string;
+    name: LocalisedString;
+};
+
+//# sourceMappingURL=Localised.js.map
+{"version":3,"file":"Localised.js","sourceRoot":"","sources":["../../src/models/Localised.ts"],"names":[],"mappings":""}
 interface MapperFn {
     (value: any, options: any, params: ClientParams): any;
 }
@@ -764,6 +840,54 @@ interface UrlFn {
 
 //# sourceMappingURL=UrlFn.js.map
 {"version":3,"file":"UrlFn.js","sourceRoot":"","sources":["../../src/models/UrlFn.ts"],"names":[],"mappings":""}
+declare type ValidationMessage = {
+    message?: LocalisedString;
+};
+declare type ValidationMessageAndValue<T> = ValidationMessage & {
+    value: T;
+};
+interface Validations<TField> {
+    required?: ValidationMessage;
+    min?: ValidationMessageAndValue<number>;
+    max?: ValidationMessageAndValue<number>;
+    minLength?: ValidationMessageAndValue<number>;
+    maxLength?: ValidationMessageAndValue<number>;
+    minCount?: ValidationMessageAndValue<number>;
+    maxCount?: ValidationMessageAndValue<number>;
+    regex?: ValidationMessage & {
+        pattern: string;
+    };
+    allowedValues?: ValidationMessage & {
+        values: LocalisedString[];
+    };
+    taxonomyRoot?: ValidationMessage & {
+        key: string;
+    };
+    contentType?: ValidationMessage & {
+        contentType: string;
+    };
+    allowedContentTypes?: ValidationMessage & {
+        contentTypes: string[];
+    };
+    pastDateTime?: ValidationMessage;
+    decimalPlaces?: ValidationMessageAndValue<number>;
+    imageDimensions?: ValidationMessage & {
+        minWidth?: number;
+        maxWidth?: number;
+        minHeight?: number;
+        maxHeight?: number;
+    };
+    captionRequired?: ValidationMessage;
+    sourceRequired?: ValidationMessage;
+    altTextRequired?: ValidationMessage;
+    allowedFieldTypes?: ValidationMessage & {
+        fields: TField[];
+    };
+}
+{};
+
+//# sourceMappingURL=Validations.js.map
+{"version":3,"file":"Validations.js","sourceRoot":"","sources":["../../src/models/Validations.ts"],"names":[],"mappings":""}
 interface VersionInfo {
     createdBy: string;
     created: string;
