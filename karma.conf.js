@@ -39,6 +39,8 @@ module.exports = function (config) {
 		logLevel: config.LOG_INFO,
 		autoWatch: false,
 		browsers: ['Chrome'],
+		// browserDisconnectTimeout : 0,
+		// browserNoActivityTimeout : 0,
 		singleRun: true,
 		concurrency: Infinity
 	};

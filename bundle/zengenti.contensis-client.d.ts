@@ -1,57 +1,3 @@
-interface AssetUpload {
-    fileId: string;
-}
-
-//# sourceMappingURL=AssetUpload.js.map
-{"version":3,"file":"AssetUpload.js","sourceRoot":"","sources":["../../src/models/AssetUpload.ts"],"names":[],"mappings":""}
-interface ClientCredentialsGrant {
-    clientId: string;
-    clientSecret: string;
-}
-
-//# sourceMappingURL=ClientCredentialsGrant.js.map
-{"version":3,"file":"ClientCredentialsGrant.js","sourceRoot":"","sources":["../../src/models/ClientCredentialsGrant.ts"],"names":[],"mappings":""}
-declare type ClientGrantType = 'client_credentials' | 'contensis_classic' | 'contensis_classic_refresh_token' | 'none';
-declare type ClientGrants = ClientCredentialsGrant | ContensisClassicGrant | ContensisClassicResfreshTokenGrant;
-
-//# sourceMappingURL=ClientGrants.js.map
-{"version":3,"file":"ClientGrants.js","sourceRoot":"","sources":["../../src/models/ClientGrants.ts"],"names":[],"mappings":""}
-interface ClientParams {
-    rootUrl: string;
-    projectId: string;
-    accessToken?: string;
-    clientDetails?: ClientGrants;
-    clientType?: ClientGrantType;
-    defaultHeaders?: {
-        [key: string]: string;
-    };
-    language?: string;
-    versionStatus?: VersionStatus;
-    pageIndex?: number;
-    pageSize?: number;
-    responseHandler?: ResponseHandler;
-}
-
-//# sourceMappingURL=ClientParams.js.map
-{"version":3,"file":"ClientParams.js","sourceRoot":"","sources":["../../src/models/ClientParams.ts"],"names":[],"mappings":""}
-interface Component extends ContentTypeBase<'component'> {
-}
-
-//# sourceMappingURL=Component.js.map
-{"version":3,"file":"Component.js","sourceRoot":"","sources":["../../src/models/Component.ts"],"names":[],"mappings":""}
-interface ContensisClassicGrant {
-    username: string;
-    password: string;
-}
-
-//# sourceMappingURL=ContensisClassicGrant.js.map
-{"version":3,"file":"ContensisClassicGrant.js","sourceRoot":"","sources":["../../src/models/ContensisClassicGrant.ts"],"names":[],"mappings":""}
-interface ContensisClassicResfreshTokenGrant {
-    refreshToken: string;
-}
-
-//# sourceMappingURL=ContensisClassicResfreshTokenGrant.js.map
-{"version":3,"file":"ContensisClassicResfreshTokenGrant.js","sourceRoot":"","sources":["../../src/models/ContensisClassicResfreshTokenGrant.ts"],"names":[],"mappings":""}
 interface ContensisQuery {
     where: ILogicalExpression;
     orderBy: string | string[] | ContensisQueryOrderBy;
@@ -61,13 +7,13 @@ interface ContensisQuery {
 }
 
 //# sourceMappingURL=ContensisQuery.js.map
-{"version":3,"file":"ContensisQuery.js","sourceRoot":"","sources":["../../src/models/ContensisQuery.ts"],"names":[],"mappings":""}
+{"version":3,"file":"ContensisQuery.js","sourceRoot":"","sources":["../../../src/models/search/ContensisQuery.ts"],"names":[],"mappings":""}
 interface ContensisQueryFactory {
     new (...whereExpressions: IExpression[]): ContensisQuery;
 }
 
 //# sourceMappingURL=ContensisQueryFactory.js.map
-{"version":3,"file":"ContensisQueryFactory.js","sourceRoot":"","sources":["../../src/models/ContensisQueryFactory.ts"],"names":[],"mappings":""}
+{"version":3,"file":"ContensisQueryFactory.js","sourceRoot":"","sources":["../../../src/models/search/ContensisQueryFactory.ts"],"names":[],"mappings":""}
 interface ContensisQueryOperators {
     and(...values: IExpression[]): ILogicalExpression;
     between(name: string, minimum: any, maximum: any): IExpression;
@@ -77,7 +23,7 @@ interface ContensisQueryOperators {
     endsWith(name: string, value: string): IExpression;
     equalTo(name: string, value: any): IExpression;
     exists(name: string, value: boolean): IExpression;
-    freeText(name: string, value: string): IExpression;
+    freeText(name: string, term: string, fuzzy?: boolean, operator?: FreeTextSearchOperatorType): IExpression;
     greaterThan(name: string, value: any): IExpression;
     greaterThanOrEqualTo(name: string, value: any): IExpression;
     lessThan(name: string, value: any): IExpression;
@@ -88,178 +34,63 @@ interface ContensisQueryOperators {
 }
 
 //# sourceMappingURL=ContensisQueryOperators.js.map
-{"version":3,"file":"ContensisQueryOperators.js","sourceRoot":"","sources":["../../src/models/ContensisQueryOperators.ts"],"names":[],"mappings":""}
+{"version":3,"file":"ContensisQueryOperators.js","sourceRoot":"","sources":["../../../src/models/search/ContensisQueryOperators.ts"],"names":[],"mappings":""}
 interface ContensisQueryOrderBy {
     asc(fieldName: string): ContensisQueryOrderBy;
     desc(fieldName: any): ContensisQueryOrderBy;
 }
 
 //# sourceMappingURL=ContensisQueryOrderBy.js.map
-{"version":3,"file":"ContensisQueryOrderBy.js","sourceRoot":"","sources":["../../src/models/ContensisQueryOrderBy.ts"],"names":[],"mappings":""}
+{"version":3,"file":"ContensisQueryOrderBy.js","sourceRoot":"","sources":["../../../src/models/search/ContensisQueryOrderBy.ts"],"names":[],"mappings":""}
 interface ContensisQueryOrderByDto {
     asc?: string;
     desc?: string;
 }
 
 //# sourceMappingURL=ContensisQueryOrderByDto.js.map
-{"version":3,"file":"ContensisQueryOrderByDto.js","sourceRoot":"","sources":["../../src/models/ContensisQueryOrderByDto.ts"],"names":[],"mappings":""}
-interface ContentType extends ContentTypeBase<'entry' | 'asset'> {
-    defaultLanguage?: string;
-    entryTitleField?: string;
-    entryDescriptionField?: string;
-    supportedLanguages?: string[];
-    workflowId?: string;
-    previewUrl?: string;
-    defaultParentNodeId?: string;
-    groups?: ContentTypeGroup[];
+{"version":3,"file":"ContensisQueryOrderByDto.js","sourceRoot":"","sources":["../../../src/models/search/ContensisQueryOrderByDto.ts"],"names":[],"mappings":""}
+interface DistanceSearch {
+    lat: number;
+    lon: number;
+    distance: string;
 }
 
-//# sourceMappingURL=ContentType.js.map
-{"version":3,"file":"ContentType.js","sourceRoot":"","sources":["../../src/models/ContentType.ts"],"names":[],"mappings":""}
-declare type ContentTypeFormatMap<T> = {
-    entry: T;
-    component: T;
-    asset: T;
-};
-declare type ContentTypeFormat = keyof ContentTypeFormatMap<any>;
-interface ContentTypeBase<TFormat extends ContentTypeFormat> {
-    description?: LocalisedString;
-    enabled?: boolean;
-    id: string;
-    name: LocalisedString;
-    projectId?: string;
-    version?: VersionInfo;
-    uuid?: string;
-    fields?: Field[];
-    dataFormat?: TFormat;
-}
-interface ContentTypeGroup extends LocalisedIdAndValue {
-}
-{};
-
-//# sourceMappingURL=ContentTypeBase.js.map
-{"version":3,"file":"ContentTypeBase.js","sourceRoot":"","sources":["../../src/models/ContentTypeBase.ts"],"names":[],"mappings":""}
-interface Editor {
-    id?: string;
-    instructions?: LocalisedString;
-    properties?: EditorProperties;
-}
-interface EditorProperties {
-    readOnly?: boolean;
-    showSlug?: boolean;
-    repeatableItemDefault?: LocalisedValue<any>;
-    placeholderText?: LocalisedString | string;
-    trueText?: LocalisedString | string;
-    falseText?: LocalisedString | string;
-    fromPlaceholderText?: LocalisedString | string;
-    toPlaceholderText?: LocalisedString | string;
-    decimalPlaces?: number;
-    size?: 'small' | 'medium' | 'large' | 'auto';
-    headingLevel?: string;
-    showSearch?: boolean;
-    showLatLon?: boolean;
-    lat?: number;
-    lon?: number;
-    allowFullScreen?: boolean;
-    enableToolbar?: boolean;
-    enableStatusBar?: boolean;
-    useDarkTheme?: boolean;
-    quotePlaceholderText?: LocalisedString | string;
-    sourcePlaceholderText?: LocalisedString | string;
-    uploadPath?: string;
-    filterPaths?: string[];
-    displayCaption?: boolean;
-    displayAltText?: boolean;
-    displayField?: string;
-}
-{};
-
-//# sourceMappingURL=Editor.js.map
-{"version":3,"file":"Editor.js","sourceRoot":"","sources":["../../src/models/Editor.ts"],"names":[],"mappings":""}
-declare class ContensisApplicationError extends Error {
-    constructor(message?: string);
-}
-declare class ContensisAuthenticationError extends Error {
-    constructor(message?: string);
-}
-
-var ContensisApplicationError = /** @class */ (function (_super) {
-    tslib_1.__extends(ContensisApplicationError, _super);
-    function ContensisApplicationError(message) {
-        var _newTarget = this.constructor;
-        var _this = _super.call(this, message) || this;
-        _this.name = 'ContensisApplicationError';
-        Object.setPrototypeOf(_this, _newTarget.prototype);
-        return _this;
-    }
-    return ContensisApplicationError;
-}(Error));
-{ ContensisApplicationError };
-var ContensisAuthenticationError = /** @class */ (function (_super) {
-    tslib_1.__extends(ContensisAuthenticationError, _super);
-    function ContensisAuthenticationError(message) {
-        var _newTarget = this.constructor;
-        var _this = _super.call(this, message) || this;
-        _this.name = 'ContensisAuthenticationError';
-        Object.setPrototypeOf(_this, _newTarget.prototype);
-        return _this;
-    }
-    return ContensisAuthenticationError;
-}(Error));
-{ ContensisAuthenticationError };
-//# sourceMappingURL=errors.js.map
-{"version":3,"file":"errors.js","sourceRoot":"","sources":["../../src/models/errors.ts"],"names":[],"mappings":";AAAA;IAA+C,qDAAK;IAChD,mCAAY,OAAgB;;QAA5B,YACI,kBAAM,OAAO,CAAC,SAGjB;QAFG,KAAI,CAAC,IAAI,GAAG,2BAA2B,CAAC;QACxC,MAAM,CAAC,cAAc,CAAC,KAAI,EAAE,WAAW,SAAS,CAAC,CAAC;;IACtD,CAAC;IACL,gCAAC;AAAD,CAAC,AAND,CAA+C,KAAK,GAMnD;;AAED;IAAkD,wDAAK;IACnD,sCAAY,OAAgB;;QAA5B,YACI,kBAAM,OAAO,CAAC,SAGjB;QAFG,KAAI,CAAC,IAAI,GAAG,8BAA8B,CAAC;QAC3C,MAAM,CAAC,cAAc,CAAC,KAAI,EAAE,WAAW,SAAS,CAAC,CAAC;;IACtD,CAAC;IACL,mCAAC;AAAD,CAAC,AAND,CAAkD,KAAK,GAMtD"}
+//# sourceMappingURL=DistanceSearch.js.map
+{"version":3,"file":"DistanceSearch.js","sourceRoot":"","sources":["../../../src/models/search/DistanceSearch.ts"],"names":[],"mappings":""}
 declare type ExpressionValueType = 'single' | 'array' | 'unknown';
+declare const ExpressionValueTypeEnum: {
+    Single: ExpressionValueType;
+    Array: ExpressionValueType;
+    Unknown: ExpressionValueType;
+};
 
+var ExpressionValueTypeEnum = {
+    Single: 'single',
+    Array: 'array',
+    Unknown: 'unknown'
+};
 //# sourceMappingURL=ExpressionValueType.js.map
-{"version":3,"file":"ExpressionValueType.js","sourceRoot":"","sources":["../../src/models/ExpressionValueType.ts"],"names":[],"mappings":""}
-declare type FieldDataTypeMap<T> = {
-    'boolean': T;
-    'booleanArray': T;
-    'dateTime': T;
-    'dateTimeArray': T;
-    'decimal': T;
-    'decimalArray': T;
-    'integer': T;
-    'integerArray': T;
-    'object': T;
-    'objectArray': T;
-    'string': T;
-    'stringArray': T;
-};
-declare type FieldDataFormatMap<T> = {
-    'asset': T;
-    'daterange': T;
-    'embed': T;
-    'entry': T;
-    'field': T;
-    'heading': T;
-    'html': T;
-    'image': T;
-    'location': T;
-    'markdown': T;
-    'quote': T;
-    'taxonomy': T;
-    'component': T;
-};
-declare type FieldDataType = keyof FieldDataTypeMap<any>;
-declare type FieldDataFormat = keyof FieldDataFormatMap<any> | string;
-interface Field {
-    id: string;
-    name: LocalisedString;
-    description?: LocalisedString;
-    dataType: FieldDataType;
-    dataFormat?: FieldDataFormat;
-    default?: LocalisedValue<any>;
-    groupId?: string;
-    validations?: Validations<Field>;
-    editor?: Editor;
-    readonly fields?: Field[];
+{"version":3,"file":"ExpressionValueType.js","sourceRoot":"","sources":["../../../src/models/search/ExpressionValueType.ts"],"names":[],"mappings":"AAEA,MAAM,CAAC,IAAM,uBAAuB,GAAG;IACnC,MAAM,EAAE,QAA+B;IACvC,KAAK,EAAE,OAA8B;IACrC,OAAO,EAAE,SAAgC;CAC5C,CAAC"}
+interface FreeTextSearch {
+    term: string;
+    fuzzy: boolean;
+    operator: FreeTextSearchOperatorType;
 }
-{};
 
-//# sourceMappingURL=Field.js.map
-{"version":3,"file":"Field.js","sourceRoot":"","sources":["../../src/models/Field.ts"],"names":[],"mappings":""}
+//# sourceMappingURL=FreeTextSearch.js.map
+{"version":3,"file":"FreeTextSearch.js","sourceRoot":"","sources":["../../../src/models/search/FreeTextSearch.ts"],"names":[],"mappings":""}
+declare type FreeTextSearchOperatorType = 'and' | 'or';
+declare const FreeTextSearchOperatorTypeEnum: {
+    And: FreeTextSearchOperatorType;
+    Or: FreeTextSearchOperatorType;
+};
+
+var FreeTextSearchOperatorTypeEnum = {
+    And: 'and',
+    Or: 'or'
+};
+//# sourceMappingURL=FreeTextSearchOperatorType.js.map
+{"version":3,"file":"FreeTextSearchOperatorType.js","sourceRoot":"","sources":["../../../src/models/search/FreeTextSearchOperatorType.ts"],"names":[],"mappings":"AAEA,MAAM,CAAC,IAAM,8BAA8B,GAAG;IAC1C,GAAG,EAAE,KAAmC;IACxC,EAAE,EAAE,IAAkC;CACzC,CAAC"}
 interface IExpression {
     fieldName: string;
     operatorName: OperatorType;
@@ -271,13 +102,7 @@ interface IExpression {
 }
 
 //# sourceMappingURL=IExpression.js.map
-{"version":3,"file":"IExpression.js","sourceRoot":"","sources":["../../src/models/IExpression.ts"],"names":[],"mappings":""}
-interface IHttpClient {
-    request<T>(url: string, request?: RequestInit): Promise<T>;
-}
-
-//# sourceMappingURL=IHttpClient.js.map
-{"version":3,"file":"IHttpClient.js","sourceRoot":"","sources":["../../src/models/IHttpClient.ts"],"names":[],"mappings":""}
+{"version":3,"file":"IExpression.js","sourceRoot":"","sources":["../../../src/models/search/IExpression.ts"],"names":[],"mappings":""}
 interface ILogicalExpression extends IExpression {
     getItem(index: number): IExpression;
     setItem(index: number, item: IExpression): any;
@@ -293,64 +118,14 @@ interface ILogicalExpression extends IExpression {
 }
 
 //# sourceMappingURL=ILogicalExpression.js.map
-{"version":3,"file":"ILogicalExpression.js","sourceRoot":"","sources":["../../src/models/ILogicalExpression.ts"],"names":[],"mappings":""}
-* from './errors';
+{"version":3,"file":"ILogicalExpression.js","sourceRoot":"","sources":["../../../src/models/search/ILogicalExpression.ts"],"names":[],"mappings":""}
+* from './ExpressionValueType';
+* from './FreeTextSearchOperatorType';
+* from './Operators';
+* from './OperatorType';
 * from './query';
 //# sourceMappingURL=index.js.map
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/models/index.ts"],"names":[],"mappings":"AAEA,cAAc,UAAU,CAAC;AAwBzB,cAAc,SAAS,CAAC"}
-interface IParamsProvider {
-    getParams(): ClientParams;
-}
-
-//# sourceMappingURL=IParamsProvider.js.map
-{"version":3,"file":"IParamsProvider.js","sourceRoot":"","sources":["../../src/models/IParamsProvider.ts"],"names":[],"mappings":""}
-declare type LocalisedValue<T> = {
-    [key: string]: T;
-};
-declare type LocalisedString = LocalisedValue<string>;
-declare type LocalisedIdAndValue = {
-    id: string;
-    name: LocalisedString;
-};
-
-//# sourceMappingURL=Localised.js.map
-{"version":3,"file":"Localised.js","sourceRoot":"","sources":["../../src/models/Localised.ts"],"names":[],"mappings":""}
-interface MapperFn {
-    (value: any, options: any, params: ClientParams): any;
-}
-
-//# sourceMappingURL=MapperFn.js.map
-{"version":3,"file":"MapperFn.js","sourceRoot":"","sources":["../../src/models/MapperFn.ts"],"names":[],"mappings":""}
-declare type OperatorType = 'and' | 'between' | 'contains' | 'endsWith' | 'equalTo' | 'exists' | 'freeText' | 'greaterThan' | 'greaterThanOrEqualTo' | 'in' | 'lessThan' | 'lessThanOrEqualTo' | 'not' | 'or' | 'startsWith' | 'where' | 'distanceWithin';
-
-//# sourceMappingURL=OperatorType.js.map
-{"version":3,"file":"OperatorType.js","sourceRoot":"","sources":["../../src/models/OperatorType.ts"],"names":[],"mappings":""}
-interface PagedList<T> {
-    pageIndex: number;
-    pageSize: number;
-    totalCount: number;
-    items: T[];
-}
-
-//# sourceMappingURL=PagedList.js.map
-{"version":3,"file":"PagedList.js","sourceRoot":"","sources":["../../src/models/PagedList.ts"],"names":[],"mappings":""}
-interface PageOptions {
-    pageIndex?: number;
-    pageSize?: number;
-}
-
-//# sourceMappingURL=PageOptions.js.map
-{"version":3,"file":"PageOptions.js","sourceRoot":"","sources":["../../src/models/PageOptions.ts"],"names":[],"mappings":""}
-interface Project {
-    id: string;
-    name: string;
-    description: string;
-    primaryLanguage: string;
-    supportedLanguages: string[];
-}
-
-//# sourceMappingURL=Project.js.map
-{"version":3,"file":"Project.js","sourceRoot":"","sources":["../../src/models/Project.ts"],"names":[],"mappings":""}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/models/search/index.ts"],"names":[],"mappings":"AAKA,cAAc,uBAAuB,CAAC;AACtC,cAAc,8BAA8B,CAAC;AAG7C,cAAc,aAAa,CAAC;AAC5B,cAAc,gBAAgB,CAAC;AAC/B,cAAc,SAAS,CAAC"}
 declare abstract class ExpressionBase implements IExpression {
     fieldName: string;
     values: any[];
@@ -383,57 +158,22 @@ declare class WhereExpression extends LogicalExpression {
 declare class Operators implements ContensisQueryOperators {
     and(...values: IExpression[]): ILogicalExpression;
     between(name: string, minimum: any, maximum: any): IExpression;
-    not(expression: IExpression): ILogicalExpression;
-    or(...values: IExpression[]): ILogicalExpression;
     contains(name: string, value: string): IExpression;
+    distanceWithin(name: string, lat: number, lon: number, distance: string): IExpression;
     endsWith(name: string, value: string): IExpression;
     equalTo(name: string, value: any): IExpression;
     exists(name: string, value: boolean): IExpression;
-    freeText(name: string, value: string): IExpression;
+    freeText(name: string, term: string, fuzzy?: boolean, operator?: FreeTextSearchOperatorType): IExpression;
     greaterThan(name: string, value: any): IExpression;
     greaterThanOrEqualTo(name: string, value: any): IExpression;
+    in(name: string, ...values: any[]): IExpression;
     lessThan(name: string, value: any): IExpression;
     lessThanOrEqualTo(name: string, value: any): IExpression;
+    not(expression: IExpression): ILogicalExpression;
+    or(...values: IExpression[]): ILogicalExpression;
     startsWith(name: string, value: string): IExpression;
-    in(name: string, ...values: any[]): IExpression;
-    distanceWithin(name: string, lat: number, lon: number, distance: string): IExpression;
-}
-declare const Op: Operators;
-declare const OrderBy: ContensisQueryOrderBy;
-declare class Query implements ContensisQuery {
-    where: WhereExpression;
-    orderBy: string | string[] | ContensisQueryOrderBy;
-    pageIndex: number;
-    pageSize: number;
-    fields: string[];
-    constructor(...whereExpressions: IExpression[]);
-    toJSON(): any;
 }
 
-var ExpressionValueTypeEnum = {
-    Single: 'single',
-    Array: 'array',
-    Unknown: 'unknown'
-};
-var OperatorTypeEnum = {
-    And: 'and',
-    Between: 'between',
-    Contains: 'contains',
-    EndsWith: 'endsWith',
-    EqualTo: 'equalTo',
-    Exists: 'exists',
-    FreeText: 'freeText',
-    GreaterThan: 'greaterThan',
-    GreaterThanOrEqualTo: 'greaterThanOrEqualTo',
-    In: 'in',
-    LessThan: 'lessThan',
-    LessThanOrEqualTo: 'lessThanOrEqualTo',
-    Not: 'not',
-    Or: 'or',
-    StartsWith: 'startsWith',
-    Where: 'where',
-    DistanceWithin: 'distanceWithin'
-};
 var ExpressionBase = /** @class */ (function () {
     function ExpressionBase(fieldName, values, operatorName, valueType) {
         if (values === void 0) { values = []; }
@@ -543,26 +283,19 @@ var BetweenExpression = /** @class */ (function (_super) {
     }
     return BetweenExpression;
 }(ExpressionBase));
-var NotExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(NotExpression, _super);
-    function NotExpression(value) {
-        return _super.call(this, [value], OperatorTypeEnum.Not, ExpressionValueTypeEnum.Single) || this;
-    }
-    return NotExpression;
-}(LogicalExpression));
-var OrExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(OrExpression, _super);
-    function OrExpression(values) {
-        return _super.call(this, values, OperatorTypeEnum.Or, ExpressionValueTypeEnum.Array) || this;
-    }
-    return OrExpression;
-}(LogicalExpression));
 var ContainsExpression = /** @class */ (function (_super) {
     tslib_1.__extends(ContainsExpression, _super);
     function ContainsExpression(fieldName, value) {
         return _super.call(this, fieldName, [value], OperatorTypeEnum.Contains, ExpressionValueTypeEnum.Single) || this;
     }
     return ContainsExpression;
+}(ExpressionBase));
+var DistanceWithinExpression = /** @class */ (function (_super) {
+    tslib_1.__extends(DistanceWithinExpression, _super);
+    function DistanceWithinExpression(fieldName, value) {
+        return _super.call(this, fieldName, [value], OperatorTypeEnum.DistanceWithin, ExpressionValueTypeEnum.Single) || this;
+    }
+    return DistanceWithinExpression;
 }(ExpressionBase));
 var EndsWithExpression = /** @class */ (function (_super) {
     tslib_1.__extends(EndsWithExpression, _super);
@@ -606,19 +339,19 @@ var GreaterThanOrEqualToExpression = /** @class */ (function (_super) {
     }
     return GreaterThanOrEqualToExpression;
 }(ExpressionBase));
-var LessThanExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(LessThanExpression, _super);
-    function LessThanExpression(fieldName, value) {
-        return _super.call(this, fieldName, [value], OperatorTypeEnum.LessThan, ExpressionValueTypeEnum.Single) || this;
-    }
-    return LessThanExpression;
-}(ExpressionBase));
 var InExpression = /** @class */ (function (_super) {
     tslib_1.__extends(InExpression, _super);
     function InExpression(fieldName, values) {
         return _super.call(this, fieldName, values, OperatorTypeEnum.In, ExpressionValueTypeEnum.Array) || this;
     }
     return InExpression;
+}(ExpressionBase));
+var LessThanExpression = /** @class */ (function (_super) {
+    tslib_1.__extends(LessThanExpression, _super);
+    function LessThanExpression(fieldName, value) {
+        return _super.call(this, fieldName, [value], OperatorTypeEnum.LessThan, ExpressionValueTypeEnum.Single) || this;
+    }
+    return LessThanExpression;
 }(ExpressionBase));
 var LessThanOrEqualToExpression = /** @class */ (function (_super) {
     tslib_1.__extends(LessThanOrEqualToExpression, _super);
@@ -627,6 +360,20 @@ var LessThanOrEqualToExpression = /** @class */ (function (_super) {
     }
     return LessThanOrEqualToExpression;
 }(ExpressionBase));
+var NotExpression = /** @class */ (function (_super) {
+    tslib_1.__extends(NotExpression, _super);
+    function NotExpression(value) {
+        return _super.call(this, [value], OperatorTypeEnum.Not, ExpressionValueTypeEnum.Single) || this;
+    }
+    return NotExpression;
+}(LogicalExpression));
+var OrExpression = /** @class */ (function (_super) {
+    tslib_1.__extends(OrExpression, _super);
+    function OrExpression(values) {
+        return _super.call(this, values, OperatorTypeEnum.Or, ExpressionValueTypeEnum.Array) || this;
+    }
+    return OrExpression;
+}(LogicalExpression));
 var StartsWithExpression = /** @class */ (function (_super) {
     tslib_1.__extends(StartsWithExpression, _super);
     function StartsWithExpression(fieldName, value) {
@@ -647,13 +394,6 @@ var WhereExpression = /** @class */ (function (_super) {
     return WhereExpression;
 }(LogicalExpression));
 { WhereExpression };
-var DistanceWithinExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(DistanceWithinExpression, _super);
-    function DistanceWithinExpression(fieldName, value) {
-        return _super.call(this, fieldName, [value], OperatorTypeEnum.DistanceWithin, ExpressionValueTypeEnum.Single) || this;
-    }
-    return DistanceWithinExpression;
-}(ExpressionBase));
 var Operators = /** @class */ (function () {
     function Operators() {
     }
@@ -667,18 +407,11 @@ var Operators = /** @class */ (function () {
     Operators.prototype.between = function (name, minimum, maximum) {
         return new BetweenExpression(name, minimum, maximum);
     };
-    Operators.prototype.not = function (expression) {
-        return new NotExpression(expression);
-    };
-    Operators.prototype.or = function () {
-        var values = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            values[_i] = arguments[_i];
-        }
-        return new OrExpression(values);
-    };
     Operators.prototype.contains = function (name, value) {
         return new ContainsExpression(name, value);
+    };
+    Operators.prototype.distanceWithin = function (name, lat, lon, distance) {
+        return new DistanceWithinExpression(name, { lat: lat, lon: lon, distance: distance });
     };
     Operators.prototype.endsWith = function (name, value) {
         return new EndsWithExpression(name, value);
@@ -689,23 +422,16 @@ var Operators = /** @class */ (function () {
     Operators.prototype.exists = function (name, value) {
         return new ExistsExpression(name, value);
     };
-    Operators.prototype.freeText = function (name, value) {
-        return new FreeTextExpression(name, value);
+    Operators.prototype.freeText = function (name, term, fuzzy, operator) {
+        if (fuzzy === void 0) { fuzzy = false; }
+        if (operator === void 0) { operator = FreeTextSearchOperatorTypeEnum.And; }
+        return new FreeTextExpression(name, { term: term, fuzzy: fuzzy, operator: operator });
     };
     Operators.prototype.greaterThan = function (name, value) {
         return new GreaterThanExpression(name, value);
     };
     Operators.prototype.greaterThanOrEqualTo = function (name, value) {
         return new GreaterThanOrEqualToExpression(name, value);
-    };
-    Operators.prototype.lessThan = function (name, value) {
-        return new LessThanExpression(name, value);
-    };
-    Operators.prototype.lessThanOrEqualTo = function (name, value) {
-        return new LessThanOrEqualToExpression(name, value);
-    };
-    Operators.prototype.startsWith = function (name, value) {
-        return new StartsWithExpression(name, value);
     };
     Operators.prototype.in = function (name) {
         var values = [];
@@ -714,12 +440,92 @@ var Operators = /** @class */ (function () {
         }
         return new InExpression(name, values);
     };
-    Operators.prototype.distanceWithin = function (name, lat, lon, distance) {
-        return new DistanceWithinExpression(name, { lat: lat, lon: lon, distance: distance });
+    Operators.prototype.lessThan = function (name, value) {
+        return new LessThanExpression(name, value);
+    };
+    Operators.prototype.lessThanOrEqualTo = function (name, value) {
+        return new LessThanOrEqualToExpression(name, value);
+    };
+    Operators.prototype.not = function (expression) {
+        return new NotExpression(expression);
+    };
+    Operators.prototype.or = function () {
+        var values = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            values[_i] = arguments[_i];
+        }
+        return new OrExpression(values);
+    };
+    Operators.prototype.startsWith = function (name, value) {
+        return new StartsWithExpression(name, value);
     };
     return Operators;
 }());
 { Operators };
+//# sourceMappingURL=Operators.js.map
+{"version":3,"file":"Operators.js","sourceRoot":"","sources":["../../../src/models/search/Operators.ts"],"names":[],"mappings":"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"}
+declare type OperatorType = 'and' | 'between' | 'contains' | 'endsWith' | 'equalTo' | 'exists' | 'freeText' | 'greaterThan' | 'greaterThanOrEqualTo' | 'in' | 'lessThan' | 'lessThanOrEqualTo' | 'not' | 'or' | 'startsWith' | 'where' | 'distanceWithin';
+declare const OperatorTypeEnum: {
+    And: OperatorType;
+    Between: OperatorType;
+    Contains: OperatorType;
+    EndsWith: OperatorType;
+    EqualTo: OperatorType;
+    Exists: OperatorType;
+    FreeText: OperatorType;
+    GreaterThan: OperatorType;
+    GreaterThanOrEqualTo: OperatorType;
+    In: OperatorType;
+    LessThan: OperatorType;
+    LessThanOrEqualTo: OperatorType;
+    Not: OperatorType;
+    Or: OperatorType;
+    StartsWith: OperatorType;
+    Where: OperatorType;
+    DistanceWithin: OperatorType;
+};
+
+var OperatorTypeEnum = {
+    And: 'and',
+    Between: 'between',
+    Contains: 'contains',
+    EndsWith: 'endsWith',
+    EqualTo: 'equalTo',
+    Exists: 'exists',
+    FreeText: 'freeText',
+    GreaterThan: 'greaterThan',
+    GreaterThanOrEqualTo: 'greaterThanOrEqualTo',
+    In: 'in',
+    LessThan: 'lessThan',
+    LessThanOrEqualTo: 'lessThanOrEqualTo',
+    Not: 'not',
+    Or: 'or',
+    StartsWith: 'startsWith',
+    Where: 'where',
+    DistanceWithin: 'distanceWithin'
+};
+//# sourceMappingURL=OperatorType.js.map
+{"version":3,"file":"OperatorType.js","sourceRoot":"","sources":["../../../src/models/search/OperatorType.ts"],"names":[],"mappings":"AAIA,MAAM,CAAC,IAAM,gBAAgB,GAAG;IAC5B,GAAG,EAAE,KAAqB;IAC1B,OAAO,EAAE,SAAyB;IAClC,QAAQ,EAAE,UAA0B;IACpC,QAAQ,EAAE,UAA0B;IACpC,OAAO,EAAE,SAAyB;IAClC,MAAM,EAAE,QAAwB;IAChC,QAAQ,EAAE,UAA0B;IACpC,WAAW,EAAE,aAA6B;IAC1C,oBAAoB,EAAE,sBAAsC;IAC5D,EAAE,EAAE,IAAoB;IACxB,QAAQ,EAAE,UAA0B;IACpC,iBAAiB,EAAE,mBAAmC;IACtD,GAAG,EAAE,KAAqB;IAC1B,EAAE,EAAE,IAAoB;IACxB,UAAU,EAAE,YAA4B;IACxC,KAAK,EAAE,OAAuB;IAC9B,cAAc,EAAE,gBAAgC;CACnD,CAAC"}
+declare const Op: Operators;
+declare const OrderBy: ContensisQueryOrderBy;
+declare class Query implements ContensisQuery {
+    where: WhereExpression;
+    orderBy: string | string[] | ContensisQueryOrderBy;
+    pageIndex: number;
+    pageSize: number;
+    fields: string[];
+    constructor(...whereExpressions: IExpression[]);
+    toJSON(): any;
+}
+declare class ManagementQuery implements Omit<ContensisQuery, 'fields'> {
+    where: WhereExpression;
+    orderBy: string | string[] | ContensisQueryOrderBy;
+    pageIndex: number;
+    pageSize: number;
+    constructor(...whereExpressions: IExpression[]);
+    toJSON(): any;
+}
+
 var Op = new Operators();
 var Ordering = /** @class */ (function () {
     function Ordering() {
@@ -808,8 +614,302 @@ var Query = /** @class */ (function () {
     return Query;
 }());
 { Query };
+var ManagementQuery = /** @class */ (function () {
+    function ManagementQuery() {
+        var whereExpressions = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            whereExpressions[_i] = arguments[_i];
+        }
+        this.where = new WhereExpression();
+        this.orderBy = [];
+        this.pageIndex = 0;
+        this.pageSize = 20;
+        if (whereExpressions) {
+            this.where.addRange(whereExpressions);
+        }
+    }
+    ManagementQuery.prototype.toJSON = function () {
+        var result = {};
+        result.pageIndex = this.pageIndex;
+        result.pageSize = this.pageSize;
+        var orderByDtos = serializeOrder(this.orderBy);
+        if (orderByDtos && orderByDtos.length > 0) {
+            result.orderBy = orderByDtos;
+        }
+        result.where = this.where;
+        return result;
+    };
+    return ManagementQuery;
+}());
+{ ManagementQuery };
 //# sourceMappingURL=query.js.map
-{"version":3,"file":"query.js","sourceRoot":"","sources":["../../src/models/query.ts"],"names":[],"mappings":"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"}
+{"version":3,"file":"query.js","sourceRoot":"","sources":["../../../src/models/search/query.ts"],"names":[],"mappings":"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"}
+interface AssetUpload {
+    fileId: string;
+}
+
+//# sourceMappingURL=AssetUpload.js.map
+{"version":3,"file":"AssetUpload.js","sourceRoot":"","sources":["../../src/models/AssetUpload.ts"],"names":[],"mappings":""}
+interface ClientCredentialsGrant {
+    clientId: string;
+    clientSecret: string;
+}
+
+//# sourceMappingURL=ClientCredentialsGrant.js.map
+{"version":3,"file":"ClientCredentialsGrant.js","sourceRoot":"","sources":["../../src/models/ClientCredentialsGrant.ts"],"names":[],"mappings":""}
+declare type ClientGrantType = 'client_credentials' | 'contensis_classic' | 'contensis_classic_refresh_token' | 'none';
+declare type ClientGrants = ClientCredentialsGrant | ContensisClassicGrant | ContensisClassicResfreshTokenGrant;
+
+//# sourceMappingURL=ClientGrants.js.map
+{"version":3,"file":"ClientGrants.js","sourceRoot":"","sources":["../../src/models/ClientGrants.ts"],"names":[],"mappings":""}
+interface ClientParams {
+    rootUrl: string;
+    projectId: string;
+    accessToken?: string;
+    clientDetails?: ClientGrants;
+    clientType?: ClientGrantType;
+    defaultHeaders?: {
+        [key: string]: string;
+    };
+    language?: string;
+    versionStatus?: VersionStatus;
+    pageIndex?: number;
+    pageSize?: number;
+    responseHandler?: ResponseHandler;
+}
+
+//# sourceMappingURL=ClientParams.js.map
+{"version":3,"file":"ClientParams.js","sourceRoot":"","sources":["../../src/models/ClientParams.ts"],"names":[],"mappings":""}
+interface Component extends ContentTypeBase<'component'> {
+}
+
+//# sourceMappingURL=Component.js.map
+{"version":3,"file":"Component.js","sourceRoot":"","sources":["../../src/models/Component.ts"],"names":[],"mappings":""}
+interface ContensisClassicGrant {
+    username: string;
+    password: string;
+}
+
+//# sourceMappingURL=ContensisClassicGrant.js.map
+{"version":3,"file":"ContensisClassicGrant.js","sourceRoot":"","sources":["../../src/models/ContensisClassicGrant.ts"],"names":[],"mappings":""}
+interface ContensisClassicResfreshTokenGrant {
+    refreshToken: string;
+}
+
+//# sourceMappingURL=ContensisClassicResfreshTokenGrant.js.map
+{"version":3,"file":"ContensisClassicResfreshTokenGrant.js","sourceRoot":"","sources":["../../src/models/ContensisClassicResfreshTokenGrant.ts"],"names":[],"mappings":""}
+interface ContentType extends ContentTypeBase<'entry' | 'asset'> {
+    defaultLanguage?: string;
+    entryTitleField?: string;
+    entryDescriptionField?: string;
+    supportedLanguages?: string[];
+    workflowId?: string;
+    previewUrl?: string;
+    defaultParentNodeId?: string;
+    groups?: ContentTypeGroup[];
+}
+
+//# sourceMappingURL=ContentType.js.map
+{"version":3,"file":"ContentType.js","sourceRoot":"","sources":["../../src/models/ContentType.ts"],"names":[],"mappings":""}
+declare type ContentTypeFormatMap<T> = {
+    entry: T;
+    component: T;
+    asset: T;
+};
+declare type ContentTypeFormat = keyof ContentTypeFormatMap<any>;
+interface ContentTypeBase<TFormat extends ContentTypeFormat> {
+    description?: LocalisedString;
+    enabled?: boolean;
+    id: string;
+    name: LocalisedString;
+    projectId?: string;
+    version?: VersionInfo;
+    uuid?: string;
+    fields?: Field[];
+    dataFormat?: TFormat;
+}
+interface ContentTypeGroup extends LocalisedIdAndValue {
+}
+{};
+
+//# sourceMappingURL=ContentTypeBase.js.map
+{"version":3,"file":"ContentTypeBase.js","sourceRoot":"","sources":["../../src/models/ContentTypeBase.ts"],"names":[],"mappings":""}
+interface Editor {
+    id?: string;
+    instructions?: LocalisedString;
+    properties?: EditorProperties;
+}
+interface EditorProperties {
+    readOnly?: boolean;
+    showSlug?: boolean;
+    repeatableItemDefault?: LocalisedValue<any>;
+    placeholderText?: LocalisedString | string;
+    trueText?: LocalisedString | string;
+    falseText?: LocalisedString | string;
+    fromPlaceholderText?: LocalisedString | string;
+    toPlaceholderText?: LocalisedString | string;
+    decimalPlaces?: number;
+    size?: 'small' | 'medium' | 'large' | 'auto';
+    headingLevel?: string;
+    showSearch?: boolean;
+    showLatLon?: boolean;
+    lat?: number;
+    lon?: number;
+    allowFullScreen?: boolean;
+    enableToolbar?: boolean;
+    enableStatusBar?: boolean;
+    useDarkTheme?: boolean;
+    quotePlaceholderText?: LocalisedString | string;
+    sourcePlaceholderText?: LocalisedString | string;
+    uploadPath?: string;
+    filterPaths?: string[];
+    displayCaption?: boolean;
+    displayAltText?: boolean;
+    displayField?: string;
+}
+{};
+
+//# sourceMappingURL=Editor.js.map
+{"version":3,"file":"Editor.js","sourceRoot":"","sources":["../../src/models/Editor.ts"],"names":[],"mappings":""}
+declare class ContensisApplicationError extends Error {
+    constructor(message?: string);
+}
+declare class ContensisAuthenticationError extends Error {
+    constructor(message?: string);
+}
+
+var ContensisApplicationError = /** @class */ (function (_super) {
+    tslib_1.__extends(ContensisApplicationError, _super);
+    function ContensisApplicationError(message) {
+        var _newTarget = this.constructor;
+        var _this = _super.call(this, message) || this;
+        _this.name = 'ContensisApplicationError';
+        Object.setPrototypeOf(_this, _newTarget.prototype);
+        return _this;
+    }
+    return ContensisApplicationError;
+}(Error));
+{ ContensisApplicationError };
+var ContensisAuthenticationError = /** @class */ (function (_super) {
+    tslib_1.__extends(ContensisAuthenticationError, _super);
+    function ContensisAuthenticationError(message) {
+        var _newTarget = this.constructor;
+        var _this = _super.call(this, message) || this;
+        _this.name = 'ContensisAuthenticationError';
+        Object.setPrototypeOf(_this, _newTarget.prototype);
+        return _this;
+    }
+    return ContensisAuthenticationError;
+}(Error));
+{ ContensisAuthenticationError };
+//# sourceMappingURL=errors.js.map
+{"version":3,"file":"errors.js","sourceRoot":"","sources":["../../src/models/errors.ts"],"names":[],"mappings":";AAAA;IAA+C,qDAAK;IAChD,mCAAY,OAAgB;;QAA5B,YACI,kBAAM,OAAO,CAAC,SAGjB;QAFG,KAAI,CAAC,IAAI,GAAG,2BAA2B,CAAC;QACxC,MAAM,CAAC,cAAc,CAAC,KAAI,EAAE,WAAW,SAAS,CAAC,CAAC;;IACtD,CAAC;IACL,gCAAC;AAAD,CAAC,AAND,CAA+C,KAAK,GAMnD;;AAED;IAAkD,wDAAK;IACnD,sCAAY,OAAgB;;QAA5B,YACI,kBAAM,OAAO,CAAC,SAGjB;QAFG,KAAI,CAAC,IAAI,GAAG,8BAA8B,CAAC;QAC3C,MAAM,CAAC,cAAc,CAAC,KAAI,EAAE,WAAW,SAAS,CAAC,CAAC;;IACtD,CAAC;IACL,mCAAC;AAAD,CAAC,AAND,CAAkD,KAAK,GAMtD"}
+declare type FieldDataTypeMap<T> = {
+    'boolean': T;
+    'booleanArray': T;
+    'dateTime': T;
+    'dateTimeArray': T;
+    'decimal': T;
+    'decimalArray': T;
+    'integer': T;
+    'integerArray': T;
+    'object': T;
+    'objectArray': T;
+    'string': T;
+    'stringArray': T;
+};
+declare type FieldDataFormatMap<T> = {
+    'asset': T;
+    'daterange': T;
+    'embed': T;
+    'entry': T;
+    'field': T;
+    'heading': T;
+    'html': T;
+    'image': T;
+    'location': T;
+    'markdown': T;
+    'quote': T;
+    'taxonomy': T;
+    'component': T;
+};
+declare type FieldDataType = keyof FieldDataTypeMap<any>;
+declare type FieldDataFormat = keyof FieldDataFormatMap<any> | string;
+interface Field {
+    id: string;
+    name: LocalisedString;
+    description?: LocalisedString;
+    dataType: FieldDataType;
+    dataFormat?: FieldDataFormat;
+    default?: LocalisedValue<any>;
+    groupId?: string;
+    validations?: Validations<Field>;
+    editor?: Editor;
+    readonly fields?: Field[];
+}
+{};
+
+//# sourceMappingURL=Field.js.map
+{"version":3,"file":"Field.js","sourceRoot":"","sources":["../../src/models/Field.ts"],"names":[],"mappings":""}
+interface IHttpClient {
+    request<T>(url: string, request?: RequestInit): Promise<T>;
+}
+
+//# sourceMappingURL=IHttpClient.js.map
+{"version":3,"file":"IHttpClient.js","sourceRoot":"","sources":["../../src/models/IHttpClient.ts"],"names":[],"mappings":""}
+* from './errors';
+* from './search';
+//# sourceMappingURL=index.js.map
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/models/index.ts"],"names":[],"mappings":"AAEA,cAAc,UAAU,CAAC;AAiBzB,cAAc,UAAU,CAAC"}
+interface IParamsProvider {
+    getParams(): ClientParams;
+}
+
+//# sourceMappingURL=IParamsProvider.js.map
+{"version":3,"file":"IParamsProvider.js","sourceRoot":"","sources":["../../src/models/IParamsProvider.ts"],"names":[],"mappings":""}
+declare type LocalisedValue<T> = {
+    [key: string]: T;
+};
+declare type LocalisedString = LocalisedValue<string>;
+declare type LocalisedIdAndValue = {
+    id: string;
+    name: LocalisedString;
+};
+
+//# sourceMappingURL=Localised.js.map
+{"version":3,"file":"Localised.js","sourceRoot":"","sources":["../../src/models/Localised.ts"],"names":[],"mappings":""}
+interface MapperFn {
+    (value: any, options: any, params: ClientParams): any;
+}
+
+//# sourceMappingURL=MapperFn.js.map
+{"version":3,"file":"MapperFn.js","sourceRoot":"","sources":["../../src/models/MapperFn.ts"],"names":[],"mappings":""}
+interface PagedList<T> {
+    pageIndex: number;
+    pageSize: number;
+    totalCount: number;
+    items: T[];
+}
+
+//# sourceMappingURL=PagedList.js.map
+{"version":3,"file":"PagedList.js","sourceRoot":"","sources":["../../src/models/PagedList.ts"],"names":[],"mappings":""}
+interface PageOptions {
+    pageIndex?: number;
+    pageSize?: number;
+}
+
+//# sourceMappingURL=PageOptions.js.map
+{"version":3,"file":"PageOptions.js","sourceRoot":"","sources":["../../src/models/PageOptions.ts"],"names":[],"mappings":""}
+interface Project {
+    id: string;
+    name: string;
+    description: string;
+    primaryLanguage: string;
+    supportedLanguages: string[];
+}
+
+//# sourceMappingURL=Project.js.map
+{"version":3,"file":"Project.js","sourceRoot":"","sources":["../../src/models/Project.ts"],"names":[],"mappings":""}
 interface ResponseContext {
     status: number;
     statusText: string;
