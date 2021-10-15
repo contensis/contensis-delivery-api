@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 
 var processInterfaceDtsDirFn = (interfaceDtsDir, interfaceDtsFile) => {
-	if (interfaceDtsFile.toLowerCase() === 'index.d.ts') {
+	if (interfaceDtsFile.toLowerCase() === 'index.d.ts' || !interfaceDtsFile.includes('.')) {
 		return '';
 	}
 
@@ -15,16 +15,22 @@ var processInterfaceDtsDirFn = (interfaceDtsDir, interfaceDtsFile) => {
 	return processedDtsFileContent;
 };
 
-var interfaceDtsCoreDir = path.join(__dirname, '../', 'node_modules/contensis-core-api/bundle-es5/models');
+var interfaceDtsCoreDirs = [
+	path.join(__dirname, '../', 'node_modules/contensis-core-api/bundle-es5/models/search'),
+	path.join(__dirname, '../', 'node_modules/contensis-core-api/bundle-es5/models')];
+
 var interfaceDtsDeliveryDir = path.join(__dirname, '../', 'bundle/es5/models');
 var generatedDtsFile = path.join(__dirname, '../', 'bundle/zengenti.contensis-client.d.ts');
 var generatedDtsContent = '';
 
-fs
-	.readdirSync(interfaceDtsCoreDir)
-	.forEach(interfaceDtsFile => {
-		generatedDtsContent += processInterfaceDtsDirFn(interfaceDtsCoreDir, interfaceDtsFile, generatedDtsContent)
-	});
+interfaceDtsCoreDirs.forEach(interfaceDtsCoreDir => {
+	fs
+		.readdirSync(interfaceDtsCoreDir)
+		.forEach(interfaceDtsFile => {
+			generatedDtsContent += processInterfaceDtsDirFn(interfaceDtsCoreDir, interfaceDtsFile, generatedDtsContent)
+		});
+
+});
 
 fs
 	.readdirSync(interfaceDtsDeliveryDir)

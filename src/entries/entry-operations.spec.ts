@@ -2,6 +2,7 @@ import * as Contensis from '../index';
 import { toQuery } from 'contensis-core-api';
 
 import fetch from 'cross-fetch';
+import { FreeTextSearchOperatorTypeEnum } from 'contensis-core-api/lib/models/search/FreeTextSearchOperatorType';
 
 const Zengenti = { Contensis };
 const global = window || this;
@@ -747,6 +748,192 @@ describe('Entry Operations', function () {
 					lat: 52.377,
 					lon: -2.749,
 					distance: '10mi'
+				}
+			}]),
+			fields: ['title'],
+			linkDepth: 99
+		});
+
+		expect(global.fetch).toHaveBeenCalled();
+		expect(global.fetch).toHaveBeenCalledWith(
+			`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
+			Object({
+				method: 'GET',
+				mode: 'cors',
+				headers: {
+					'accessToken': 'XXXXXX',
+					'Content-Type': 'application/json; charset=utf-8'
+				}
+			}));
+	});
+
+	it('Do Search via the Client API for non-fuzzy freeText', () => {
+		let client = Zengenti.Contensis.Client.create({
+			projectId: 'myProject',
+			rootUrl: 'http://my-website.com/',
+			language: 'en-US',
+			versionStatus: 'published',
+			accessToken: 'XXXXXX'
+		});
+
+		let orderBy = [{
+			asc: 'authorName'
+		}];
+		let where = [{
+			field: 'authorLocation',
+			freeText: {
+				term: 'term1'
+			}
+		}];
+		let query = {
+			pageIndex: 1,
+			pageSize: 50,
+			orderBy,
+			where
+		};
+
+		client.entries.search(query);
+		let expectedQueryString = toQuery({
+			...query,
+			orderBy: JSON.stringify(orderBy),
+			where: JSON.stringify(where)
+		});
+
+		expect(global.fetch).toHaveBeenCalled();
+		expect(global.fetch).toHaveBeenCalledWith(
+			`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
+			Object({
+				method: 'GET',
+				mode: 'cors',
+				headers: {
+					'accessToken': 'XXXXXX',
+					'Content-Type': 'application/json; charset=utf-8'
+				}
+			}));
+	});
+
+	it('Do Search via the Client API for fuzzy freeText', () => {
+		let client = Zengenti.Contensis.Client.create({
+			projectId: 'myProject',
+			rootUrl: 'http://my-website.com/',
+			language: 'en-US',
+			versionStatus: 'published',
+			accessToken: 'XXXXXX'
+		});
+
+		let orderBy = [{
+			asc: 'authorName'
+		}];
+		let where = [{
+			field: 'authorLocation',
+			freeText: {
+				term: 'term1',
+				fuzzy: true,
+				operator: 'or'
+			}
+		}];
+		let query = {
+			pageIndex: 1,
+			pageSize: 50,
+			orderBy,
+			where
+		};
+
+		client.entries.search(query);
+		let expectedQueryString = toQuery({
+			...query,
+			orderBy: JSON.stringify(orderBy),
+			where: JSON.stringify(where)
+		});
+
+		expect(global.fetch).toHaveBeenCalled();
+		expect(global.fetch).toHaveBeenCalledWith(
+			`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
+			Object({
+				method: 'GET',
+				mode: 'cors',
+				headers: {
+					'accessToken': 'XXXXXX',
+					'Content-Type': 'application/json; charset=utf-8'
+				}
+			}));
+	});
+
+	it('Do Search via the Client API for non-fuzzy freeText using a Query instance', () => {
+		let client = Zengenti.Contensis.Client.create({
+			projectId: 'myProject',
+			rootUrl: 'http://my-website.com/',
+			language: 'en-US',
+			versionStatus: 'published',
+			accessToken: 'XXXXXX'
+		});
+
+		let query = new Contensis.Query(Contensis.Op.freeText('description', 'term1'));
+		query.orderBy = Contensis.OrderBy.asc('description');
+		query.fields = ['title'];
+		query.pageIndex = 1;
+		query.pageSize = 50;
+		client.entries.search(query, 99);
+
+		let expectedQueryString = toQuery({
+			pageIndex: 1,
+			pageSize: 50,
+			orderBy: JSON.stringify([{
+				asc: 'description'
+			}]),
+			where: JSON.stringify([{
+				field: 'description',
+				freeText: {
+					term: 'term1',
+					fuzzy: false,
+					operator: FreeTextSearchOperatorTypeEnum.And
+				}
+			}]),
+			fields: ['title'],
+			linkDepth: 99
+		});
+
+		expect(global.fetch).toHaveBeenCalled();
+		expect(global.fetch).toHaveBeenCalledWith(
+			`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
+			Object({
+				method: 'GET',
+				mode: 'cors',
+				headers: {
+					'accessToken': 'XXXXXX',
+					'Content-Type': 'application/json; charset=utf-8'
+				}
+			}));
+	});
+
+	it('Do Search via the Client API for fuzzy freeText using a Query instance', () => {
+		let client = Zengenti.Contensis.Client.create({
+			projectId: 'myProject',
+			rootUrl: 'http://my-website.com/',
+			language: 'en-US',
+			versionStatus: 'published',
+			accessToken: 'XXXXXX'
+		});
+
+		let query = new Contensis.Query(Contensis.Op.freeText('description', 'term1', true, FreeTextSearchOperatorTypeEnum.Or));
+		query.orderBy = Contensis.OrderBy.asc('description');
+		query.fields = ['title'];
+		query.pageIndex = 1;
+		query.pageSize = 50;
+		client.entries.search(query, 99);
+
+		let expectedQueryString = toQuery({
+			pageIndex: 1,
+			pageSize: 50,
+			orderBy: JSON.stringify([{
+				asc: 'description'
+			}]),
+			where: JSON.stringify([{
+				field: 'description',
+				freeText: {
+					term: 'term1',
+					fuzzy: true,
+					operator: FreeTextSearchOperatorTypeEnum.Or
 				}
 			}]),
 			fields: ['title'],
