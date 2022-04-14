@@ -3,20 +3,23 @@ import { Workflow } from './Workflow';
 
 export interface EntrySys {
 	allUris: string[];
-	availableLanguages: string[];
+	availableLanguages?: string[];
 	contentTypeId: string;
 	dataFormat: string;
 	id: string;
-	isPublished: boolean;
+	isPublished?: boolean;
 	language: string;
 	owner?: string;
-	projectId: string;
+	projectId?: string;
 	properties?: {
 		[key: string]: any;
+		width?: number;
+		height?: number;
+		fileSize?: number;
 	};
 	slug?: string;
 	uri: string;
-	version: VersionInfo;
-	versionStatus: string;
-	workflow: Workflow;
+	version?: VersionInfo;
+	versionStatus: 'published' | 'latest';
+	workflow?: Workflow;
 }
