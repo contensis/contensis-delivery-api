@@ -9,12 +9,12 @@ export interface EntrySys {
 	id: string;
 	isPublished: boolean;
 	language: string;
-	owner: string;
+	owner?: string;
 	projectId: string;
-	properties: {
+	properties?: {
 		[key: string]: any;
 	};
-	slug: string;
+	slug?: string;
 	uri: string;
 	version: VersionInfo;
 	versionStatus: string;

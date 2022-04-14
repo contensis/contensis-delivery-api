@@ -1,5 +1,5 @@
 import { EntrySys } from './EntrySys';
 export interface Entry {
-    sys: Partial<EntrySys>;
+    sys: EntrySys;
     [key: string]: any;
 }
