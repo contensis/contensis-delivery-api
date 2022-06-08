@@ -6,21 +6,22 @@ import {
 import { LinkResolver } from './link-resolver';
 import {
 	ClientParams, defaultMapperForLanguage, defaultMapperForPublishedVersionStatus,
-	IHttpClient, IParamsProvider, isBrowser, isIE, MapperFn, PagedList, UrlBuilder
+	IHttpClient, IParamsProvider, isBrowser, isIE, MapperFn, PagedList, Query, UrlBuilder, ZenqlQuery
 } from 'contensis-core-api';
 
+const defaultListUrl = `/api/delivery/projects/:projectId/entries`;
+
+let listUrl = (options: EntryListOptions, params: ClientParams) => {
+	return !!options.contentTypeId
+		? `/api/delivery/projects/:projectId/contentTypes/:contentTypeId/entries`
+		: defaultListUrl;
+};
 
 let getMappers: { [key: string]: MapperFn } = {
 	language: defaultMapperForLanguage,
 	versionStatus: defaultMapperForPublishedVersionStatus,
 	fields: (value: string[]) => (value && value.length > 0) ? value : null,
 	linkDepth: (value: number) => (value && (value > 0)) ? value : null,
-};
-
-let listUrl = (options: EntryListOptions, params: ClientParams) => {
-	return !!options.contentTypeId
-		? `/api/delivery/projects/:projectId/contentTypes/:contentTypeId/entries`
-		: `/api/delivery/projects/:projectId/entries`;
 };
 
 let listMappers: { [key: string]: MapperFn } = {
@@ -62,16 +63,34 @@ export class EntryOperations implements IEntryOperations {
 		return this.httpClient.request<PagedList<Entry>>(url);
 	}
 
-	search(query: any, linkDepth: number = 0): Promise<PagedList<Entry>> {
+	search(query: string | Query | ZenqlQuery, linkDepth: number = 0): Promise<PagedList<Entry>> {
 		if (!query) {
 			return new Promise((resolve) => { resolve(null); });
 		}
 
-		let params = this.paramsProvider.getParams();
-		let pageSize = query.pageSize || params.pageSize;
-		let pageIndex = query.pageIndex || 0;
+		let deliveryQuery = query instanceof Query ? query as Query : null;
+		// use duck-typing for backwards compatibility pre v1.2.0
+		if (deliveryQuery !== null || !!(query as any).where || !!(query as any).orderBy) {
+			return this.searchUsingQuery(deliveryQuery || (query as any), linkDepth);
+		}
 
-		let orderBy = (query.orderBy && (query.orderBy._items || query.orderBy));
+		let zenqlQuery: ZenqlQuery = query instanceof ZenqlQuery ? query as ZenqlQuery : null;
+		if (zenqlQuery === null) {
+			if (typeof query === 'string') {
+				zenqlQuery = new ZenqlQuery(query);
+			} else {
+				throw new Error('A valid query needs to be specified.');
+			}
+		}
+
+		let params = this.paramsProvider.getParams();
+		let pageSize = params.pageSize || 25;
+		let pageIndex = params.pageIndex || 0;
+		let fields: string[] = [];
+
+		pageSize = zenqlQuery.pageSize || pageSize;
+		pageIndex = zenqlQuery.pageIndex || pageIndex;
+		fields = zenqlQuery.fields || fields;
 
 		let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
 
@@ -80,11 +99,64 @@ export class EntryOperations implements IEntryOperations {
 			linkDepth,
 			pageSize,
 			pageIndex,
-			fields: query.fields && query.fields.length > 0 ? query.fields : null,
-			where: JSON.stringify(query.where),
+			zenql: zenqlQuery.zenql,
 		};
 
-		if (orderBy && orderBy.length > 0) {
+		if (fields && fields.length > 0) {
+			payload['fields'] = fields;
+		}
+
+		let url = UrlBuilder.create(defaultListUrl, { ...payload })
+			.setParams({ ...(payload as any), projectId })
+			.addMappers(searchMappers)
+			.toUrl();
+
+		return this.httpClient.request<PagedList<Entry>>(url, {
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json; charset=utf-8' }
+		});
+
+	}
+
+	resolve<T extends Entry | Entry[] | PagedList<Entry>>(entryOrList: T, fields: string[] = null): Promise<T> {
+		let params = this.paramsProvider.getParams();
+		let resolver = new LinkResolver(entryOrList, fields, params.versionStatus, (query: any) => this.search(query));
+		return resolver.resolve();
+	}
+
+	private searchUsingQuery(query: Query, linkDepth: number = 0): Promise<PagedList<Entry>> {
+		if (!query) {
+			return new Promise((resolve) => { resolve(null); });
+		}
+
+		let deliveryQuery = query as Query;
+
+		let params = this.paramsProvider.getParams();
+		let pageSize = params.pageSize || 25;
+		let pageIndex = params.pageIndex || 0;
+		let fields: string[] = [];
+
+		pageSize = deliveryQuery.pageSize || pageSize;
+		pageIndex = deliveryQuery.pageIndex || pageIndex;
+		fields = deliveryQuery.fields || fields;
+
+		let orderBy = (deliveryQuery.orderBy && ((deliveryQuery.orderBy as any)._items || deliveryQuery.orderBy));
+
+		let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
+
+		let payload = {
+			...requestParams,
+			linkDepth,
+			pageSize,
+			pageIndex,
+			where: JSON.stringify(deliveryQuery.where)
+		};
+
+		if (fields && fields.length > 0) {
+			payload['fields'] = fields;
+		}
+
+		if (deliveryQuery.orderBy && (!Array.isArray(deliveryQuery.orderBy) || (deliveryQuery.orderBy as any).length > 0)) {
 			payload['orderBy'] = JSON.stringify(orderBy);
 		}
 
@@ -101,12 +173,6 @@ export class EntryOperations implements IEntryOperations {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json; charset=utf-8' }
 		});
-	}
-
-	resolve<T extends Entry | Entry[] | PagedList<Entry>>(entryOrList: T, fields: string[] = null): Promise<T> {
-		let params = this.paramsProvider.getParams();
-		let resolver = new LinkResolver(entryOrList, fields, params.versionStatus, (query: any) => this.search(query));
-		return resolver.resolve();
 	}
 
 	private searchUsingPost(query: any, linkDepth: number = 0): Promise<PagedList<Entry>> {

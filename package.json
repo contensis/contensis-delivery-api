@@ -1,9 +1,9 @@
 {
   "name": "contensis-delivery-api",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "description": "Contensis Javascript Delivery API",
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -51,7 +51,7 @@
     "webpack": "3.12.0"
   },
   "dependencies": {
-    "contensis-core-api": "1.0.4",
+    "contensis-core-api": "1.0.5",
     "cross-fetch": "^3.1.5",
     "es6-promise": "^4.2.6",
     "tslib": "^1.10.0",
