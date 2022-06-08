@@ -3,7 +3,7 @@ interface ContensisQuery {
     orderBy: string | string[] | ContensisQueryOrderBy;
     pageIndex: number;
     pageSize: number;
-    fields: string[];
+    fields?: string[];
 }
 
 //# sourceMappingURL=ContensisQuery.js.map
@@ -37,7 +37,7 @@ interface ContensisQueryOperators {
 {"version":3,"file":"ContensisQueryOperators.js","sourceRoot":"","sources":["../../../src/models/search/ContensisQueryOperators.ts"],"names":[],"mappings":""}
 interface ContensisQueryOrderBy {
     asc(fieldName: string): ContensisQueryOrderBy;
-    desc(fieldName: any): ContensisQueryOrderBy;
+    desc(fieldName: string): ContensisQueryOrderBy;
 }
 
 //# sourceMappingURL=ContensisQueryOrderBy.js.map
@@ -121,11 +121,102 @@ interface ILogicalExpression extends IExpression {
 {"version":3,"file":"ILogicalExpression.js","sourceRoot":"","sources":["../../../src/models/search/ILogicalExpression.ts"],"names":[],"mappings":""}
 * from './ExpressionValueType';
 * from './FreeTextSearchOperatorType';
+* from './ManagementQuery';
+* from './ManagementZenqlQuery';
 * from './Operators';
 * from './OperatorType';
-* from './query';
+* from './Query';
+* from './QueryTypes';
+* from './ZenqlQuery';
 //# sourceMappingURL=index.js.map
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/models/search/index.ts"],"names":[],"mappings":"AAKA,cAAc,uBAAuB,CAAC;AACtC,cAAc,8BAA8B,CAAC;AAG7C,cAAc,aAAa,CAAC;AAC5B,cAAc,gBAAgB,CAAC;AAC/B,cAAc,SAAS,CAAC"}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/models/search/index.ts"],"names":[],"mappings":"AAKA,cAAc,uBAAuB,CAAC;AACtC,cAAc,8BAA8B,CAAC;AAI7C,cAAc,mBAAmB,CAAC;AAClC,cAAc,wBAAwB,CAAC;AACvC,cAAc,aAAa,CAAC;AAC5B,cAAc,gBAAgB,CAAC;AAC/B,cAAc,SAAS,CAAC;AACxB,cAAc,cAAc,CAAC;AAC7B,cAAc,cAAc,CAAC"}
+interface IZenqlQuery {
+    zenql: string;
+    pageIndex: number;
+    pageSize: number;
+    fields?: string[];
+}
+
+//# sourceMappingURL=IZenqlQuery.js.map
+{"version":3,"file":"IZenqlQuery.js","sourceRoot":"","sources":["../../../src/models/search/IZenqlQuery.ts"],"names":[],"mappings":""}
+declare class ManagementQuery implements Omit<ContensisQuery, 'fields'> {
+    where: WhereExpression;
+    orderBy: string | string[] | ContensisQueryOrderBy;
+    pageIndex: number;
+    pageSize: number;
+    includeArchived?: boolean;
+    includeDeleted?: boolean;
+    constructor(...whereExpressions: IExpression[]);
+    toJSON(): any;
+}
+
+var ManagementQuery = /** @class */ (function () {
+    function ManagementQuery() {
+        var whereExpressions = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            whereExpressions[_i] = arguments[_i];
+        }
+        this.where = new WhereExpression();
+        this.orderBy = [];
+        this.pageIndex = 0;
+        this.pageSize = 20;
+        this.includeArchived = false;
+        this.includeDeleted = false;
+        if (whereExpressions) {
+            this.where.addRange(whereExpressions);
+        }
+    }
+    ManagementQuery.prototype.toJSON = function () {
+        var result = {};
+        result.pageIndex = this.pageIndex;
+        result.pageSize = this.pageSize;
+        var orderByDtos = serializeOrder(this.orderBy);
+        if (orderByDtos && orderByDtos.length > 0) {
+            result.orderBy = orderByDtos;
+        }
+        result.where = this.where;
+        result.includeArchived = this.includeArchived;
+        result.includeDeleted = this.includeDeleted;
+        return result;
+    };
+    return ManagementQuery;
+}());
+{ ManagementQuery };
+//# sourceMappingURL=ManagementQuery.js.map
+{"version":3,"file":"ManagementQuery.js","sourceRoot":"","sources":["../../../src/models/search/ManagementQuery.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,eAAe,EAAE,MAAM,aAAa,CAAC;AAC9C,OAAO,EAAE,cAAc,EAAE,MAAM,cAAc,CAAC;AAG9C;IAQI;QAAY,0BAAkC;aAAlC,UAAkC,EAAlC,qBAAkC,EAAlC,IAAkC;YAAlC,qCAAkC;;QAP9C,UAAK,GAAoB,IAAI,eAAe,EAAE,CAAC;QAC/C,YAAO,GAA8C,EAAE,CAAC;QACxD,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAa,KAAK,CAAC;QAClC,mBAAc,GAAa,KAAK,CAAC;QAG7B,IAAI,gBAAgB,EAAE;YAClB,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,gBAAgB,CAAC,CAAC;SACzC;IACL,CAAC;IAED,gCAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAEhC,IAAI,WAAW,GAAG,cAAc,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;QAC/C,IAAI,WAAW,IAAI,WAAW,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,OAAO,GAAG,WAAW,CAAC;SAChC;QAED,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAC1B,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;QAC9C,MAAM,CAAC,cAAc,GAAG,IAAI,CAAC,cAAc,CAAC;QAC5C,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,sBAAC;AAAD,CAAC,AA7BD,IA6BC"}
+declare class ManagementZenqlQuery implements Omit<IZenqlQuery, 'fields'> {
+    zenql: string;
+    pageIndex: number;
+    pageSize: number;
+    includeArchived?: boolean;
+    includeDeleted?: boolean;
+    constructor(zenql: string);
+    toJSON(): any;
+}
+
+var ManagementZenqlQuery = /** @class */ (function () {
+    function ManagementZenqlQuery(zenql) {
+        this.zenql = '';
+        this.pageIndex = 0;
+        this.pageSize = 20;
+        this.includeArchived = false;
+        this.includeDeleted = false;
+        this.zenql = zenql;
+    }
+    ManagementZenqlQuery.prototype.toJSON = function () {
+        var result = {};
+        result.pageIndex = this.pageIndex;
+        result.pageSize = this.pageSize;
+        result.zenql = this.zenql;
+        result.includeArchived = this.includeArchived;
+        result.includeDeleted = this.includeDeleted;
+        return result;
+    };
+    return ManagementZenqlQuery;
+}());
+{ ManagementZenqlQuery };
+//# sourceMappingURL=ManagementZenqlQuery.js.map
+{"version":3,"file":"ManagementZenqlQuery.js","sourceRoot":"","sources":["../../../src/models/search/ManagementZenqlQuery.ts"],"names":[],"mappings":"AAGA;IAOI,8BAAY,KAAa;QANzB,UAAK,GAAW,EAAE,CAAC;QACnB,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAa,KAAK,CAAC;QAClC,mBAAc,GAAa,KAAK,CAAC;QAG7B,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACvB,CAAC;IAED,qCAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAChC,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAC1B,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;QAC9C,MAAM,CAAC,cAAc,GAAG,IAAI,CAAC,cAAc,CAAC;QAE5C,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,2BAAC;AAAD,CAAC,AArBD,IAqBC"}
 declare abstract class ExpressionBase implements IExpression {
     fieldName: string;
     values: any[];
@@ -506,27 +597,32 @@ var OperatorTypeEnum = {
 };
 //# sourceMappingURL=OperatorType.js.map
 {"version":3,"file":"OperatorType.js","sourceRoot":"","sources":["../../../src/models/search/OperatorType.ts"],"names":[],"mappings":"AAIA,MAAM,CAAC,IAAM,gBAAgB,GAAG;IAC5B,GAAG,EAAE,KAAqB;IAC1B,OAAO,EAAE,SAAyB;IAClC,QAAQ,EAAE,UAA0B;IACpC,QAAQ,EAAE,UAA0B;IACpC,OAAO,EAAE,SAAyB;IAClC,MAAM,EAAE,QAAwB;IAChC,QAAQ,EAAE,UAA0B;IACpC,WAAW,EAAE,aAA6B;IAC1C,oBAAoB,EAAE,sBAAsC;IAC5D,EAAE,EAAE,IAAoB;IACxB,QAAQ,EAAE,UAA0B;IACpC,iBAAiB,EAAE,mBAAmC;IACtD,GAAG,EAAE,KAAqB;IAC1B,EAAE,EAAE,IAAoB;IACxB,UAAU,EAAE,YAA4B;IACxC,KAAK,EAAE,OAAuB;IAC9B,cAAc,EAAE,gBAAgC;CACnD,CAAC"}
-declare const Op: Operators;
-declare const OrderBy: ContensisQueryOrderBy;
-declare class Query implements ContensisQuery {
-    where: WhereExpression;
-    orderBy: string | string[] | ContensisQueryOrderBy;
-    pageIndex: number;
-    pageSize: number;
-    fields: string[];
-    constructor(...whereExpressions: IExpression[]);
-    toJSON(): any;
-}
-declare class ManagementQuery implements Omit<ContensisQuery, 'fields'> {
-    where: WhereExpression;
-    orderBy: string | string[] | ContensisQueryOrderBy;
-    pageIndex: number;
-    pageSize: number;
-    constructor(...whereExpressions: IExpression[]);
-    toJSON(): any;
+declare class OrderByFactory implements ContensisQueryOrderBy {
+    asc(fieldName: string): ContensisQueryOrderBy;
+    desc(fieldName: string): ContensisQueryOrderBy;
 }
 
-var Op = new Operators();
+var OrderByFactory = /** @class */ (function () {
+    function OrderByFactory() {
+    }
+    OrderByFactory.prototype.asc = function (fieldName) {
+        return (new Ordering()).asc(fieldName);
+    };
+    OrderByFactory.prototype.desc = function (fieldName) {
+        return (new Ordering()).desc(fieldName);
+    };
+    return OrderByFactory;
+}());
+{ OrderByFactory };
+//# sourceMappingURL=OrderByFactory.js.map
+{"version":3,"file":"OrderByFactory.js","sourceRoot":"","sources":["../../../src/models/search/OrderByFactory.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,QAAQ,EAAE,MAAM,YAAY,CAAC;AAEtC;IAAA;IAQA,CAAC;IAPG,4BAAG,GAAH,UAAI,SAAiB;QACjB,OAAO,CAAC,IAAI,QAAQ,EAAE,CAAC,CAAC,GAAG,CAAC,SAAS,CAAC,CAAC;IAC3C,CAAC;IAED,6BAAI,GAAJ,UAAK,SAAiB;QAClB,OAAO,CAAC,IAAI,QAAQ,EAAE,CAAC,CAAC,IAAI,CAAC,SAAS,CAAC,CAAC;IAC5C,CAAC;IACL,qBAAC;AAAD,CAAC,AARD,IAQC"}
+declare class Ordering implements ContensisQueryOrderBy {
+    private _items;
+    asc(fieldName: string): ContensisQueryOrderBy;
+    desc(fieldName: string): ContensisQueryOrderBy;
+    toArray(): ContensisQueryOrderByDto[];
+}
+
 var Ordering = /** @class */ (function () {
     function Ordering() {
         this._items = [];
@@ -544,44 +640,19 @@ var Ordering = /** @class */ (function () {
     };
     return Ordering;
 }());
-var OrderByFactory = /** @class */ (function () {
-    function OrderByFactory() {
-    }
-    OrderByFactory.prototype.asc = function (fieldName) {
-        return (new Ordering()).asc(fieldName);
-    };
-    OrderByFactory.prototype.desc = function (fieldName) {
-        return (new Ordering()).desc(fieldName);
-    };
-    return OrderByFactory;
-}());
-var OrderBy = new OrderByFactory();
-function toOrderBy(value) {
-    var _a;
-    if (!value) {
-        return null;
-    }
-    var firstChar = value.substr(0, 1);
-    if (firstChar === '+' || firstChar === '-') {
-        var direction = (firstChar === '-') ? 'desc' : 'asc';
-        return _a = {}, _a[direction] = value.substring(1), _a;
-    }
-    return { 'asc': value };
+{ Ordering };
+//# sourceMappingURL=Ordering.js.map
+{"version":3,"file":"Ordering.js","sourceRoot":"","sources":["../../../src/models/search/Ordering.ts"],"names":[],"mappings":"AAEA;IAAA;QACY,WAAM,GAA+B,EAAE,CAAC;IAepD,CAAC;IAbG,sBAAG,GAAH,UAAI,SAAiB;QACjB,IAAI,CAAC,MAAM,CAAC,IAAI,CAAC,EAAE,KAAK,EAAE,SAAS,EAAE,CAAC,CAAC;QACvC,OAAO,IAAI,CAAC;IAChB,CAAC;IAED,uBAAI,GAAJ,UAAK,SAAiB;QAClB,IAAI,CAAC,MAAM,CAAC,IAAI,CAAC,EAAE,MAAM,EAAE,SAAS,EAAE,CAAC,CAAC;QACxC,OAAO,IAAI,CAAC;IAChB,CAAC;IAED,0BAAO,GAAP;QACI,OAAO,IAAI,CAAC,MAAM,CAAC;IACvB,CAAC;IACL,eAAC;AAAD,CAAC,AAhBD,IAgBC"}
+declare class Query implements ContensisQuery {
+    where: WhereExpression;
+    orderBy: string | string[] | ContensisQueryOrderBy;
+    pageIndex: number;
+    pageSize: number;
+    fields?: string[];
+    constructor(...whereExpressions: IExpression[]);
+    toJSON(): any;
 }
-function serializeOrder(orderBy) {
-    if (!orderBy) {
-        return [];
-    }
-    var o;
-    if (typeof orderBy === 'string') {
-        o = toOrderBy(orderBy);
-        return !!o ? [o] : [];
-    }
-    if (Array.isArray(orderBy)) {
-        return orderBy.map(toOrderBy).filter(function (o) { return !!o; });
-    }
-    return (orderBy.toArray) ? orderBy.toArray() : null;
-}
+
 var Query = /** @class */ (function () {
     function Query() {
         var whereExpressions = [];
@@ -614,36 +685,80 @@ var Query = /** @class */ (function () {
     return Query;
 }());
 { Query };
-var ManagementQuery = /** @class */ (function () {
-    function ManagementQuery() {
-        var whereExpressions = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            whereExpressions[_i] = arguments[_i];
+//# sourceMappingURL=Query.js.map
+{"version":3,"file":"Query.js","sourceRoot":"","sources":["../../../src/models/search/Query.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,eAAe,EAAE,MAAM,aAAa,CAAC;AAC9C,OAAO,EAAE,cAAc,EAAE,MAAM,cAAc,CAAC;AAE9C;IAOI;QAAY,0BAAkC;aAAlC,UAAkC,EAAlC,qBAAkC,EAAlC,IAAkC;YAAlC,qCAAkC;;QAN9C,UAAK,GAAoB,IAAI,eAAe,EAAE,CAAC;QAC/C,YAAO,GAA8C,EAAE,CAAC;QACxD,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,WAAM,GAAc,EAAE,CAAC;QAGnB,IAAI,gBAAgB,EAAE;YAClB,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,gBAAgB,CAAC,CAAC;SACzC;IACL,CAAC;IAED,sBAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAEhC,IAAI,WAAW,GAAG,cAAc,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;QAC/C,IAAI,WAAW,IAAI,WAAW,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,OAAO,GAAG,WAAW,CAAC;SAChC;QAED,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAE1B,IAAI,IAAI,CAAC,MAAM,IAAI,IAAI,CAAC,MAAM,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC;SAC/B;QAED,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,YAAC;AAAD,CAAC,AA/BD,IA+BC"}
+declare const Op: Operators;
+declare const OrderBy: ContensisQueryOrderBy;
+declare function serializeOrder(orderBy: string | string[] | ContensisQueryOrderBy | ContensisQueryOrderBy[]): ContensisQueryOrderByDto[];
+
+var Op = new Operators();
+var OrderBy = new OrderByFactory();
+function toOrderByDto(value) {
+    var _a;
+    if (!value) {
+        return null;
+    }
+    if (typeof value === 'string') {
+        var firstChar = value.substring(0, 1);
+        if (firstChar === '+' || firstChar === '-') {
+            var direction = (firstChar === '-') ? 'desc' : 'asc';
+            return _a = {}, _a[direction] = value.substring(1), _a;
         }
-        this.where = new WhereExpression();
-        this.orderBy = [];
+        return { 'asc': value };
+    }
+    return value;
+}
+function serializeOrder(orderBy) {
+    if (!orderBy) {
+        return [];
+    }
+    if (typeof orderBy === 'string') {
+        var o = toOrderByDto(orderBy);
+        return !!o ? [o] : [];
+    }
+    if (Array.isArray(orderBy)) {
+        return orderBy.map(toOrderByDto).filter(function (o) { return !!o; });
+    }
+    var orderByAsOrdering = orderBy instanceof Ordering ? orderBy : null;
+    if (orderByAsOrdering === null) {
+        return [];
+    }
+    return orderByAsOrdering.toArray();
+}
+//# sourceMappingURL=QueryTypes.js.map
+{"version":3,"file":"QueryTypes.js","sourceRoot":"","sources":["../../../src/models/search/QueryTypes.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,SAAS,EAAE,MAAM,aAAa,CAAC;AACxC,OAAO,EAAE,cAAc,EAAE,MAAM,kBAAkB,CAAC;AAClD,OAAO,EAAE,QAAQ,EAAE,MAAM,YAAY,CAAC;AAGtC,MAAM,CAAC,IAAM,EAAE,GAAG,IAAI,SAAS,EAAE,CAAC;AAElC,MAAM,CAAC,IAAM,OAAO,GAA0B,IAAI,cAAc,EAAE,CAAC;AAEnE,SAAS,YAAY,CAAC,KAAwC;;IAC1D,IAAI,CAAC,KAAK,EAAE;QACR,OAAO,IAAI,CAAC;KACf;IAED,IAAI,OAAO,KAAK,KAAK,QAAQ,EAAE;QAC3B,IAAI,SAAS,GAAG,KAAK,CAAC,SAAS,CAAC,CAAC,EAAE,CAAC,CAAC,CAAC;QACtC,IAAI,SAAS,KAAK,GAAG,IAAI,SAAS,KAAK,GAAG,EAAE;YACxC,IAAI,SAAS,GAAG,CAAC,SAAS,KAAK,GAAG,CAAC,CAAC,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,KAAK,CAAC;YACrD,gBAAS,GAAC,SAAS,IAAG,KAAK,CAAC,SAAS,CAAC,CAAC,CAAC,KAAG;SAC9C;QACD,OAAO,EAAE,KAAK,EAAE,KAAK,EAAE,CAAC;KAC3B;IAED,OAAO,KAAiC,CAAC;AAC7C,CAAC;AAED,MAAM,UAAU,cAAc,CAAC,OAA4E;IACvG,IAAI,CAAC,OAAO,EAAE;QACV,OAAO,EAAE,CAAC;KACb;IAED,IAAI,OAAO,OAAO,KAAK,QAAQ,EAAE;QAC7B,IAAI,CAAC,GAAG,YAAY,CAAC,OAAO,CAAC,CAAC;QAC9B,OAAO,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,EAAE,CAAC;KACzB;IAED,IAAI,KAAK,CAAC,OAAO,CAAC,OAAO,CAAC,EAAE;QACxB,OAAQ,OAAe,CAAC,GAAG,CAAC,YAAY,CAAC,CAAC,MAAM,CAAC,UAAA,CAAC,IAAI,OAAA,CAAC,CAAC,CAAC,EAAH,CAAG,CAAC,CAAC;KAC9D;IAED,IAAI,iBAAiB,GAAG,OAAO,YAAY,QAAQ,CAAC,CAAC,CAAC,OAAmB,CAAC,CAAC,CAAC,IAAI,CAAC;IACjF,IAAI,iBAAiB,KAAK,IAAI,EAAE;QAC5B,OAAO,EAAE,CAAC;KACb;IAED,OAAO,iBAAiB,CAAC,OAAO,EAAE,CAAC;AACvC,CAAC"}
+declare class ZenqlQuery implements IZenqlQuery {
+    zenql: string;
+    pageIndex: number;
+    pageSize: number;
+    fields?: string[];
+    constructor(zenql: string);
+    toJSON(): any;
+}
+
+var ZenqlQuery = /** @class */ (function () {
+    function ZenqlQuery(zenql) {
+        this.zenql = '';
         this.pageIndex = 0;
         this.pageSize = 20;
-        if (whereExpressions) {
-            this.where.addRange(whereExpressions);
-        }
+        this.fields = [];
+        this.zenql = zenql;
     }
-    ManagementQuery.prototype.toJSON = function () {
+    ZenqlQuery.prototype.toJSON = function () {
         var result = {};
         result.pageIndex = this.pageIndex;
         result.pageSize = this.pageSize;
-        var orderByDtos = serializeOrder(this.orderBy);
-        if (orderByDtos && orderByDtos.length > 0) {
-            result.orderBy = orderByDtos;
+        result.zenql = this.zenql;
+        if (this.fields && this.fields.length > 0) {
+            result.fields = this.fields;
         }
-        result.where = this.where;
         return result;
     };
-    return ManagementQuery;
+    return ZenqlQuery;
 }());
-{ ManagementQuery };
-//# sourceMappingURL=query.js.map
-{"version":3,"file":"query.js","sourceRoot":"","sources":["../../../src/models/search/query.ts"],"names":[],"mappings":"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"}
+{ ZenqlQuery };
+//# sourceMappingURL=ZenqlQuery.js.map
+{"version":3,"file":"ZenqlQuery.js","sourceRoot":"","sources":["../../../src/models/search/ZenqlQuery.ts"],"names":[],"mappings":"AAGA;IAMI,oBAAY,KAAa;QALzB,UAAK,GAAW,EAAE,CAAC;QACnB,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,WAAM,GAAc,EAAE,CAAC;QAGnB,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACvB,CAAC;IAED,2BAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAChC,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAE1B,IAAI,IAAI,CAAC,MAAM,IAAI,IAAI,CAAC,MAAM,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC;SAC/B;QAED,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,iBAAC;AAAD,CAAC,AAtBD,IAsBC"}
 interface AssetUpload {
     fileId: string;
 }
@@ -1095,7 +1210,7 @@ interface IContentTypeOperations {
 interface IEntryOperations {
     get(idOrOptions: string | EntryGetOptions): Promise<Entry>;
     list(contentTypeIdOrOptions: string | EntryListOptions): Promise<PagedList<Entry>>;
-    search(json: any, linkDepth?: number): Promise<PagedList<Entry>>;
+    search(query: string | Query | ZenqlQuery, linkDepth?: number): Promise<PagedList<Entry>>;
     resolve<T extends Entry | Entry[] | PagedList<Entry>>(entryOrList: T, fields?: string[]): Promise<T>;
 }
 
