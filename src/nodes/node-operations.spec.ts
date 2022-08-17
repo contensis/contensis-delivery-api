@@ -16,7 +16,7 @@ describe('Nodes Operations', () => {
                     json: () => {
                         return {};
                     }
-                });
+                } as unknown as Response);
             });
         });
 

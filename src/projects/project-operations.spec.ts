@@ -16,7 +16,7 @@ describe('Project Operations', function () {
 							items: []
 						};
 					}
-				});
+				} as unknown as Response);
 			});
 		});
 

@@ -20,7 +20,7 @@ describe('Entry Operations', function () {
 								items: []
 							};
 						}
-					});
+					} as unknown as Response);
 				});
 			});
 
@@ -176,7 +176,7 @@ describe('Entry Operations', function () {
 								items: []
 							};
 						}
-					});
+					} as unknown as Response);
 				});
 			});
 
@@ -437,7 +437,7 @@ describe('Entry Operations', function () {
 								items: []
 							};
 						}
-					});
+					} as unknown as Response);
 				});
 			});
 
@@ -1089,7 +1089,7 @@ describe('Entry Operations', function () {
 								items: []
 							};
 						}
-					});
+					} as unknown as Response);
 				});
 			});
 
@@ -1098,7 +1098,7 @@ describe('Entry Operations', function () {
 				fetchFn: global.fetch
 			});
 
-			global.document.documentMode = 11;
+			(global.document as Document & { documentMode: number}).documentMode = 11;
 		});
 
 		it('Do Search using an object with all options and  URL=2083', () => {

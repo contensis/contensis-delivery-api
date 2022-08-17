@@ -17,7 +17,7 @@ describe('Content Type Operations', function () {
 							items: []
 						};
 					}
-				});
+				} as unknown as Response);
 			});
 		});
 

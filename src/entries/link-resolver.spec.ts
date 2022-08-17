@@ -37,7 +37,7 @@ describe('Link Resolver', function () {
 							items: []
 						};
 					}
-				});
+				} as unknown as Response);
 			});
 		});
 
