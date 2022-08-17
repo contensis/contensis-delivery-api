@@ -3,6 +3,8 @@ let taxonomyMappers = {
     order: (value) => (value === 'defined') ? value : null
 };
 export class TaxonomyOperations {
+    httpClient;
+    paramsProvider;
     constructor(httpClient, paramsProvider) {
         this.httpClient = httpClient;
         this.paramsProvider = paramsProvider;

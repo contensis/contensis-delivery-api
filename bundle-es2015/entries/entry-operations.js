@@ -22,6 +22,8 @@ let searchMappers = {
     linkDepth: (value) => (value && (value > 0)) ? value : null
 };
 export class EntryOperations {
+    httpClient;
+    paramsProvider;
     constructor(httpClient, paramsProvider) {
         this.httpClient = httpClient;
         this.paramsProvider = paramsProvider;

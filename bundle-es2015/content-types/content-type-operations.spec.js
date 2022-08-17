@@ -8,11 +8,9 @@ describe('Content Type Operations', function () {
         spyOn(global, 'fetch').and.callFake((...args) => {
             return new Promise((resolve, reject) => {
                 resolve({
-                    json: () => {
-                        return {
-                            items: []
-                        };
-                    }
+                    ok: true,
+                    json: () => Promise.resolve({ items: [] }),
+                    text: () => Promise.resolve(JSON.stringify({ items: [] }))
                 });
             });
         });

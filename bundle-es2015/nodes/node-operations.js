@@ -26,6 +26,8 @@ let nodeGetAncestorsOptionsMappers = {
     startLevel: (value) => (value && (value > 0)) ? value : null,
 };
 export class NodeOperations {
+    httpClient;
+    paramsProvider;
     constructor(httpClient, paramsProvider) {
         this.httpClient = httpClient;
         this.paramsProvider = paramsProvider;

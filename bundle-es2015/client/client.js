@@ -7,8 +7,22 @@ import { NodeOperations } from '../nodes/node-operations';
 import { HttpClient } from 'contensis-core-api';
 import fetch from 'cross-fetch';
 export class Client {
+    static defaultClientConfig = null;
+    clientConfig = null;
+    fetchFn;
+    entries;
+    contentTypes;
+    nodes;
+    project;
+    taxonomy;
+    httpClient;
+    static create(config = null) {
+        return new Client(config);
+    }
+    static configure(config) {
+        Client.defaultClientConfig = new ClientConfig(config, Client.defaultClientConfig);
+    }
     constructor(config = null) {
-        this.clientConfig = null;
         this.clientConfig = new ClientConfig(config, Client.defaultClientConfig);
         this.fetchFn = !this.clientConfig.fetchFn ? fetch : this.clientConfig.fetchFn;
         this.httpClient = new HttpClient(this, this.fetchFn);
@@ -18,14 +32,7 @@ export class Client {
         this.nodes = new NodeOperations(this.httpClient, this);
         this.taxonomy = new TaxonomyOperations(this.httpClient, this);
     }
-    static create(config = null) {
-        return new Client(config);
-    }
-    static configure(config) {
-        Client.defaultClientConfig = new ClientConfig(config, Client.defaultClientConfig);
-    }
     getParams() {
         return this.clientConfig.toParams();
     }
 }
-Client.defaultClientConfig = null;

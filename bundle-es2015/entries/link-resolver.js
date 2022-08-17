@@ -27,6 +27,12 @@ function isComposerItem(value) {
     return false;
 }
 class DeferredEntry {
+    sys;
+    versionStatus;
+    promise;
+    resolve;
+    reject;
+    expression;
     constructor(sys, versionStatus) {
         this.sys = sys;
         this.versionStatus = versionStatus;
@@ -41,12 +47,16 @@ class DeferredEntry {
     }
 }
 class ListResolver {
+    entries;
+    paths;
+    versionStatus;
+    search;
+    deferredEntries = [];
     constructor(entries, paths, versionStatus, search) {
         this.entries = entries;
         this.paths = paths;
         this.versionStatus = versionStatus;
         this.search = search;
-        this.deferredEntries = [];
     }
     resolve() {
         this.deferredEntries = [];
@@ -84,6 +94,9 @@ class ListResolver {
     }
 }
 class EntryResolver {
+    entry;
+    paths;
+    getEntry;
     constructor(entry, paths, getEntry) {
         this.entry = entry;
         this.paths = paths;
@@ -209,6 +222,10 @@ class EntryResolver {
     }
 }
 export class LinkResolver {
+    entryOrList;
+    paths;
+    versionStatus;
+    search;
     constructor(entryOrList, paths, versionStatus, search) {
         this.entryOrList = entryOrList;
         this.paths = paths;
