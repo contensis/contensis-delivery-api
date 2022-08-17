@@ -15,7 +15,7 @@
     "test:watch": "npm run test -- --auto-watch --no-single-run",
     "build:es5": "npx tsc -p src",
     "build:esnext": "npx tsc -p src/tsconfig-esnext.json && npm run lint",
-    "build:contensis": "rimraf bundle/* && webpack --progress --colors && node build/create-contensis-dts.js && rimraf bundle/es5",
+    "build:contensis": "rimraf bundle/* && webpack --progress --color && node build/create-contensis-dts.js && rimraf bundle/es5",
     "build:npm": "npx tsc -p src/tsconfig-npm.json && npm run lint",
     "all": "npm run build:esnext && npm run test && npm run build:npm && npm run test:npm && npm run build:contensis"
   },
@@ -32,7 +32,7 @@
   "devDependencies": {
     "@types/jasmine": "3.6.2",
     "@types/node": "14.14.20",
-    "copy-webpack-plugin": "^4.6.0",
+    "copy-webpack-plugin": "^11.0.0",
     "istanbul-instrumenter-loader": "^3.0.1",
     "jasmine-core": "^3.3.0",
     "karma": "^6.4.0",
@@ -42,13 +42,14 @@
     "karma-jasmine-html-reporter": "^1.4.0",
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^3.0.5",
+    "karma-webpack": "^5.0.0",
     "rimraf": "^2.6.3",
-    "ts-loader": "^3.5.0",
+    "ts-loader": "^9.3.1",
     "tslint": "^5.20.1",
     "typescript": "^4.7.4",
-    "uglify-js": "^3.6.9",
-    "webpack": "3.12.0"
+    "uglify-js": "^3.17.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   },
   "dependencies": {
     "contensis-core-api": "1.0.5",

@@ -1,11 +1,13 @@
-var webpack = require("webpack");
-var path = require('path');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var UglifyJS = require('uglify-js');
+const webpack = require("webpack");
+const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJS = require('uglify-js');
+const TerserPlugin = require('terser-webpack-plugin');
 
-var rootDir = path.resolve(__dirname);
+const rootDir = path.resolve(__dirname);
 
 module.exports = {
+    mode: 'production',
     devtool: 'source-map',
 
     entry: {
@@ -25,12 +27,16 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                loader: 'ts-loader',
                 exclude: /node_modules/,
+                use: {
+                    loader: 'ts-loader',
+                    options: {
+                        compilerOptions: {
+                            outDir: "../bundle/es5"
+                        }
+                    }
+                }
             },
-        ],
-        loaders: [
-
         ]
     },
 
@@ -38,24 +44,36 @@ module.exports = {
         extensions: ['.ts', '.js']
     },
 
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                terserOptions: {
+                    sourceMap: true,
+                    mangle: {
+                        keep_fnames: true
+                    },
+                    format: {
+                        comments: false
+                    }
+                }
+            })
+        ]
+    },
+
 
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
-            output: {
-                comments: false
-            },
-            mangle: {
-                keep_fnames: true
-            }
-        }),
-        new CopyWebpackPlugin([            
-            {
-                from: 'node_modules/whatwg-fetch/dist/fetch.umd.js', to: 'fetch.min.js', transform(content, path) {
-                    return UglifyJS.minify(content.toString()).code;
-                }
-            },            
-            { from: 'node_modules/es6-promise/dist/es6-promise.auto.min.js', to: 'es6-promise.min.js' }
-        ])
+        new CopyWebpackPlugin({
+            patterns: [     
+                {
+                    from: 'node_modules/whatwg-fetch/dist/fetch.umd.js',
+                    to: 'fetch.min.js',
+                    transform(content, absoluteFrom) {
+                        return UglifyJS.minify(content.toString()).code;
+                    }
+                },            
+                { from: 'node_modules/es6-promise/dist/es6-promise.auto.min.js', to: 'es6-promise.min.js' }
+            ]
+        })
     ]
 };

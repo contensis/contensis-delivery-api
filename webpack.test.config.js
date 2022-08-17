@@ -4,7 +4,7 @@ var rootDir = path.resolve(__dirname);
 
 
 module.exports = {
-
+	mode: 'development',
 	devtool: 'eval-source-map', 
 
 	resolve: {
