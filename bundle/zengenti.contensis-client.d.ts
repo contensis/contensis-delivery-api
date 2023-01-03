@@ -1162,6 +1162,14 @@ interface ContensisStatic {
 interface Entry {
     sys: EntrySys;
     [key: string]: any;
+    entryTitle?: string;
+    entryDescription?: string;
+    entryThumbnail?: EntryThumbnail;
+}
+interface EntryThumbnail {
+    altText?: string;
+    caption?: string;
+    asset?: Entry;
 }
 
 interface EntryGetOptions {
