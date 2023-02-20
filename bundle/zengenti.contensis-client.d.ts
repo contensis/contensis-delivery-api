@@ -1132,6 +1132,8 @@ interface ClientStatic {
 interface Config {
     rootUrl?: string;
     accessToken?: string;
+    clientType?: ClientGrantType;
+    clientDetails?: ClientGrants;
     defaultHeaders?: {
         [key: string]: string;
     };
@@ -1149,6 +1151,10 @@ interface ContensisClient extends IParamsProvider {
     nodes: INodeOperations;
     project: IProjectOperations;
     taxonomy: ITaxonomyOperations;
+    getHeaders: (contentType?: string) => {
+        [key: string]: string;
+    };
+    ensureIsAuthorized: () => Promise<string>;
 }
 
 interface ContensisStatic {

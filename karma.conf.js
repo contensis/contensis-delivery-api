@@ -5,7 +5,11 @@ var webpackConfig = require('./webpack.test.config');
 module.exports = function (config) {
 	let originalConfig = {
 		client: {
-			args: ['--test-target', config.testTarget]
+			args: ['--test-target', config.testTarget],
+			jasmine: {
+				// timeoutInterval:  1000
+				// timeoutInterval: 60 * 60 * 1000
+			}
 		},
 
 		basePath: '',
@@ -39,8 +43,8 @@ module.exports = function (config) {
 		logLevel: config.LOG_INFO,
 		autoWatch: false,
 		browsers: ['Chrome'],
-		// browserDisconnectTimeout : 0,
-		// browserNoActivityTimeout : 0,
+		browserDisconnectTimeout : 0,
+		browserNoActivityTimeout : 0,		
 		singleRun: true,
 		concurrency: Infinity
 	};

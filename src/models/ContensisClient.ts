@@ -11,4 +11,7 @@ export interface ContensisClient extends IParamsProvider {
 	nodes: INodeOperations;
 	project: IProjectOperations;
 	taxonomy: ITaxonomyOperations;
+
+	getHeaders: (contentType?: string) => { [key: string]: string };
+	ensureIsAuthorized: () => Promise<string>;
 }

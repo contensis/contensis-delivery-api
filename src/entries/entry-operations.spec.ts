@@ -3,6 +3,7 @@ import { toQuery } from 'contensis-core-api';
 
 import fetch from 'cross-fetch';
 import { FreeTextSearchOperatorTypeEnum } from 'contensis-core-api/lib/models/search/FreeTextSearchOperatorType';
+import { getDefaultConfigForAccessToken, getDefaultFetchRequestForAccessToken, setDefaultSpyForAccessToken } from '../specs-utils.spec';
 
 const Zengenti = { Contensis };
 const global = window || this;
@@ -12,17 +13,7 @@ describe('Entry Operations', function () {
 
 	describe('Get entry', () => {
 		beforeEach(() => {
-			spyOn(global, 'fetch').and.callFake((...args) => {
-				return new Promise((resolve, reject) => {
-					resolve({
-						json: () => {
-							return {
-								items: []
-							};
-						}
-					});
-				});
-			});
+			setDefaultSpyForAccessToken(global);
 
 			Zengenti.Contensis.Client.defaultClientConfig = null;
 			Zengenti.Contensis.Client.configure({
@@ -30,27 +21,21 @@ describe('Entry Operations', function () {
 			});
 		});
 
-		it('Get Live Version', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Get Live Version', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-			client.entries.get('1');
+			let entry = await client.entries.get('1');
+
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/1?language=en-US', Object({
-				method: 'GET',
-				mode: 'cors',
-				headers: {
-					'accessToken': 'XXXXXX'
-				}
-			}));
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				'http://my-website.com/api/delivery/projects/myProject/entries/1?language=en-US',
+				getDefaultFetchRequestForAccessToken()
+			]);
+
+			expect(entry).not.toBeNull();
 		});
 
-		it('Get Preview Version', () => {
+		it('Get Preview Version', async () => {
 			let client = Zengenti.Contensis.Client.create({
 				projectId: 'myProject',
 				rootUrl: 'http://my-website.com/',
@@ -58,18 +43,16 @@ describe('Entry Operations', function () {
 				versionStatus: 'latest',
 				accessToken: 'XXXXXX'
 			});
-			client.entries.get('1');
+
+			await client.entries.get('1');
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/1?language=en-US&versionStatus=latest', Object({
-				method: 'GET',
-				mode: 'cors',
-				headers: {
-					'accessToken': 'XXXXXX'
-				}
-			}));
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				'http://my-website.com/api/delivery/projects/myProject/entries/1?language=en-US&versionStatus=latest',
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('Get Default French Version', () => {
+		it('Get Default French Version', async () => {
 			Zengenti.Contensis.Client.configure({
 				projectId: 'myProject',
 				rootUrl: 'http://my-website.com/',
@@ -78,18 +61,15 @@ describe('Entry Operations', function () {
 				accessToken: 'XXXXXX'
 			});
 			let client = Zengenti.Contensis.Client.create();
-			client.entries.get('1');
+			await client.entries.get('1');
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/1?language=fr-FR', Object({
-				method: 'GET',
-				mode: 'cors',
-				headers: {
-					'accessToken': 'XXXXXX'
-				}
-			}));
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				'http://my-website.com/api/delivery/projects/myProject/entries/1?language=fr-FR',
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('Get Specified French Version', () => {
+		it('Get Specified French Version', async () => {
 			let client = Zengenti.Contensis.Client.create({
 				projectId: 'myProject',
 				rootUrl: 'http://my-website.com/',
@@ -97,70 +77,46 @@ describe('Entry Operations', function () {
 				versionStatus: 'published',
 				accessToken: 'XXXXXX'
 			});
-			client.entries.get('1');
+			await client.entries.get('1');
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/1?language=fr-FR', Object({
-				method: 'GET',
-				mode: 'cors',
-				headers: {
-					'accessToken': 'XXXXXX'
-				}
-			}));
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				'http://my-website.com/api/delivery/projects/myProject/entries/1?language=fr-FR',
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('Get Live Version with all options', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
-			client.entries.get({ id: '1', language: 'de', linkDepth: 99, fields: ['title'] });
+		it('Get Live Version with all options', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+			await client.entries.get({ id: '1', language: 'de', linkDepth: 99, fields: ['title'] });
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/1?fields=title&language=de&linkDepth=99', Object({
-				method: 'GET',
-				mode: 'cors',
-				headers: {
-					'accessToken': 'XXXXXX'
-				}
-			}));
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				'http://my-website.com/api/delivery/projects/myProject/entries/1?fields=title&language=de&linkDepth=99',
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('Get Live Version with minimal options', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
-			client.entries.get({ id: '1', language: '', linkDepth: 0, fields: [] });
+		it('Get Live Version with minimal options', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+			await client.entries.get({ id: '1', language: '', linkDepth: 0, fields: [] });
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/1?language=en-US', Object({
-				method: 'GET',
-				mode: 'cors',
-				headers: {
-					'accessToken': 'XXXXXX'
-				}
-			}));
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				'http://my-website.com/api/delivery/projects/myProject/entries/1?language=en-US',
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('Get Live Version with no options', () => {
+		it('Get Live Version with no options', async () => {
 			let client = Zengenti.Contensis.Client.create({
 				projectId: 'myProject',
 				rootUrl: 'http://my-website.com/',
 				accessToken: 'XXXXXX'
 			});
-			client.entries.get({ id: '1' });
+			await client.entries.get({ id: '1' });
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject/entries/1', Object({
-				method: 'GET',
-				mode: 'cors',
-				headers: {
-					'accessToken': 'XXXXXX'
-				}
-			}));
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				'http://my-website.com/api/delivery/projects/myProject/entries/1',
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
 	});
@@ -168,17 +124,7 @@ describe('Entry Operations', function () {
 	describe('List entries', () => {
 
 		beforeEach(() => {
-			spyOn(global, 'fetch').and.callFake((...args) => {
-				return new Promise((resolve, reject) => {
-					resolve({
-						json: () => {
-							return {
-								items: []
-							};
-						}
-					});
-				});
-			});
+			setDefaultSpyForAccessToken(global);
 
 			Zengenti.Contensis.Client.defaultClientConfig = null;
 			Zengenti.Contensis.Client.configure({
@@ -186,72 +132,37 @@ describe('Entry Operations', function () {
 			});
 		});
 
-		it('List By Content Type', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
-			client.entries.list('cheese');
+		it('List By Content Type', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+			await client.entries.list('cheese');
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/delivery/projects/myProject/contentTypes/cheese/entries?language=en-US&pageIndex=0&pageSize=25',
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX'
-					}
-				}));
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('List Live Version', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
-			client.entries.list('cheese');
+		it('List Live Version', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+			await client.entries.list('cheese');
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/delivery/projects/myProject/contentTypes/cheese/entries?language=en-US&pageIndex=0&pageSize=25',
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX'
-					}
-				}));
-
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('List Preview Version', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'latest',
-				accessToken: 'XXXXXX'
-			});
-			client.entries.list('cheese');
+		it('List Preview Version', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
+			await client.entries.list('cheese');
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/delivery/projects/myProject/contentTypes/cheese/entries?language=en-US&pageIndex=0&pageSize=25&versionStatus=latest',
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX'
-					}
-				}));
-
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('List French Version', () => {
+		it('List French Version', async () => {
 			let client = Zengenti.Contensis.Client.create({
 				projectId: 'myProject',
 				rootUrl: 'http://my-website.com/',
@@ -259,187 +170,94 @@ describe('Entry Operations', function () {
 				versionStatus: 'published',
 				accessToken: 'XXXXXX'
 			});
-			client.entries.list('cheese');
+			await client.entries.list('cheese');
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/delivery/projects/myProject/contentTypes/cheese/entries?language=fr-FR&pageIndex=0&pageSize=25',
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX'
-					}
-				}));
-
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('List with all options', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
-			client.entries.list({ contentTypeId: 'cheese', pageOptions: { pageIndex: 5, pageSize: 100 }, language: 'en-GB', linkDepth: 1, order: ['title'], fields: ['title'] });
+		it('List with all options', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+			await client.entries.list({ contentTypeId: 'cheese', pageOptions: { pageIndex: 5, pageSize: 100 }, language: 'en-GB', linkDepth: 1, order: ['title'], fields: ['title'] });
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/delivery/projects/myProject/contentTypes/cheese/entries?fields=title&language=en-GB&linkDepth=1&order=title&pageIndex=5&pageSize=100',
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX'
-					}
-				}));
-
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('List with minimal options', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
-			client.entries.list({ contentTypeId: '', linkDepth: 0, language: '', order: [], fields: [], pageOptions: {} });
+		it('List with minimal options', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+			await client.entries.list({ contentTypeId: '', linkDepth: 0, language: '', order: [], fields: [], pageOptions: {} });
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/delivery/projects/myProject/entries?language=en-US&pageIndex=0&pageSize=25',
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX'
-					}
-				}));
-
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('List with no options', () => {
+		it('List with no options', async () => {
 			let client = Zengenti.Contensis.Client.create({
 				projectId: 'myProject',
 				rootUrl: 'http://my-website.com/',
 				accessToken: 'XXXXXX'
 			});
-			client.entries.list({});
+
+			await client.entries.list({});
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/delivery/projects/myProject/entries?pageIndex=0&pageSize=25',
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX'
-					}
-				}));
-
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('List Paging Options', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
-			client.entries.list({ contentTypeId: 'cheese', pageOptions: { pageIndex: 5, pageSize: 100 } });
+		it('List Paging Options', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+			await client.entries.list({ contentTypeId: 'cheese', pageOptions: { pageIndex: 5, pageSize: 100 } });
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/delivery/projects/myProject/contentTypes/cheese/entries?language=en-US&pageIndex=5&pageSize=100',
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX'
-					}
-				}));
-
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('List Specified French Version', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
-			client.entries.list({ contentTypeId: 'cheese', language: 'fr-FR' });
+		it('List Specified French Version', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+			await client.entries.list({ contentTypeId: 'cheese', language: 'fr-FR' });
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/delivery/projects/myProject/contentTypes/cheese/entries?language=fr-FR&pageIndex=0&pageSize=25',
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX'
-					}
-				}));
-
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('List Specified French Version with Paging Options', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
-			client.entries.list({ contentTypeId: 'cheese', language: 'fr-FR', pageOptions: { pageIndex: 5, pageSize: 100 } });
+		it('List Specified French Version with Paging Options', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+			await client.entries.list({ contentTypeId: 'cheese', language: 'fr-FR', pageOptions: { pageIndex: 5, pageSize: 100 } });
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/delivery/projects/myProject/contentTypes/cheese/entries?language=fr-FR&pageIndex=5&pageSize=100',
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX'
-					}
-				}));
-
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 
-		it('List Specified French Version with Paging Options but no Content Type', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
-			client.entries.list({ language: 'fr-FR', pageOptions: { pageIndex: 5, pageSize: 100 } });
+		it('List Specified French Version with Paging Options but no Content Type', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+			await client.entries.list({ language: 'fr-FR', pageOptions: { pageIndex: 5, pageSize: 100 } });
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/delivery/projects/myProject/entries?language=fr-FR&pageIndex=5&pageSize=100',
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX'
-					}
-				}));
-
+				getDefaultFetchRequestForAccessToken()
+			]);
 		});
 	});
 
 	describe('Search entries', () => {
 
 		beforeEach(() => {
-			spyOn(global, 'fetch').and.callFake((...args) => {
-				return new Promise((resolve, reject) => {
-					resolve({
-						json: () => {
-							return {
-								items: []
-							};
-						}
-					});
-				});
-			});
+			setDefaultSpyForAccessToken(global);
 
 			Zengenti.Contensis.Client.defaultClientConfig = null;
 			Zengenti.Contensis.Client.configure({
@@ -447,14 +265,8 @@ describe('Entry Operations', function () {
 			});
 		});
 
-		it('Do Search - simple', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search - simple', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let orderBy: any = [{
 				asc: 'name'
@@ -477,7 +289,7 @@ describe('Entry Operations', function () {
 				where
 			};
 
-			client.entries.search(query as any);
+			await client.entries.search(query as any);
 			expect(global.fetch).toHaveBeenCalled();
 
 			let expectedQueryString = toQuery({
@@ -486,27 +298,14 @@ describe('Entry Operations', function () {
 				where: JSON.stringify(where)
 			});
 
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX',
-						'Content-Type': 'application/json; charset=utf-8'
-					}
-				}));
-
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search - multiple', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search - multiple', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let orderBy: any = [{
 				asc: 'authorName'
@@ -524,7 +323,7 @@ describe('Entry Operations', function () {
 				where
 			};
 
-			client.entries.search(query as any);
+			await client.entries.search(query as any);
 			expect(global.fetch).toHaveBeenCalled();
 
 			let expectedQueryString = toQuery({
@@ -533,28 +332,14 @@ describe('Entry Operations', function () {
 				where: JSON.stringify(where),
 			});
 
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
-
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX',
-						'Content-Type': 'application/json; charset=utf-8'
-					}
-				}));
-
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search with a link depth', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search with a link depth', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let orderBy: any = [{
 				asc: 'authorName'
@@ -572,7 +357,7 @@ describe('Entry Operations', function () {
 				where
 			};
 
-			client.entries.search(query as any, 99);
+			await client.entries.search(query as any, 99);
 			expect(global.fetch).toHaveBeenCalled();
 
 			let expectedQueryString = toQuery({
@@ -582,28 +367,14 @@ describe('Entry Operations', function () {
 				linkDepth: 99
 			});
 
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
-
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX',
-						'Content-Type': 'application/json; charset=utf-8'
-					}
-				}));
-
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search with all options', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search with all options', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let orderBy: any = [{
 				asc: 'authorName'
@@ -620,7 +391,7 @@ describe('Entry Operations', function () {
 				fields: ['title']
 			};
 
-			client.entries.search(query as any, 99);
+			await client.entries.search(query as any, 99);
 
 			let expectedQueryString = toQuery({
 				...query,
@@ -630,29 +401,17 @@ describe('Entry Operations', function () {
 			});
 
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX',
-						'Content-Type': 'application/json; charset=utf-8'
-					}
-				}));
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search using the default Query instance', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search using the default Query instance', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let query = new Contensis.Query();
-			client.entries.search(query);
+			await client.entries.search(query);
 
 			expect(global.fetch).toHaveBeenCalled();
 
@@ -662,34 +421,21 @@ describe('Entry Operations', function () {
 				where: JSON.stringify([])
 			});
 
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
-				Object({
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json; charset=utf-8',
-						'accessToken': 'XXXXXX',
-					},
-					mode: 'cors'
-				}));
-
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search using a Query instance', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search using a Query instance', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let query = new Contensis.Query(Contensis.Op.startsWith('authorName', 'W'));
 			query.orderBy = Contensis.OrderBy.asc('authorName');
 			query.fields = ['title'];
 			query.pageIndex = 1;
 			query.pageSize = 50;
-			client.entries.search(query, 99);
+			await client.entries.search(query, 99);
 
 			let expectedQueryString = toQuery({
 				fields: ['title'],
@@ -708,27 +454,14 @@ describe('Entry Operations', function () {
 
 			expect(global.fetch).toHaveBeenCalled();
 
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
-				Object({
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json; charset=utf-8',
-						'accessToken': 'XXXXXX',
-					},
-					mode: 'cors'
-				}));
-
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search for distanceWithin', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search for distanceWithin', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let orderBy: any = [{
 				asc: 'authorName'
@@ -750,7 +483,7 @@ describe('Entry Operations', function () {
 				where
 			};
 
-			client.entries.search(query as any);
+			await client.entries.search(query as any);
 			let expectedQueryString = toQuery({
 				...query,
 				orderBy: JSON.stringify(orderBy),
@@ -758,33 +491,21 @@ describe('Entry Operations', function () {
 			});
 
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX',
-						'Content-Type': 'application/json; charset=utf-8'
-					}
-				}));
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search for distanceWithin using a Query instance', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search for distanceWithin using a Query instance', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let query = new Contensis.Query(Contensis.Op.distanceWithin('authorLocation', 52.377, -2.749, '10mi'));
 			query.orderBy = Contensis.OrderBy.asc('authorName');
 			query.fields = ['title'];
 			query.pageIndex = 1;
 			query.pageSize = 50;
-			client.entries.search(query, 99);
+			await client.entries.search(query, 99);
 
 			let expectedQueryString = toQuery({
 				pageIndex: 1,
@@ -805,26 +526,14 @@ describe('Entry Operations', function () {
 			});
 
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX',
-						'Content-Type': 'application/json; charset=utf-8'
-					}
-				}));
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search for non-fuzzy freeText', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search for non-fuzzy freeText', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let orderBy: any = [{
 				asc: 'authorName'
@@ -844,7 +553,7 @@ describe('Entry Operations', function () {
 				where
 			};
 
-			client.entries.search(query as any);
+			await client.entries.search(query as any);
 			let expectedQueryString = toQuery({
 				...query,
 				orderBy: JSON.stringify(orderBy),
@@ -852,26 +561,14 @@ describe('Entry Operations', function () {
 			});
 
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX',
-						'Content-Type': 'application/json; charset=utf-8'
-					}
-				}));
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search for fuzzy freeText', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search for fuzzy freeText', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let orderBy: any = [{
 				asc: 'authorName'
@@ -891,7 +588,7 @@ describe('Entry Operations', function () {
 				where
 			};
 
-			client.entries.search(query as any);
+			await client.entries.search(query as any);
 			let expectedQueryString = toQuery({
 				...query,
 				orderBy: JSON.stringify(orderBy),
@@ -899,33 +596,21 @@ describe('Entry Operations', function () {
 			});
 
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX',
-						'Content-Type': 'application/json; charset=utf-8'
-					}
-				}));
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search non-fuzzy freeText using a Query instance', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search non-fuzzy freeText using a Query instance', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let query = new Contensis.Query(Contensis.Op.freeText('description', 'term1'));
 			query.orderBy = Contensis.OrderBy.asc('description');
 			query.fields = ['title'];
 			query.pageIndex = 1;
 			query.pageSize = 50;
-			client.entries.search(query, 99);
+			await client.entries.search(query, 99);
 
 			let expectedQueryString = toQuery({
 				pageIndex: 1,
@@ -946,33 +631,21 @@ describe('Entry Operations', function () {
 			});
 
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX',
-						'Content-Type': 'application/json; charset=utf-8'
-					}
-				}));
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search for fuzzy freeText using a Query instance', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search for fuzzy freeText using a Query instance', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let query = new Contensis.Query(Contensis.Op.freeText('description', 'term1', true, FreeTextSearchOperatorTypeEnum.Or));
 			query.orderBy = Contensis.OrderBy.asc('description');
 			query.fields = ['title'];
 			query.pageIndex = 1;
 			query.pageSize = 50;
-			client.entries.search(query, 99);
+			await client.entries.search(query, 99);
 
 			let expectedQueryString = toQuery({
 				pageIndex: 1,
@@ -993,32 +666,20 @@ describe('Entry Operations', function () {
 			});
 
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX',
-						'Content-Type': 'application/json; charset=utf-8'
-					}
-				}));
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search using a ZenqlQuery instance', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search using a ZenqlQuery instance', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let zenqlQuery = new Contensis.ZenqlQuery('sys.contentTypeId = plant and sys.version.created >= startOfWeek()');
 			zenqlQuery.fields = ['title'];
 			zenqlQuery.pageIndex = 1;
 			zenqlQuery.pageSize = 50;
-			client.entries.search(zenqlQuery, 99);
+			await client.entries.search(zenqlQuery, 99);
 
 			let expectedQueryString = toQuery({
 				fields: ['title'],
@@ -1030,31 +691,18 @@ describe('Entry Operations', function () {
 
 			expect(global.fetch).toHaveBeenCalled();
 
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries${expectedQueryString}`,
-				Object({
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json; charset=utf-8',
-						'accessToken': 'XXXXXX',
-					},
-					mode: 'cors'
-				}));
-
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search using a ZenqlQuery string', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search using a ZenqlQuery string', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let zenqlQueryString = 'sys.contentTypeId = plant and sys.version.created >= startOfWeek()';
 
-			client.entries.search(zenqlQueryString, 99);
+			await client.entries.search(zenqlQueryString, 99);
 			let expectedQueryString = toQuery({
 				linkDepth: 99,
 				pageIndex: 0,
@@ -1064,34 +712,17 @@ describe('Entry Operations', function () {
 
 			expect(global.fetch).toHaveBeenCalled();
 
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries${expectedQueryString}`,
-				Object({
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json; charset=utf-8',
-						'accessToken': 'XXXXXX',
-					},
-					mode: 'cors'
-				}));
-
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 	});
 
 	describe('Entry Operations in IE browser', function () {
 
 		beforeEach(() => {
-			spyOn(global, 'fetch').and.callFake((...args) => {
-				return new Promise((resolve, reject) => {
-					resolve({
-						json: () => {
-							return {
-								items: []
-							};
-						}
-					});
-				});
-			});
+			setDefaultSpyForAccessToken(global);
 
 			Zengenti.Contensis.Client.defaultClientConfig = null;
 			Zengenti.Contensis.Client.configure({
@@ -1101,14 +732,8 @@ describe('Entry Operations', function () {
 			global.document.documentMode = 11;
 		});
 
-		it('Do Search using an object with all options and  URL=2083', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search using an object with all options and  URL=2083', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let orderBy: any = [{
 				asc: 'authorName'
@@ -1128,7 +753,7 @@ describe('Entry Operations', function () {
 				fields: ['title']
 			};
 
-			client.entries.search(query as any, 99);
+			await client.entries.search(query as any, 99);
 
 			let expectedQueryString = toQuery({
 				...query,
@@ -1138,26 +763,14 @@ describe('Entry Operations', function () {
 			});
 
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
-				Object({
-					method: 'GET',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX',
-						'Content-Type': 'application/json; charset=utf-8'
-					}
-				}));
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search using an object with all options and url > 2083', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search using an object with all options and url > 2083', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			let orderBy: any = [{
 				asc: 'authorName'
@@ -1177,30 +790,17 @@ describe('Entry Operations', function () {
 				fields: ['title']
 			};
 
-			client.entries.search(query as any, 99);
+			await client.entries.search(query as any, 99);
 
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search?linkDepth=99`,
-				Object({
-					method: 'POST',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX',
-						'Content-Type': 'application/json; charset=utf-8'
-					},
-					body: JSON.stringify(query)
-				}));
+				getDefaultFetchRequestForAccessToken('POST', 'application/json; charset=utf-8', false, JSON.stringify(query))
+			]);
 		});
 
-		it('Do Search using a Query instance and url = 2083', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search using a Query instance and url = 2083', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			// use string with length = 1860
 
@@ -1212,7 +812,7 @@ describe('Entry Operations', function () {
 			query.fields = ['title'];
 			query.pageIndex = 1;
 			query.pageSize = 50;
-			client.entries.search(query, 99);
+			await client.entries.search(query, 99);
 
 			let expectedQueryString = toQuery({
 				fields: ['title'],
@@ -1230,28 +830,14 @@ describe('Entry Operations', function () {
 			});
 
 			expect(global.fetch).toHaveBeenCalled();
-
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
-				Object({
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json; charset=utf-8',
-						'accessToken': 'XXXXXX',
-					},
-					mode: 'cors'
-				}));
-
+				getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+			]);
 		});
 
-		it('Do Search using a Query instance and url > 2083', () => {
-			let client = Zengenti.Contensis.Client.create({
-				projectId: 'myProject',
-				rootUrl: 'http://my-website.com/',
-				language: 'en-US',
-				versionStatus: 'published',
-				accessToken: 'XXXXXX'
-			});
+		it('Do Search using a Query instance and url > 2083', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
 			// use string with length = 1861
 
@@ -1263,21 +849,13 @@ describe('Entry Operations', function () {
 			query.fields = ['title'];
 			query.pageIndex = 1;
 			query.pageSize = 50;
-			client.entries.search(query, 99);
+			await client.entries.search(query, 99);
 
 			expect(global.fetch).toHaveBeenCalled();
-			expect(global.fetch).toHaveBeenCalledWith(
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				`http://my-website.com/api/delivery/projects/myProject/entries/search?linkDepth=99`,
-				Object({
-					method: 'POST',
-					mode: 'cors',
-					headers: {
-						'accessToken': 'XXXXXX',
-						'Content-Type': 'application/json; charset=utf-8'
-					},
-					body: JSON.stringify(query)
-				}));
-
+				getDefaultFetchRequestForAccessToken('POST', 'application/json; charset=utf-8', false, JSON.stringify(query))
+			]);
 		});
 
 	});

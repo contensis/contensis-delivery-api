@@ -22,25 +22,33 @@ let searchMappers = {
     linkDepth: (value) => (value && (value > 0)) ? value : null
 };
 export class EntryOperations {
-    constructor(httpClient, paramsProvider) {
+    constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
-        this.paramsProvider = paramsProvider;
+        this.contensisClient = contensisClient;
     }
     get(idOrOptions) {
         let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/:id', { language: null, versionStatus: null, linkDepth: null, fields: null })
             .addOptions(idOrOptions, 'id')
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(getMappers)
             .toUrl();
-        return this.httpClient.request(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
     list(contentTypeIdOrOptions) {
         let url = UrlBuilder.create(listUrl, { language: null, versionStatus: null, linkDepth: null, order: null, fields: null, pageIndex: null, pageSize: null })
             .addOptions(contentTypeIdOrOptions, 'contentTypeId')
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)
             .toUrl();
-        return this.httpClient.request(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
     search(query, linkDepth = 0) {
         if (!query) {
@@ -60,7 +68,7 @@ export class EntryOperations {
                 throw new Error('A valid query needs to be specified.');
             }
         }
-        let params = this.paramsProvider.getParams();
+        let params = this.contensisClient.getParams();
         let pageSize = params.pageSize || 25;
         let pageIndex = params.pageIndex || 0;
         let fields = [];
@@ -82,13 +90,15 @@ export class EntryOperations {
             .setParams({ ...payload, projectId })
             .addMappers(searchMappers)
             .toUrl();
-        return this.httpClient.request(url, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                method: 'GET',
+                headers: this.contensisClient.getHeaders('application/json; charset=utf-8')
+            });
         });
     }
     resolve(entryOrList, fields = null) {
-        let params = this.paramsProvider.getParams();
+        let params = this.contensisClient.getParams();
         let resolver = new LinkResolver(entryOrList, fields, params.versionStatus, (query) => this.search(query));
         return resolver.resolve();
     }
@@ -97,7 +107,7 @@ export class EntryOperations {
             return new Promise((resolve) => { resolve(null); });
         }
         let deliveryQuery = query;
-        let params = this.paramsProvider.getParams();
+        let params = this.contensisClient.getParams();
         let pageSize = params.pageSize || 25;
         let pageIndex = params.pageIndex || 0;
         let fields = [];
@@ -126,26 +136,30 @@ export class EntryOperations {
         if (isBrowser() && isIE() && url.length > 2083) {
             return this.searchUsingPost(query, linkDepth);
         }
-        return this.httpClient.request(url, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                method: 'GET',
+                headers: this.contensisClient.getHeaders('application/json; charset=utf-8')
+            });
         });
     }
     searchUsingPost(query, linkDepth = 0) {
         if (!query) {
             return new Promise((resolve) => { resolve(null); });
         }
-        let params = this.paramsProvider.getParams();
+        let params = this.contensisClient.getParams();
         query.pageSize = query.pageSize || params.pageSize;
         query.pageIndex = query.pageIndex || 0;
         let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/search', { linkDepth })
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(searchMappers)
             .toUrl();
-        return this.httpClient.request(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            body: JSON.stringify(query)
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                method: 'POST',
+                headers: this.contensisClient.getHeaders('application/json; charset=utf-8'),
+                body: JSON.stringify(query)
+            });
         });
     }
 }
