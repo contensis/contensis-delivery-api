@@ -1,10 +1,10 @@
 import {
-    Entry, INodeOperations, Node, NodeGetByEntryOptions,
+    ContensisClient, Entry, INodeOperations, Node, NodeGetByEntryOptions,
     NodeGetByIdOptions, NodeGetByPathOptions, NodeGetRootOptions, NodeGetChildrenOptions,
     NodeGetParentOptions, NodeGetAncestorsOptions, NodeGetAncestorAtLevelOptions, NodeGetSiblingOptions
 } from '../models';
 import {
-    defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, IHttpClient, IParamsProvider,
+    defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, IHttpClient,
     isString, UrlBuilder
 } from 'contensis-core-api';
 
@@ -42,8 +42,8 @@ let nodeGetAncestorsOptionsMappers = {
 
 export class NodeOperations implements INodeOperations {
 
-    constructor(private httpClient: IHttpClient, private paramsProvider: IParamsProvider) {
-        if (!this.httpClient || !this.paramsProvider) {
+    constructor(private httpClient: IHttpClient, private contensisClient: ContensisClient) {
+        if (!this.httpClient || !this.contensisClient) {
             throw new Error('The class was not initialised correctly.');
         }
     }
@@ -53,11 +53,15 @@ export class NodeOperations implements INodeOperations {
             '/api/delivery/projects/:projectId/nodes/root',
             { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .addOptions(options)
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeDefaultWithDepthOptionsMappers)
             .toUrl();
 
-        return this.httpClient.request<Node>(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request<Node>(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
 
     get(idOrPathOrOptions: string | NodeGetByIdOptions | NodeGetByPathOptions): Promise<Node> {
@@ -77,11 +81,14 @@ export class NodeOperations implements INodeOperations {
             urlTemplate,
             { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, allowPartialMatch: null })
             .addOptions(idOrPathOrOptions, isPath ? 'path' : 'id')
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeGetByPathOptions)
             .toUrl();
-
-        return this.httpClient.request<Node>(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request<Node>(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
 
     getByEntry(entryIdOrEntryOrOptions: string | Entry | NodeGetByEntryOptions): Promise<Node[]> {
@@ -122,11 +129,15 @@ export class NodeOperations implements INodeOperations {
                 { entryId: null, language: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .addOptions(entryId, 'entryId')
             .addOptions(entryIdOrEntryOrOptions)
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeGetByEntryOptions)
             .toUrl();
 
-        return this.httpClient.request<Node[]>(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request<Node[]>(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
 
     getChildren(idOrNodeOrOptions: string | Node | NodeGetChildrenOptions): Promise<Node[]> {
@@ -140,11 +151,15 @@ export class NodeOperations implements INodeOperations {
                 { language: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeDefaultOptionsMappers)
             .toUrl();
 
-        return this.httpClient.request<Node[]>(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request<Node[]>(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
 
     getParent(idOrNodeOrOptions: string | Node | NodeGetParentOptions): Promise<Node> {
@@ -158,12 +173,17 @@ export class NodeOperations implements INodeOperations {
                 { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeDefaultWithDepthOptionsMappers)
             .toUrl();
 
-        return this.httpClient.request<Node>(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request<Node>(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
+
     getAncestorAtLevel(options: NodeGetAncestorAtLevelOptions): Promise<Node> {
         this.validateNodeId(options);
 
@@ -175,11 +195,15 @@ export class NodeOperations implements INodeOperations {
                 { language: null, startLevel: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .addOptions(nodeId, 'id')
             .addOptions(options)
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeGetAncestorAtLevelOptionsMappers)
             .toUrl();
 
-        return this.httpClient.request<Node>(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request<Node>(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
 
     getAncestors(idOrNodeOrOptions: string | Node | NodeGetAncestorsOptions): Promise<Node[]> {
@@ -193,11 +217,15 @@ export class NodeOperations implements INodeOperations {
                 { language: null, startLevel: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeGetAncestorsOptionsMappers)
             .toUrl();
 
-        return this.httpClient.request<Node[]>(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request<Node[]>(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
 
     getSiblings(idOrNodeOrOptions: string | Node | NodeGetSiblingOptions): Promise<Node[]> {
@@ -211,11 +239,15 @@ export class NodeOperations implements INodeOperations {
                 { language: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeDefaultOptionsMappers)
             .toUrl();
 
-        return this.httpClient.request<Node[]>(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request<Node[]>(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
 
     private validateNodeId(idOrNodeOrOptions: string | Node | { id?: string; node?: Node; }): void {

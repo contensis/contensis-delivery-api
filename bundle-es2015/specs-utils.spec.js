@@ -1,4 +1,11 @@
 const defaultRootUrl = 'http://my-website.com/';
+export function getDefaultAuthenticateUrl(isRelative = false) {
+    let authenticatePath = 'authenticate/connect/token';
+    if (isRelative) {
+        return '/' + authenticatePath;
+    }
+    return defaultRootUrl + authenticatePath;
+}
 export function setDefaultSpyForAccessToken(global, returnValueForApi) {
     if (!returnValueForApi) {
         returnValueForApi = {
@@ -49,6 +56,24 @@ export function getDefaultFetchRequestForAccessToken(method, contentType, isRela
             accessToken: 'XXXXXX',
             Accept: 'application/json',
             'Content-Type': method === 'PATCH' ? 'application/merge-patch+json; charset=utf-8' : contentType
+        }
+    });
+    if (!!isRelativeUrl) {
+        delete request.mode;
+    }
+    if (!!body) {
+        request.body = body;
+    }
+    return request;
+}
+export function getDefaultFetchRequestForClientCredentials(method, isRelativeUrl, body) {
+    let request = Object({
+        method: !method ? 'GET' : method,
+        mode: 'cors',
+        headers: {
+            Authorization: 'Bearer ZZZZZZ',
+            Accept: 'application/json',
+            'Content-Type': method === 'PATCH' ? 'application/merge-patch+json; charset=utf-8' : 'application/json'
         }
     });
     if (!!isRelativeUrl) {

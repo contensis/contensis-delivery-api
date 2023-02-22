@@ -1,34 +1,45 @@
 import {
+	ContensisClient,
 	ITaxonomyOperations, TaxonomyGetNodeByKeyOptions, TaxonomyGetNodeByPathOptions,
 	TaxonomyNode, TaxonomyResolveChildrenOptions
 } from '../models';
-import { IHttpClient, IParamsProvider, UrlBuilder } from 'contensis-core-api';
+import { IHttpClient, UrlBuilder } from 'contensis-core-api';
 
 let taxonomyMappers = {
 	order: (value) => (value === 'defined') ? value : null
 };
 
 export class TaxonomyOperations implements ITaxonomyOperations {
-	constructor(private httpClient: IHttpClient, private paramsProvider: IParamsProvider) {
+	constructor(private httpClient: IHttpClient, private contensisClient: ContensisClient) {
 
 	}
 
 	getNodeByKey(key: string | TaxonomyGetNodeByKeyOptions): Promise<TaxonomyNode> {
 		let url = UrlBuilder.create('/api/delivery/projects/:projectId/taxonomy/nodes/:key', { order: null, childDepth: null, language: null })
 			.addOptions(key, 'key')
-			.setParams(this.paramsProvider.getParams())
+			.setParams(this.contensisClient.getParams())
 			.addMappers(taxonomyMappers)
 			.toUrl();
-		return this.httpClient.request<TaxonomyNode>(url);
+
+		return this.contensisClient.ensureIsAuthorized().then(() => {
+			return this.httpClient.request<TaxonomyNode>(url, {
+				headers: this.contensisClient.getHeaders()
+			});
+		});
 	}
 
 	getNodeByPath(path: string | TaxonomyGetNodeByPathOptions): Promise<TaxonomyNode> {
 		let url = UrlBuilder.create('/api/delivery/projects/:projectId/taxonomy/nodes', { order: null, childDepth: null, language: null, path: null })
 			.addOptions(path, 'path')
-			.setParams(this.paramsProvider.getParams())
+			.setParams(this.contensisClient.getParams())
 			.addMappers(taxonomyMappers)
 			.toUrl();
-		return this.httpClient.request<TaxonomyNode>(url);
+
+		return this.contensisClient.ensureIsAuthorized().then(() => {
+			return this.httpClient.request<TaxonomyNode>(url, {
+				headers: this.contensisClient.getHeaders()
+			});
+		});
 	}
 
 	resolveChildren(node: string | TaxonomyNode | TaxonomyResolveChildrenOptions): Promise<TaxonomyNode> {

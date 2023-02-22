@@ -3,6 +3,15 @@ import { Config } from './models';
 
 const defaultRootUrl = 'http://my-website.com/';
 
+
+export function getDefaultAuthenticateUrl(isRelative: boolean = false): string {
+    let authenticatePath = 'authenticate/connect/token';
+    if (isRelative) {
+        return '/' + authenticatePath;
+    }
+    return defaultRootUrl + authenticatePath;
+}
+
 export function setDefaultSpyForAccessToken(global: any, returnValueForApi?: any): void {
     if (!returnValueForApi) {
         returnValueForApi = {
@@ -74,6 +83,29 @@ export function getDefaultFetchRequestForAccessToken(method?: 'GET' | 'POST' | '
 
     return request;
 }
+
+export function getDefaultFetchRequestForClientCredentials(method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'DELETE', isRelativeUrl?: boolean, body?: string): Object {
+    let request = Object({
+        method: !method ? 'GET' : method,
+        mode: 'cors',
+        headers: {
+            Authorization: 'Bearer ZZZZZZ',
+            Accept: 'application/json',
+            'Content-Type': method === 'PATCH' ? 'application/merge-patch+json; charset=utf-8' : 'application/json'
+        }
+    });
+
+    if (!!isRelativeUrl) {
+        delete request.mode;
+    }
+
+    if (!!body) {
+        request.body = body;
+    }
+
+    return request;
+}
+
 
 export function getDefaultConfigForAccessToken(versionStatus?: VersionStatus): Config {
     if (!versionStatus) {

@@ -1,9 +1,9 @@
-import { ITaxonomyOperations, TaxonomyGetNodeByKeyOptions, TaxonomyGetNodeByPathOptions, TaxonomyNode, TaxonomyResolveChildrenOptions } from '../models';
-import { IHttpClient, IParamsProvider } from 'contensis-core-api';
+import { ContensisClient, ITaxonomyOperations, TaxonomyGetNodeByKeyOptions, TaxonomyGetNodeByPathOptions, TaxonomyNode, TaxonomyResolveChildrenOptions } from '../models';
+import { IHttpClient } from 'contensis-core-api';
 export declare class TaxonomyOperations implements ITaxonomyOperations {
     private httpClient;
-    private paramsProvider;
-    constructor(httpClient: IHttpClient, paramsProvider: IParamsProvider);
+    private contensisClient;
+    constructor(httpClient: IHttpClient, contensisClient: ContensisClient);
     getNodeByKey(key: string | TaxonomyGetNodeByKeyOptions): Promise<TaxonomyNode>;
     getNodeByPath(path: string | TaxonomyGetNodeByPathOptions): Promise<TaxonomyNode>;
     resolveChildren(node: string | TaxonomyNode | TaxonomyResolveChildrenOptions): Promise<TaxonomyNode>;

@@ -1,8 +1,8 @@
-import { IProjectOperations } from '../models';
-import { IHttpClient, IParamsProvider, Project } from 'contensis-core-api';
+import { ContensisClient, IProjectOperations } from '../models';
+import { IHttpClient, Project } from 'contensis-core-api';
 export declare class ProjectOperations implements IProjectOperations {
     private httpClient;
-    private paramsProvider;
-    constructor(httpClient: IHttpClient, paramsProvider: IParamsProvider);
+    private contensisClient;
+    constructor(httpClient: IHttpClient, contensisClient: ContensisClient);
     get(): Promise<Project>;
 }

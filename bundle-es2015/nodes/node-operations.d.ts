@@ -1,9 +1,9 @@
-import { Entry, INodeOperations, Node, NodeGetByEntryOptions, NodeGetByIdOptions, NodeGetByPathOptions, NodeGetRootOptions, NodeGetChildrenOptions, NodeGetParentOptions, NodeGetAncestorsOptions, NodeGetAncestorAtLevelOptions, NodeGetSiblingOptions } from '../models';
-import { IHttpClient, IParamsProvider } from 'contensis-core-api';
+import { ContensisClient, Entry, INodeOperations, Node, NodeGetByEntryOptions, NodeGetByIdOptions, NodeGetByPathOptions, NodeGetRootOptions, NodeGetChildrenOptions, NodeGetParentOptions, NodeGetAncestorsOptions, NodeGetAncestorAtLevelOptions, NodeGetSiblingOptions } from '../models';
+import { IHttpClient } from 'contensis-core-api';
 export declare class NodeOperations implements INodeOperations {
     private httpClient;
-    private paramsProvider;
-    constructor(httpClient: IHttpClient, paramsProvider: IParamsProvider);
+    private contensisClient;
+    constructor(httpClient: IHttpClient, contensisClient: ContensisClient);
     getRoot(options?: NodeGetRootOptions): Promise<Node>;
     get(idOrPathOrOptions: string | NodeGetByIdOptions | NodeGetByPathOptions): Promise<Node>;
     getByEntry(entryIdOrEntryOrOptions: string | Entry | NodeGetByEntryOptions): Promise<Node[]>;

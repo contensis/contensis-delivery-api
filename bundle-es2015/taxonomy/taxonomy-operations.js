@@ -3,25 +3,33 @@ let taxonomyMappers = {
     order: (value) => (value === 'defined') ? value : null
 };
 export class TaxonomyOperations {
-    constructor(httpClient, paramsProvider) {
+    constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
-        this.paramsProvider = paramsProvider;
+        this.contensisClient = contensisClient;
     }
     getNodeByKey(key) {
         let url = UrlBuilder.create('/api/delivery/projects/:projectId/taxonomy/nodes/:key', { order: null, childDepth: null, language: null })
             .addOptions(key, 'key')
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(taxonomyMappers)
             .toUrl();
-        return this.httpClient.request(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
     getNodeByPath(path) {
         let url = UrlBuilder.create('/api/delivery/projects/:projectId/taxonomy/nodes', { order: null, childDepth: null, language: null, path: null })
             .addOptions(path, 'path')
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(taxonomyMappers)
             .toUrl();
-        return this.httpClient.request(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
     resolveChildren(node) {
         let resolveOptions = node;
