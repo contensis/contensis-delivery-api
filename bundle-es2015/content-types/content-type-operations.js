@@ -1,14 +1,18 @@
 import { UrlBuilder } from 'contensis-core-api';
 export class ContentTypeOperations {
-    constructor(httpClient, paramsProvider) {
+    constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
-        this.paramsProvider = paramsProvider;
+        this.contensisClient = contensisClient;
     }
     get(contentTypeId) {
         let url = UrlBuilder.create('/api/delivery/projects/:projectId/contentTypes/:contentTypeId')
             .addOptions(contentTypeId, 'contentTypeId')
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.httpClient.request(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
 }

@@ -1,8 +1,10 @@
-import { ResponseHandler, VersionStatus } from 'contensis-core-api';
+import {  ClientGrantType, ClientGrants, ResponseHandler, VersionStatus } from 'contensis-core-api';
 
 export interface Config {
 	rootUrl?: string;
 	accessToken?: string;
+	clientType?: ClientGrantType;
+	clientDetails?: ClientGrants;
 	defaultHeaders?: { [key: string]: string };
 	projectId?: string;
 	language?: string;

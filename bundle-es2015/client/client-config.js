@@ -4,6 +4,8 @@ export class ClientConfig {
         this.previousConfig = previousConfig;
         this.rootUrl = null;
         this.accessToken = null;
+        this.clientType = null;
+        this.clientDetails = null;
         this.defaultHeaders = null;
         this.projectId = null;
         this.language = null;
@@ -13,6 +15,8 @@ export class ClientConfig {
         this.fetchFn = null;
         this.rootUrl = this.getValue((c) => c.rootUrl);
         this.accessToken = this.getValue((c) => c.accessToken);
+        this.clientType = this.getValue((c) => c.clientType);
+        this.clientDetails = this.getValue((c) => c.clientDetails);
         this.defaultHeaders = this.getValue((c) => c.defaultHeaders);
         this.projectId = this.getValue((c) => c.projectId);
         this.language = this.getValue((c) => c.language);
@@ -28,6 +32,8 @@ export class ClientConfig {
         return {
             rootUrl: this.rootUrl,
             accessToken: this.accessToken,
+            clientType: this.clientType,
+            clientDetails: this.clientDetails,
             defaultHeaders: this.defaultHeaders,
             language: this.language,
             versionStatus: this.versionStatus,

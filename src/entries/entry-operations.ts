@@ -1,12 +1,12 @@
 import {
 	Entry, EntryGetOptions, EntryListOptions,
-	IEntryOperations
+	IEntryOperations, ContensisClient
 } from '../models';
 
 import { LinkResolver } from './link-resolver';
 import {
 	ClientParams, defaultMapperForLanguage, defaultMapperForPublishedVersionStatus,
-	IHttpClient, IParamsProvider, isBrowser, isIE, MapperFn, PagedList, Query, UrlBuilder, ZenqlQuery
+	IHttpClient, isBrowser, isIE, MapperFn, PagedList, Query, UrlBuilder, ZenqlQuery
 } from 'contensis-core-api';
 
 const defaultListUrl = `/api/delivery/projects/:projectId/entries`;
@@ -37,7 +37,7 @@ let searchMappers: { [key: string]: MapperFn } = {
 
 
 export class EntryOperations implements IEntryOperations {
-	constructor(private httpClient: IHttpClient, private paramsProvider: IParamsProvider) {
+	constructor(private httpClient: IHttpClient, private contensisClient: ContensisClient) {
 
 	}
 
@@ -45,11 +45,15 @@ export class EntryOperations implements IEntryOperations {
 		let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/:id',
 			{ language: null, versionStatus: null, linkDepth: null, fields: null })
 			.addOptions(idOrOptions, 'id')
-			.setParams(this.paramsProvider.getParams())
+			.setParams(this.contensisClient.getParams())
 			.addMappers(getMappers)
 			.toUrl();
 
-		return this.httpClient.request<Entry>(url);
+		return this.contensisClient.ensureIsAuthorized().then(() => {
+			return this.httpClient.request<Entry>(url, {
+				headers: this.contensisClient.getHeaders()
+			});
+		});
 	}
 
 	list(contentTypeIdOrOptions: string | EntryListOptions): Promise<PagedList<Entry>> {
@@ -57,10 +61,15 @@ export class EntryOperations implements IEntryOperations {
 			listUrl,
 			{ language: null, versionStatus: null, linkDepth: null, order: null, fields: null, pageIndex: null, pageSize: null })
 			.addOptions(contentTypeIdOrOptions, 'contentTypeId')
-			.setParams(this.paramsProvider.getParams())
+			.setParams(this.contensisClient.getParams())
 			.addMappers(listMappers)
 			.toUrl();
-		return this.httpClient.request<PagedList<Entry>>(url);
+
+		return this.contensisClient.ensureIsAuthorized().then(() => {
+			return this.httpClient.request<PagedList<Entry>>(url, {
+				headers: this.contensisClient.getHeaders()
+			});
+		});
 	}
 
 	search(query: string | Query | ZenqlQuery, linkDepth: number = 0): Promise<PagedList<Entry>> {
@@ -83,7 +92,7 @@ export class EntryOperations implements IEntryOperations {
 			}
 		}
 
-		let params = this.paramsProvider.getParams();
+		let params = this.contensisClient.getParams();
 		let pageSize = params.pageSize || 25;
 		let pageIndex = params.pageIndex || 0;
 		let fields: string[] = [];
@@ -111,15 +120,16 @@ export class EntryOperations implements IEntryOperations {
 			.addMappers(searchMappers)
 			.toUrl();
 
-		return this.httpClient.request<PagedList<Entry>>(url, {
-			method: 'GET',
-			headers: { 'Content-Type': 'application/json; charset=utf-8' }
+		return this.contensisClient.ensureIsAuthorized().then(() => {
+			return this.httpClient.request<PagedList<Entry>>(url, {
+				method: 'GET',
+				headers: this.contensisClient.getHeaders('application/json; charset=utf-8')
+			});
 		});
-
 	}
 
 	resolve<T extends Entry | Entry[] | PagedList<Entry>>(entryOrList: T, fields: string[] = null): Promise<T> {
-		let params = this.paramsProvider.getParams();
+		let params = this.contensisClient.getParams();
 		let resolver = new LinkResolver(entryOrList, fields, params.versionStatus, (query: any) => this.search(query));
 		return resolver.resolve();
 	}
@@ -131,7 +141,7 @@ export class EntryOperations implements IEntryOperations {
 
 		let deliveryQuery = query as Query;
 
-		let params = this.paramsProvider.getParams();
+		let params = this.contensisClient.getParams();
 		let pageSize = params.pageSize || 25;
 		let pageIndex = params.pageIndex || 0;
 		let fields: string[] = [];
@@ -169,9 +179,11 @@ export class EntryOperations implements IEntryOperations {
 			return this.searchUsingPost(query, linkDepth);
 		}
 
-		return this.httpClient.request<PagedList<Entry>>(url, {
-			method: 'GET',
-			headers: { 'Content-Type': 'application/json; charset=utf-8' }
+		return this.contensisClient.ensureIsAuthorized().then(() => {
+			return this.httpClient.request<PagedList<Entry>>(url, {
+				method: 'GET',
+				headers: this.contensisClient.getHeaders('application/json; charset=utf-8')
+			});
 		});
 	}
 
@@ -180,19 +192,21 @@ export class EntryOperations implements IEntryOperations {
 			return new Promise((resolve) => { resolve(null); });
 		}
 
-		let params = this.paramsProvider.getParams();
+		let params = this.contensisClient.getParams();
 		query.pageSize = query.pageSize || params.pageSize;
 		query.pageIndex = query.pageIndex || 0;
 
 		let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/search', { linkDepth })
-			.setParams(this.paramsProvider.getParams())
+			.setParams(this.contensisClient.getParams())
 			.addMappers(searchMappers)
 			.toUrl();
 
-		return this.httpClient.request<PagedList<Entry>>(url, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json; charset=utf-8' },
-			body: JSON.stringify(query)
+		return this.contensisClient.ensureIsAuthorized().then(() => {
+			return this.httpClient.request<PagedList<Entry>>(url, {
+				method: 'POST',
+				headers: this.contensisClient.getHeaders('application/json; charset=utf-8'),
+				body: JSON.stringify(query)
+			});
 		});
 	}
 }

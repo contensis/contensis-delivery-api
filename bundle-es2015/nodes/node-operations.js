@@ -26,20 +26,24 @@ let nodeGetAncestorsOptionsMappers = {
     startLevel: (value) => (value && (value > 0)) ? value : null,
 };
 export class NodeOperations {
-    constructor(httpClient, paramsProvider) {
+    constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
-        this.paramsProvider = paramsProvider;
-        if (!this.httpClient || !this.paramsProvider) {
+        this.contensisClient = contensisClient;
+        if (!this.httpClient || !this.contensisClient) {
             throw new Error('The class was not initialised correctly.');
         }
     }
     getRoot(options) {
         let url = UrlBuilder.create('/api/delivery/projects/:projectId/nodes/root', { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .addOptions(options)
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeDefaultWithDepthOptionsMappers)
             .toUrl();
-        return this.httpClient.request(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
     get(idOrPathOrOptions) {
         const validationMessage = 'A valid node id or path needs to be specified.';
@@ -53,10 +57,14 @@ export class NodeOperations {
         let urlTemplate = isPath ? '/api/delivery/projects/:projectId/nodes:path' : '/api/delivery/projects/:projectId/nodes/:id';
         let url = UrlBuilder.create(urlTemplate, { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, allowPartialMatch: null })
             .addOptions(idOrPathOrOptions, isPath ? 'path' : 'id')
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeGetByPathOptions)
             .toUrl();
-        return this.httpClient.request(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
     getByEntry(entryIdOrEntryOrOptions) {
         const validationMessage = 'A valid entry id needs to be specified.';
@@ -91,10 +99,14 @@ export class NodeOperations {
             .create('/api/delivery/projects/:projectId/nodes/', { entryId: null, language: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .addOptions(entryId, 'entryId')
             .addOptions(entryIdOrEntryOrOptions)
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeGetByEntryOptions)
             .toUrl();
-        return this.httpClient.request(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
     getChildren(idOrNodeOrOptions) {
         this.validateNodeId(idOrNodeOrOptions);
@@ -103,10 +115,14 @@ export class NodeOperations {
             .create('/api/delivery/projects/:projectId/nodes/:id/children', { language: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeDefaultOptionsMappers)
             .toUrl();
-        return this.httpClient.request(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
     getParent(idOrNodeOrOptions) {
         this.validateNodeId(idOrNodeOrOptions);
@@ -115,10 +131,14 @@ export class NodeOperations {
             .create('/api/delivery/projects/:projectId/nodes/:id/parent', { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeDefaultWithDepthOptionsMappers)
             .toUrl();
-        return this.httpClient.request(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
     getAncestorAtLevel(options) {
         this.validateNodeId(options);
@@ -127,10 +147,14 @@ export class NodeOperations {
             .create('/api/delivery/projects/:projectId/nodes/:id/ancestor', { language: null, startLevel: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .addOptions(nodeId, 'id')
             .addOptions(options)
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeGetAncestorAtLevelOptionsMappers)
             .toUrl();
-        return this.httpClient.request(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
     getAncestors(idOrNodeOrOptions) {
         this.validateNodeId(idOrNodeOrOptions);
@@ -139,10 +163,14 @@ export class NodeOperations {
             .create('/api/delivery/projects/:projectId/nodes/:id/ancestors', { language: null, startLevel: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeGetAncestorsOptionsMappers)
             .toUrl();
-        return this.httpClient.request(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
     getSiblings(idOrNodeOrOptions) {
         this.validateNodeId(idOrNodeOrOptions);
@@ -151,10 +179,14 @@ export class NodeOperations {
             .create('/api/delivery/projects/:projectId/nodes/:id/siblings', { language: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
-            .setParams(this.paramsProvider.getParams())
+            .setParams(this.contensisClient.getParams())
             .addMappers(nodeDefaultOptionsMappers)
             .toUrl();
-        return this.httpClient.request(url);
+        return this.contensisClient.ensureIsAuthorized().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
     validateNodeId(idOrNodeOrOptions) {
         const validationMessage = 'A valid node id needs to be specified.';
