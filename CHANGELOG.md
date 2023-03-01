@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.3.0] - 2023-02-22
 ### Added
-- added suport to authneticate with client credentials
+- added suport to authenticate with client credentials
 
 ## [1.2.1] - 2023-01-20
 ### Added
