@@ -7,8 +7,12 @@ export interface Node {
     path: string;
     parentId?: string;
     language: string;
-    entryId?: string;
     entry?: Entry;
     childCount: number;
     includeInMenu: boolean;
+    displayName: string;
+    isCanonical: boolean;
+    version: {
+        versionNo: string;
+    };
 }
