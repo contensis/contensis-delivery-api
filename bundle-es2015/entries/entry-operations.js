@@ -133,7 +133,7 @@ export class EntryOperations {
             .setParams({ ...payload, projectId })
             .addMappers(searchMappers)
             .toUrl();
-        if (isBrowser() && isIE() && url.length > 2083) {
+        if (url.length > 8000 || (isBrowser() && isIE() && url.length > 2083)) {
             return this.searchUsingPost(query, linkDepth);
         }
         return this.contensisClient.ensureIsAuthorized().then(() => {
