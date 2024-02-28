@@ -80,14 +80,11 @@ export class EntryOperations implements IEntryOperations {
 			return new Promise((resolve) => { resolve(null); });
 		}
 
-		if (typeof query !== 'string' && 'where' in query) {
-			return this.searchUsingQuery(query, linkDepth);
+		let deliveryQuery = query instanceof Query ? query as Query : null;
+		// use duck-typing for backwards compatibility pre v1.2.0
+		if (deliveryQuery !== null || !!(query as any).where || !!(query as any).orderBy) {
+			return this.searchUsingQuery(deliveryQuery || (query as any), linkDepth);
 		}
-		// let deliveryQuery = query instanceof Query ? query as Query : null;
-		// // use duck-typing for backwards compatibility pre v1.2.0
-		// if (deliveryQuery !== null || !!(query as any).where || !!(query as any).orderBy) {
-		// 	return this.searchUsingQuery(deliveryQuery || (query as any), linkDepth);
-		// }
 
 		let zenqlQuery: ZenqlQuery = query instanceof ZenqlQuery ? query as ZenqlQuery : null;
 		if (zenqlQuery === null) {

@@ -1,5 +1,5 @@
 import { LinkResolver } from './link-resolver';
-import { defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, isBrowser, isIE, UrlBuilder, ZenqlQuery } from 'contensis-core-api';
+import { defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, isBrowser, isIE, Query, UrlBuilder, ZenqlQuery } from 'contensis-core-api';
 const defaultListUrl = `/api/delivery/projects/:projectId/entries`;
 let listUrl = (options, params) => {
     return !!options.contentTypeId
@@ -55,14 +55,11 @@ export class EntryOperations {
         if (!query) {
             return new Promise((resolve) => { resolve(null); });
         }
-        if (typeof query !== 'string' && 'where' in query) {
-            return this.searchUsingQuery(query, linkDepth);
+        let deliveryQuery = query instanceof Query ? query : null;
+        // use duck-typing for backwards compatibility pre v1.2.0
+        if (deliveryQuery !== null || !!query.where || !!query.orderBy) {
+            return this.searchUsingQuery(deliveryQuery || query, linkDepth);
         }
-        // let deliveryQuery = query instanceof Query ? query as Query : null;
-        // // use duck-typing for backwards compatibility pre v1.2.0
-        // if (deliveryQuery !== null || !!(query as any).where || !!(query as any).orderBy) {
-        // 	return this.searchUsingQuery(deliveryQuery || (query as any), linkDepth);
-        // }
         let zenqlQuery = query instanceof ZenqlQuery ? query : null;
         if (zenqlQuery === null) {
             if (typeof query === 'string') {
