@@ -1183,6 +1183,7 @@ interface EntryGetOptions {
     language?: string;
     linkDepth?: number;
     fields?: string[];
+    fieldLinkDepths?: FieldLinkDepths;
 }
 
 interface EntryListOptions {
@@ -1192,6 +1193,7 @@ interface EntryListOptions {
     order?: string[];
     linkDepth?: number;
     fields?: string[];
+    fieldLinkDepths?: FieldLinkDepths;
 }
 
 interface EntrySys {
@@ -1267,6 +1269,7 @@ interface NodeDefaultOptions {
     language?: string;
     entryFields?: string[];
     entryLinkDepth?: number;
+    entryFieldLinkDepths?: FieldLinkDepths;
 }
 
 interface NodeDefaultWithDepthOptions extends NodeDefaultOptions {

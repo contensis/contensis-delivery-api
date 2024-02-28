@@ -52,10 +52,10 @@ describe('Nodes Operations', () => {
         });
         it('Get Live Version with all options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-            let node = await client.nodes.getRoot({ language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1 });
+            let node = await client.nodes.getRoot({ language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                'http://my-website.com/api/delivery/projects/myProject/nodes/root?depth=2&entryFields=title&entryLinkDepth=1&language=de',
+                'http://my-website.com/api/delivery/projects/myProject/nodes/root?depth=2&entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryLinkDepth=1&language=de',
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(node).not.toBeNull();
@@ -128,10 +128,10 @@ describe('Nodes Operations', () => {
         });
         it('Get Live Version with all options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-            let node = await client.nodes.get({ id: nodeId, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1 });
+            let node = await client.nodes.get({ id: nodeId, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}?depth=2&entryFields=title&entryLinkDepth=1&language=de`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}?depth=2&entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryLinkDepth=1&language=de`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(node).not.toBeNull();
@@ -224,10 +224,10 @@ describe('Nodes Operations', () => {
         });
         it('Get Live Version with all options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-            let node = await client.nodes.get({ path: nodePath, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, allowPartialMatch: true });
+            let node = await client.nodes.get({ path: nodePath, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 }, allowPartialMatch: true });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes${nodePath}?allowPartialMatch=true&depth=2&entryFields=title&entryLinkDepth=1&language=de`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes${nodePath}?allowPartialMatch=true&depth=2&entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryLinkDepth=1&language=de`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(node).not.toBeNull();
@@ -313,20 +313,20 @@ describe('Nodes Operations', () => {
         });
         it('Get Live Version with all options and entry id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-            let node = await client.nodes.getByEntry({ entryId: entryId, language: 'de', entryFields: ['title'], entryLinkDepth: 1 });
+            let node = await client.nodes.getByEntry({ entryId: entryId, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/?entryFields=title&entryId=${entryId}&entryLinkDepth=1&language=de`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/?entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryId=${entryId}&entryLinkDepth=1&language=de`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(node).not.toBeNull();
         });
         it('Get Live Version with all options and entry', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-            let node = await client.nodes.getByEntry({ entry: entry, language: 'de', entryFields: ['title'], entryLinkDepth: 1 });
+            let node = await client.nodes.getByEntry({ entry: entry, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/?entryFields=title&entryId=${entryId}&entryLinkDepth=1&language=de`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/?entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryId=${entryId}&entryLinkDepth=1&language=de`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(node).not.toBeNull();
@@ -419,10 +419,10 @@ describe('Nodes Operations', () => {
         });
         it('Get Live Version with all options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-            let nodes = await client.nodes.getChildren({ id: nodeId, language: 'de', entryFields: ['title'], entryLinkDepth: 1 });
+            let nodes = await client.nodes.getChildren({ id: nodeId, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/children?entryFields=title&entryLinkDepth=1&language=de`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/children?entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryLinkDepth=1&language=de`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(nodes).not.toBeNull();
@@ -526,10 +526,10 @@ describe('Nodes Operations', () => {
         });
         it('Get Live Version with all options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-            let node = await client.nodes.getParent({ id: nodeId, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1 });
+            let node = await client.nodes.getParent({ id: nodeId, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/parent?depth=2&entryFields=title&entryLinkDepth=1&language=de`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/parent?depth=2&entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryLinkDepth=1&language=de`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(node).not.toBeNull();
@@ -631,10 +631,10 @@ describe('Nodes Operations', () => {
         });
         it('Get Live Version with all options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-            let node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 1, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1 });
+            let node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 1, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?depth=2&entryFields=title&entryLinkDepth=1&language=de&startLevel=1`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?depth=2&entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryLinkDepth=1&language=de&startLevel=1`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(node).not.toBeNull();
@@ -736,10 +736,10 @@ describe('Nodes Operations', () => {
         });
         it('Get Live Version with all options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-            let nodes = await client.nodes.getAncestors({ id: nodeId, startLevel: 1, language: 'de', entryFields: ['title'], entryLinkDepth: 1 });
+            let nodes = await client.nodes.getAncestors({ id: nodeId, startLevel: 1, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?entryFields=title&entryLinkDepth=1&language=de&startLevel=1`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryLinkDepth=1&language=de&startLevel=1`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(nodes).not.toBeNull();
@@ -841,10 +841,10 @@ describe('Nodes Operations', () => {
         });
         it('Get Live Version with all options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-            let nodes = await client.nodes.getSiblings({ id: nodeId, language: 'de', entryFields: ['title'], entryLinkDepth: 1 });
+            let nodes = await client.nodes.getSiblings({ id: nodeId, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/siblings?entryFields=title&entryLinkDepth=1&language=de`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/siblings?entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryLinkDepth=1&language=de`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(nodes).not.toBeNull();

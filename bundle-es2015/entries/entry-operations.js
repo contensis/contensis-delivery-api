@@ -1,5 +1,5 @@
 import { LinkResolver } from './link-resolver';
-import { defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, isBrowser, isIE, Query, UrlBuilder, ZenqlQuery } from 'contensis-core-api';
+import { defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, isBrowser, isIE, UrlBuilder, ZenqlQuery } from 'contensis-core-api';
 const defaultListUrl = `/api/delivery/projects/:projectId/entries`;
 let listUrl = (options, params) => {
     return !!options.contentTypeId
@@ -9,8 +9,9 @@ let listUrl = (options, params) => {
 let getMappers = {
     language: defaultMapperForLanguage,
     versionStatus: defaultMapperForPublishedVersionStatus,
-    fields: (value) => (value && value.length > 0) ? value : null,
-    linkDepth: (value) => (value && (value > 0)) ? value : null,
+    fields: (value) => (value && value.length > 0 ? value : null),
+    linkDepth: (value) => (value && value > 0 ? value : null),
+    fieldLinkDepths: (value) => Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
 };
 let listMappers = {
     ...getMappers,
@@ -27,7 +28,7 @@ export class EntryOperations {
         this.contensisClient = contensisClient;
     }
     get(idOrOptions) {
-        let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/:id', { language: null, versionStatus: null, linkDepth: null, fields: null })
+        let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/:id', { language: null, versionStatus: null, linkDepth: null, fieldLinkDepths: null, fields: null })
             .addOptions(idOrOptions, 'id')
             .setParams(this.contensisClient.getParams())
             .addMappers(getMappers)
@@ -39,7 +40,7 @@ export class EntryOperations {
         });
     }
     list(contentTypeIdOrOptions) {
-        let url = UrlBuilder.create(listUrl, { language: null, versionStatus: null, linkDepth: null, order: null, fields: null, pageIndex: null, pageSize: null })
+        let url = UrlBuilder.create(listUrl, { language: null, versionStatus: null, linkDepth: null, order: null, fieldLinkDepths: null, fields: null, pageIndex: null, pageSize: null })
             .addOptions(contentTypeIdOrOptions, 'contentTypeId')
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)
@@ -54,11 +55,14 @@ export class EntryOperations {
         if (!query) {
             return new Promise((resolve) => { resolve(null); });
         }
-        let deliveryQuery = query instanceof Query ? query : null;
-        // use duck-typing for backwards compatibility pre v1.2.0
-        if (deliveryQuery !== null || !!query.where || !!query.orderBy) {
-            return this.searchUsingQuery(deliveryQuery || query, linkDepth);
+        if (typeof query !== 'string' && 'where' in query) {
+            return this.searchUsingQuery(query, linkDepth);
         }
+        // let deliveryQuery = query instanceof Query ? query as Query : null;
+        // // use duck-typing for backwards compatibility pre v1.2.0
+        // if (deliveryQuery !== null || !!(query as any).where || !!(query as any).orderBy) {
+        // 	return this.searchUsingQuery(deliveryQuery || (query as any), linkDepth);
+        // }
         let zenqlQuery = query instanceof ZenqlQuery ? query : null;
         if (zenqlQuery === null) {
             if (typeof query === 'string') {
@@ -72,9 +76,11 @@ export class EntryOperations {
         let pageSize = params.pageSize || 25;
         let pageIndex = params.pageIndex || 0;
         let fields = [];
+        let fieldLinkDepths = {};
         pageSize = zenqlQuery.pageSize || pageSize;
         pageIndex = zenqlQuery.pageIndex || pageIndex;
         fields = zenqlQuery.fields || fields;
+        fieldLinkDepths = zenqlQuery.fieldLinkDepths || fieldLinkDepths;
         let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
         let payload = {
             ...requestParams,
@@ -85,6 +91,9 @@ export class EntryOperations {
         };
         if (fields && fields.length > 0) {
             payload['fields'] = fields;
+        }
+        if (Object.keys(fieldLinkDepths).length > 0) {
+            payload['fieldLinkDepths'] = fieldLinkDepths;
         }
         let url = UrlBuilder.create(defaultListUrl, { ...payload })
             .setParams({ ...payload, projectId })
@@ -111,9 +120,11 @@ export class EntryOperations {
         let pageSize = params.pageSize || 25;
         let pageIndex = params.pageIndex || 0;
         let fields = [];
+        let fieldLinkDepths = {};
         pageSize = deliveryQuery.pageSize || pageSize;
         pageIndex = deliveryQuery.pageIndex || pageIndex;
         fields = deliveryQuery.fields || fields;
+        fieldLinkDepths = deliveryQuery.fieldLinkDepths || fieldLinkDepths;
         let orderBy = (deliveryQuery.orderBy && (deliveryQuery.orderBy._items || deliveryQuery.orderBy));
         let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
         let payload = {
@@ -125,6 +136,9 @@ export class EntryOperations {
         };
         if (fields && fields.length > 0) {
             payload['fields'] = fields;
+        }
+        if (Object.keys(fieldLinkDepths).length > 0) {
+            payload['fieldLinkDepths'] = fieldLinkDepths;
         }
         if (deliveryQuery.orderBy && (!Array.isArray(deliveryQuery.orderBy) || deliveryQuery.orderBy.length > 0)) {
             payload['orderBy'] = JSON.stringify(orderBy);
