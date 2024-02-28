@@ -4,15 +4,17 @@ import {
     NodeGetParentOptions, NodeGetAncestorsOptions, NodeGetAncestorAtLevelOptions, NodeGetSiblingOptions
 } from '../models';
 import {
-    defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, IHttpClient,
+    defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, FieldLinkDepths, IHttpClient,
     isString, UrlBuilder
 } from 'contensis-core-api';
 
 let nodeDefaultOptionsMappers = {
-    language: defaultMapperForLanguage,
-    versionStatus: defaultMapperForPublishedVersionStatus,
-    entryFields: (value: string[]) => (value && value.length > 0) ? value : null,
-    entryLinkDepth: (value: number) => (value && (value > 0)) ? value : null,
+  language: defaultMapperForLanguage,
+  versionStatus: defaultMapperForPublishedVersionStatus,
+  entryFields: (value: string[]) => (value && value.length > 0 ? value : null),
+  entryLinkDepth: (value: number) => (value && value > 0 ? value : null),
+  entryFieldLinkDepths: (value: FieldLinkDepths) =>
+    Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
 };
 
 let nodeDefaultWithDepthOptionsMappers = {
@@ -51,7 +53,7 @@ export class NodeOperations implements INodeOperations {
     getRoot(options?: NodeGetRootOptions): Promise<Node> {
         let url = UrlBuilder.create(
             '/api/delivery/projects/:projectId/nodes/root',
-            { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
+            { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
             .addMappers(nodeDefaultWithDepthOptionsMappers)
@@ -79,7 +81,7 @@ export class NodeOperations implements INodeOperations {
 
         let url = UrlBuilder.create(
             urlTemplate,
-            { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, allowPartialMatch: null })
+            { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null, allowPartialMatch: null })
             .addOptions(idOrPathOrOptions, isPath ? 'path' : 'id')
             .setParams(this.contensisClient.getParams())
             .addMappers(nodeGetByPathOptions)
@@ -126,7 +128,7 @@ export class NodeOperations implements INodeOperations {
         let url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/',
-                { entryId: null, language: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
+                { entryId: null, language: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(entryId, 'entryId')
             .addOptions(entryIdOrEntryOrOptions)
             .setParams(this.contensisClient.getParams())
@@ -148,7 +150,7 @@ export class NodeOperations implements INodeOperations {
         let url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/children',
-                { language: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
+                { language: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
             .setParams(this.contensisClient.getParams())
@@ -170,7 +172,7 @@ export class NodeOperations implements INodeOperations {
         let url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/parent',
-                { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
+                { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
             .setParams(this.contensisClient.getParams())
@@ -192,7 +194,7 @@ export class NodeOperations implements INodeOperations {
         let url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/ancestor',
-                { language: null, startLevel: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
+                { language: null, startLevel: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(nodeId, 'id')
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
@@ -214,7 +216,7 @@ export class NodeOperations implements INodeOperations {
         let url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/ancestors',
-                { language: null, startLevel: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
+                { language: null, startLevel: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
             .setParams(this.contensisClient.getParams())
@@ -236,7 +238,7 @@ export class NodeOperations implements INodeOperations {
         let url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/siblings',
-                { language: null, versionStatus: null, entryFields: null, entryLinkDepth: null })
+                { language: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
             .setParams(this.contensisClient.getParams())

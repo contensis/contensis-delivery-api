@@ -87,12 +87,12 @@ describe('Entry Operations', function () {
 
 		it('Get Live Version with all options', async () => {
 			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-			await client.entries.get({ id: '1', language: 'de', linkDepth: 99, fields: ['title'] });
+			await client.entries.get({ id: '1', language: 'de', linkDepth: 99, fields: ['title'], fieldLinkDepths: { linkField: 1 } });
 			expect(global.fetch).toHaveBeenCalled();
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
-				'http://my-website.com/api/delivery/projects/myProject/entries/1?fields=title&language=de&linkDepth=99',
-				getDefaultFetchRequestForAccessToken()
-			]);
+        'http://my-website.com/api/delivery/projects/myProject/entries/1?fieldLinkDepths=%7B%22linkField%22%3A1%7D&fields=title&language=de&linkDepth=99',
+        getDefaultFetchRequestForAccessToken(),
+      ]);
 		});
 
 		it('Get Live Version with minimal options', async () => {
@@ -180,12 +180,12 @@ describe('Entry Operations', function () {
 
 		it('List with all options', async () => {
 			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-			await client.entries.list({ contentTypeId: 'cheese', pageOptions: { pageIndex: 5, pageSize: 100 }, language: 'en-GB', linkDepth: 1, order: ['title'], fields: ['title'] });
+			await client.entries.list({ contentTypeId: 'cheese', pageOptions: { pageIndex: 5, pageSize: 100 }, language: 'en-GB', linkDepth: 1, order: ['title'], fields: ['title'], fieldLinkDepths: { linkField: 1 } });
 			expect(global.fetch).toHaveBeenCalled();
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
-				'http://my-website.com/api/delivery/projects/myProject/contentTypes/cheese/entries?fields=title&language=en-GB&linkDepth=1&order=title&pageIndex=5&pageSize=100',
-				getDefaultFetchRequestForAccessToken()
-			]);
+        'http://my-website.com/api/delivery/projects/myProject/contentTypes/cheese/entries?fieldLinkDepths=%7B%22linkField%22%3A1%7D&fields=title&language=en-GB&linkDepth=1&order=title&pageIndex=5&pageSize=100',
+        getDefaultFetchRequestForAccessToken(),
+      ]);
 		});
 
 		it('List with minimal options', async () => {
@@ -388,7 +388,8 @@ describe('Entry Operations', function () {
 				pageSize: 50,
 				orderBy,
 				where,
-				fields: ['title']
+        fields: ['title'],
+        fieldLinkDepths: { linkField: 1 }
 			};
 
 			await client.entries.search(query as any, 99);
@@ -729,7 +730,7 @@ describe('Entry Operations', function () {
 				fetchFn: global.fetch
 			});
 
-			global.document.documentMode = 11;
+			(global.document as any).documentMode = 11;
 		});
 
 		it('Do Search using an object with all options and  URL=2083', async () => {
@@ -750,7 +751,7 @@ describe('Entry Operations', function () {
 				pageSize: 50,
 				orderBy,
 				where,
-				fields: ['title']
+        fields: ['title']
 			};
 
 			await client.entries.search(query as any, 99);
@@ -783,12 +784,13 @@ describe('Entry Operations', function () {
 				startsWith: '1nXX8OFpCGJg0OJXfKRRoOk69tWiEfnqi2y5eElXQP1ZjTo0MsozSnWSJqdAvXefl0wmmELbyRArciCS4heXVw9XvYGqKsHM0X4eOxWpP8Otz8OoRApVGiPWeL6nzxblSDcP58qh8wkgUGWPHg21WGrgduYXpvFDdKnAwF1z6YKBMv7sOaVTHowp6mpzndOqUn6caURbF3Ob4ybumG1vl8BEvfwRjpjpAuULobQLN9pt31BoosToBWLdvrkDhSeNPLzltvMIBVGOVn97zWvdsuAg4wxznEz8rLvLK48hLdN4BJ3eWYkfhfk8TbUkDt82ZQwXCmdTpqP6ODPKRc4qkglAabHjUBwOzz9QCwxp7xeupfPWgDQlHCYHsKQ5X7xsWa5hl7RWpQXoajFhZoHomyvJxN9Q3kTccqeiVjzWN6BitsqCN8Kp4NJE7qFOzXSFn01NUv1Yqb8LpoxZ0lMcy1aWtOtdOtnjBLncS6iFR4IVuogl2Z8eJ7aDCdubM7OODjwtQqUSqnZGmsraC8WTxsmXDLIsTz4w2paulihOl2jaxtIRCO4TKGUX9m5MOHa1YPqJYQ8ettJj120uek2fk8bMAg9ykT0TDsmfzy33yfc6rz0nuBK40FGLJefNsYF7iTbLS5QAKiErSlRmTTCtGNK8pVxDpbNOoovXS4KcpSGmVxSotUvhBKDHuQy5ise8RQgCKyD67Z8FiAboqgo0nUe7nNNdL6Gmwesa5JISPVxkcgcWddYvX28TsjE5aLGZX7B8luxlQpRZ0xXBhkyCVobWPTu1W2ZltbpxcK8tdkrYaOGZXpGOTfeXChw11eccepN3MsJDBaghvfeSUgu6sEcpwy3kORPIYxhVaC1UI4r6xRRu8aXMDDTQQW7JhPIXKfQgoEbjxSVp9nHMCQDZpqBK0Z8bejfjnavlTS90ZNVPuDrqL0XEWcbg6d5ARJUl6VWWLJzktH5Jp1WuQoPrl5lb0mXm5bhW61EXK2LLmGPCafkksGsDjSqOOgD5eIttQvwuA1b9Czbs7Zzlub3sbHJ00e0hsoZwx2cJVWbP5PBRDwGtcj25fnY0s8FcSO59669R7gShdTR5jfWtk5VKKnTimosZ4bRscGL8if1Wx0Mvapbl3AubcOJm03HngzgHgjLUpM1UrPAyCn8kxwdx6ROw9e02ssMgAkoh9B9mecXFgl9TqxlG5jSbXQtvNiLWzSUnqeugCXcl2O6fhpnKCNpIW6PoAI1mbwBK5qxumQMKqKix964TOiCWfWUNnOBkcXVPVzzqPA1yLNn87KgVuODm9VpZnnoHSbnAzeLGb7vTZb1ITOP8MNnAPWrvlqvypjMtkLLtZg2r7nGEHLMD76ELxzKC3Zg269m3EW47wPKam9HuWMGjqnD0BghH5zlnRRxHVNgg5JZI5URcgGa6LfXh4zymO2xqSql1YAltvO7lHaIEnF2edze6KvEFJj1smsn57AWsEqs85zYg6MxkctOcQ0lxqv6s9y7Z7pcWbU0k8pmccUm3EDUideWwDnoftuUwIGVfnJrpZn7ihhVzEOB8ojbuGrO41mHZNa8tSlXz6cfg2LXRrRgWRFBMdkswg73HmVaDuvbF2LkwFjoPweHuh62uQb88gOg2Hbbip9212Mnx9gzed81bIRS5yvODYk50LJ7o9zkv3WPGIekAnMJgDVCBsekNxnR3XR0jMCLZx4t73Hm93vb7T8uzyylrbJz2BWyk1EpZ22uynFyIitDpAYHe483oeYwhfKfJPdKjaYsYZAM1ZKdfwK5o0vaRW3X5nlLHfe4QWcMZOAhCq8GVbQkUFcdPSqeZ2nOuPUzwAGGONpIBXm7FOITI9WPibTjCL'
 			}];
 			let query = {
-				pageIndex: 1,
-				pageSize: 50,
-				orderBy,
-				where,
-				fields: ['title']
-			};
+        pageIndex: 1,
+        pageSize: 50,
+        orderBy,
+        where,
+        fields: ['title'],
+        fieldLinkDepths: { linkField: 1 },
+      };
 
 			await client.entries.search(query as any, 99);
 
