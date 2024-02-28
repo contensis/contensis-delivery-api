@@ -9,12 +9,12 @@ import {
 } from 'contensis-core-api';
 
 let nodeDefaultOptionsMappers = {
-  language: defaultMapperForLanguage,
-  versionStatus: defaultMapperForPublishedVersionStatus,
-  entryFields: (value: string[]) => (value && value.length > 0 ? value : null),
-  entryLinkDepth: (value: number) => (value && value > 0 ? value : null),
-  entryFieldLinkDepths: (value: FieldLinkDepths) =>
-    Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
+    language: defaultMapperForLanguage,
+    versionStatus: defaultMapperForPublishedVersionStatus,
+    entryFields: (value: string[]) => (value && value.length > 0 ? value : null),
+    entryLinkDepth: (value: number) => (value && value > 0 ? value : null),
+    entryFieldLinkDepths: (value: FieldLinkDepths) =>
+        Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
 };
 
 let nodeDefaultWithDepthOptionsMappers = {

@@ -5,6 +5,6 @@ export interface EntryListOptions {
 	pageOptions?: PageOptions;
 	order?: string[];
 	linkDepth?: number;
-  fields?: string[];
-  fieldLinkDepths?: FieldLinkDepths;
+	fields?: string[];
+	fieldLinkDepths?: FieldLinkDepths;
 }

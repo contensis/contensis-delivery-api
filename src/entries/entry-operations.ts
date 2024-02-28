@@ -6,8 +6,8 @@ import {
 import { LinkResolver } from './link-resolver';
 import {
 	ClientParams, defaultMapperForLanguage, defaultMapperForPublishedVersionStatus,
-  FieldLinkDepths, IHttpClient, isBrowser, isIE, MapperFn, PagedList, Query, UrlBuilder,
-  ZenqlQuery
+	FieldLinkDepths, IHttpClient, isBrowser, isIE, MapperFn, PagedList, Query, UrlBuilder,
+	ZenqlQuery
 } from 'contensis-core-api';
 
 const defaultListUrl = `/api/delivery/projects/:projectId/entries`;
@@ -19,12 +19,12 @@ let listUrl = (options: EntryListOptions, params: ClientParams) => {
 };
 
 let getMappers: { [key: string]: MapperFn } = {
-  language: defaultMapperForLanguage,
-  versionStatus: defaultMapperForPublishedVersionStatus,
-  fields: (value: string[]) => (value && value.length > 0 ? value : null),
-  linkDepth: (value: number) => (value && value > 0 ? value : null),
-  fieldLinkDepths: (value: FieldLinkDepths) =>
-    Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
+	language: defaultMapperForLanguage,
+	versionStatus: defaultMapperForPublishedVersionStatus,
+	fields: (value: string[]) => (value && value.length > 0 ? value : null),
+	linkDepth: (value: number) => (value && value > 0 ? value : null),
+	fieldLinkDepths: (value: FieldLinkDepths) =>
+		Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
 };
 
 let listMappers: { [key: string]: MapperFn } = {
@@ -81,13 +81,13 @@ export class EntryOperations implements IEntryOperations {
 		}
 
 		if (typeof query !== 'string' && 'where' in query) {
-      return this.searchUsingQuery(query, linkDepth);
-    }
+			return this.searchUsingQuery(query, linkDepth);
+		}
 		// let deliveryQuery = query instanceof Query ? query as Query : null;
 		// // use duck-typing for backwards compatibility pre v1.2.0
 		// if (deliveryQuery !== null || !!(query as any).where || !!(query as any).orderBy) {
 		// 	return this.searchUsingQuery(deliveryQuery || (query as any), linkDepth);
-    // }
+		// }
 
 		let zenqlQuery: ZenqlQuery = query instanceof ZenqlQuery ? query as ZenqlQuery : null;
 		if (zenqlQuery === null) {
@@ -102,12 +102,12 @@ export class EntryOperations implements IEntryOperations {
 		let pageSize = params.pageSize || 25;
 		let pageIndex = params.pageIndex || 0;
 		let fields: string[] = [];
-    let fieldLinkDepths: FieldLinkDepths = {};
+		let fieldLinkDepths: FieldLinkDepths = {};
 
 		pageSize = zenqlQuery.pageSize || pageSize;
 		pageIndex = zenqlQuery.pageIndex || pageIndex;
 		fields = zenqlQuery.fields || fields;
-    fieldLinkDepths = zenqlQuery.fieldLinkDepths || fieldLinkDepths;
+		fieldLinkDepths = zenqlQuery.fieldLinkDepths || fieldLinkDepths;
 
 		let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
 
@@ -123,8 +123,8 @@ export class EntryOperations implements IEntryOperations {
 			payload['fields'] = fields;
 		}
 		if (Object.keys(fieldLinkDepths).length > 0) {
-      payload['fieldLinkDepths'] = fieldLinkDepths;
-    }
+			payload['fieldLinkDepths'] = fieldLinkDepths;
+		}
 
 		let url = UrlBuilder.create(defaultListUrl, { ...payload })
 			.setParams({ ...(payload as any), projectId })
@@ -156,12 +156,12 @@ export class EntryOperations implements IEntryOperations {
 		let pageSize = params.pageSize || 25;
 		let pageIndex = params.pageIndex || 0;
 		let fields: string[] = [];
-    let fieldLinkDepths: FieldLinkDepths = {};
+		let fieldLinkDepths: FieldLinkDepths = {};
 
 		pageSize = deliveryQuery.pageSize || pageSize;
 		pageIndex = deliveryQuery.pageIndex || pageIndex;
 		fields = deliveryQuery.fields || fields;
-    fieldLinkDepths = deliveryQuery.fieldLinkDepths || fieldLinkDepths;
+		fieldLinkDepths = deliveryQuery.fieldLinkDepths || fieldLinkDepths;
 
 		let orderBy = (deliveryQuery.orderBy && ((deliveryQuery.orderBy as any)._items || deliveryQuery.orderBy));
 
@@ -179,8 +179,8 @@ export class EntryOperations implements IEntryOperations {
 			payload['fields'] = fields;
 		}
 		if (Object.keys(fieldLinkDepths).length > 0) {
-      payload['fieldLinkDepths'] = fieldLinkDepths;
-    }
+			payload['fieldLinkDepths'] = fieldLinkDepths;
+		}
 
 		if (deliveryQuery.orderBy && (!Array.isArray(deliveryQuery.orderBy) || deliveryQuery.orderBy.length > 0)) {
 			payload['orderBy'] = JSON.stringify(orderBy);
