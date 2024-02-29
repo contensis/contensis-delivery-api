@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.4.0] - 2024-02-28
 ### Added
 - support for new *fieldLinkDepths* parameter
+### Fixed
+- incorrect url used in *getAncestorsAtLevel* nodes method
 
 ## [1.3.1] - 2024-02-20
 ### Changed
