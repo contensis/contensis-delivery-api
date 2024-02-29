@@ -193,7 +193,7 @@ export class NodeOperations implements INodeOperations {
 
         let url = UrlBuilder
             .create(
-                '/api/delivery/projects/:projectId/nodes/:id/ancestor',
+                '/api/delivery/projects/:projectId/nodes/:id/ancestors',
                 { language: null, startLevel: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(nodeId, 'id')
             .addOptions(options)

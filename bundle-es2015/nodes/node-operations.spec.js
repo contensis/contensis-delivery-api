@@ -587,7 +587,7 @@ describe('Nodes Operations', () => {
             let node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 1 });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?language=en-US&startLevel=1`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?language=en-US&startLevel=1`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(node).not.toBeNull();
@@ -597,7 +597,7 @@ describe('Nodes Operations', () => {
             let node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 1 });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?language=en-US&startLevel=1&versionStatus=latest`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?language=en-US&startLevel=1&versionStatus=latest`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(node).not.toBeNull();
@@ -614,7 +614,7 @@ describe('Nodes Operations', () => {
             let node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 1 });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?language=fr-FR&startLevel=1`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?language=fr-FR&startLevel=1`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(node).not.toBeNull();
@@ -624,7 +624,7 @@ describe('Nodes Operations', () => {
             let ancestorNode = await client.nodes.getAncestorAtLevel({ node, startLevel: 1 });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?language=en-US&startLevel=1`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?language=en-US&startLevel=1`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(ancestorNode).not.toBeNull();
@@ -634,7 +634,7 @@ describe('Nodes Operations', () => {
             let node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 1, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?depth=2&entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryLinkDepth=1&language=de&startLevel=1`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?depth=2&entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryLinkDepth=1&language=de&startLevel=1`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(node).not.toBeNull();
@@ -644,7 +644,7 @@ describe('Nodes Operations', () => {
             let node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 0, depth: 0, language: '', entryFields: [], entryLinkDepth: 0 });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?language=en-US`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?language=en-US`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(node).not.toBeNull();
@@ -654,7 +654,7 @@ describe('Nodes Operations', () => {
             let ancestorNode = await client.nodes.getAncestorAtLevel({ node, startLevel: 0, depth: 0, language: '', entryFields: [], entryLinkDepth: 0 });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?language=en-US`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?language=en-US`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(ancestorNode).not.toBeNull();
@@ -668,7 +668,7 @@ describe('Nodes Operations', () => {
             let ancestorNode = await client.nodes.getAncestorAtLevel({ node, startLevel: 0 });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors`,
                 getDefaultFetchRequestForAccessToken()
             ]);
             expect(ancestorNode).not.toBeNull();

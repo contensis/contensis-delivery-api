@@ -785,7 +785,7 @@ describe('Nodes Operations', () => {
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?language=en-US&startLevel=1`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?language=en-US&startLevel=1`,
                 getDefaultFetchRequestForAccessToken()
             ]);
 
@@ -799,7 +799,7 @@ describe('Nodes Operations', () => {
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?language=en-US&startLevel=1&versionStatus=latest`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?language=en-US&startLevel=1&versionStatus=latest`,
                 getDefaultFetchRequestForAccessToken()
             ]);
 
@@ -820,7 +820,7 @@ describe('Nodes Operations', () => {
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?language=fr-FR&startLevel=1`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?language=fr-FR&startLevel=1`,
                 getDefaultFetchRequestForAccessToken()
             ]);
 
@@ -834,7 +834,7 @@ describe('Nodes Operations', () => {
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?language=en-US&startLevel=1`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?language=en-US&startLevel=1`,
                 getDefaultFetchRequestForAccessToken()
             ]);
 
@@ -848,7 +848,7 @@ describe('Nodes Operations', () => {
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?depth=2&entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryLinkDepth=1&language=de&startLevel=1`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?depth=2&entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryLinkDepth=1&language=de&startLevel=1`,
                 getDefaultFetchRequestForAccessToken()
             ]);
 
@@ -862,7 +862,7 @@ describe('Nodes Operations', () => {
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?language=en-US`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?language=en-US`,
                 getDefaultFetchRequestForAccessToken()
             ]);
 
@@ -876,7 +876,7 @@ describe('Nodes Operations', () => {
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor?language=en-US`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors?language=en-US`,
                 getDefaultFetchRequestForAccessToken()
             ]);
 
@@ -894,7 +894,7 @@ describe('Nodes Operations', () => {
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestor`,
+                `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/ancestors`,
                 getDefaultFetchRequestForAccessToken()
             ]);
 

@@ -145,7 +145,7 @@ export class NodeOperations {
         this.validateNodeId(options);
         let nodeId = this.getNodeIdFromOptions(options);
         let url = UrlBuilder
-            .create('/api/delivery/projects/:projectId/nodes/:id/ancestor', { language: null, startLevel: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
+            .create('/api/delivery/projects/:projectId/nodes/:id/ancestors', { language: null, startLevel: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(nodeId, 'id')
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
