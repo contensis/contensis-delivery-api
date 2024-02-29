@@ -120,7 +120,7 @@ export class EntryOperations implements IEntryOperations {
 			payload['fields'] = fields;
 		}
 		if (Object.keys(fieldLinkDepths).length > 0) {
-			payload['fieldLinkDepths'] = fieldLinkDepths;
+			payload['fieldLinkDepths'] = JSON.stringify(fieldLinkDepths);
 		}
 
 		let url = UrlBuilder.create(defaultListUrl, { ...payload })
@@ -176,7 +176,7 @@ export class EntryOperations implements IEntryOperations {
 			payload['fields'] = fields;
 		}
 		if (Object.keys(fieldLinkDepths).length > 0) {
-			payload['fieldLinkDepths'] = fieldLinkDepths;
+			payload['fieldLinkDepths'] = JSON.stringify(fieldLinkDepths);
 		}
 
 		if (deliveryQuery.orderBy && (!Array.isArray(deliveryQuery.orderBy) || deliveryQuery.orderBy.length > 0)) {

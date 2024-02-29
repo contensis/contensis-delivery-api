@@ -325,20 +325,22 @@ describe('Entry Operations', function () {
                     field: 'authorName',
                     startsWith: 'W'
                 }];
+            let fieldLinkDepths = { linkField: 1 };
             let query = {
                 pageIndex: 1,
                 pageSize: 50,
                 orderBy,
                 where,
                 fields: ['title'],
-                fieldLinkDepths: { linkField: 1 }
+                fieldLinkDepths
             };
             await client.entries.search(query, 99);
             let expectedQueryString = toQuery({
                 ...query,
                 orderBy: JSON.stringify(orderBy),
                 where: JSON.stringify(where),
-                linkDepth: 99
+                linkDepth: 99,
+                fieldLinkDepths: JSON.stringify(fieldLinkDepths)
             });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
