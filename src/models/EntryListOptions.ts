@@ -1,4 +1,4 @@
-import { PageOptions } from 'contensis-core-api';
+import { FieldLinkDepths, PageOptions } from 'contensis-core-api';
 export interface EntryListOptions {
 	contentTypeId?: string;
 	language?: string;
@@ -6,4 +6,5 @@ export interface EntryListOptions {
 	order?: string[];
 	linkDepth?: number;
 	fields?: string[];
+	fieldLinkDepths?: FieldLinkDepths;
 }

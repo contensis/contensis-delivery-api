@@ -87,11 +87,11 @@ describe('Entry Operations', function () {
 
 		it('Get Live Version with all options', async () => {
 			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-			await client.entries.get({ id: '1', language: 'de', linkDepth: 99, fields: ['title'] });
+			await client.entries.get({ id: '1', language: 'de', linkDepth: 99, fields: ['title'], fieldLinkDepths: { linkField: 1 } });
 			expect(global.fetch).toHaveBeenCalled();
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
-				'http://my-website.com/api/delivery/projects/myProject/entries/1?fields=title&language=de&linkDepth=99',
-				getDefaultFetchRequestForAccessToken()
+				'http://my-website.com/api/delivery/projects/myProject/entries/1?fieldLinkDepths=%7B%22linkField%22%3A1%7D&fields=title&language=de&linkDepth=99',
+				getDefaultFetchRequestForAccessToken(),
 			]);
 		});
 
@@ -180,11 +180,11 @@ describe('Entry Operations', function () {
 
 		it('List with all options', async () => {
 			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-			await client.entries.list({ contentTypeId: 'cheese', pageOptions: { pageIndex: 5, pageSize: 100 }, language: 'en-GB', linkDepth: 1, order: ['title'], fields: ['title'] });
+			await client.entries.list({ contentTypeId: 'cheese', pageOptions: { pageIndex: 5, pageSize: 100 }, language: 'en-GB', linkDepth: 1, order: ['title'], fields: ['title'], fieldLinkDepths: { linkField: 1 } });
 			expect(global.fetch).toHaveBeenCalled();
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
-				'http://my-website.com/api/delivery/projects/myProject/contentTypes/cheese/entries?fields=title&language=en-GB&linkDepth=1&order=title&pageIndex=5&pageSize=100',
-				getDefaultFetchRequestForAccessToken()
+				'http://my-website.com/api/delivery/projects/myProject/contentTypes/cheese/entries?fieldLinkDepths=%7B%22linkField%22%3A1%7D&fields=title&language=en-GB&linkDepth=1&order=title&pageIndex=5&pageSize=100',
+				getDefaultFetchRequestForAccessToken(),
 			]);
 		});
 
@@ -383,12 +383,14 @@ describe('Entry Operations', function () {
 				field: 'authorName',
 				startsWith: 'W'
 			}];
+			let fieldLinkDepths: any = { linkField: 1 };
 			let query = {
 				pageIndex: 1,
 				pageSize: 50,
 				orderBy,
 				where,
-				fields: ['title']
+				fields: ['title'],
+				fieldLinkDepths
 			};
 
 			await client.entries.search(query as any, 99);
@@ -397,7 +399,8 @@ describe('Entry Operations', function () {
 				...query,
 				orderBy: JSON.stringify(orderBy),
 				where: JSON.stringify(where),
-				linkDepth: 99
+				linkDepth: 99,
+				fieldLinkDepths: JSON.stringify(fieldLinkDepths)
 			});
 
 			expect(global.fetch).toHaveBeenCalled();
@@ -729,7 +732,7 @@ describe('Entry Operations', function () {
 				fetchFn: global.fetch
 			});
 
-			global.document.documentMode = 11;
+			(global.document as any).documentMode = 11;
 		});
 
 		it('Do Search using an object with all options and  URL=2083', async () => {
@@ -787,7 +790,8 @@ describe('Entry Operations', function () {
 				pageSize: 50,
 				orderBy,
 				where,
-				fields: ['title']
+				fields: ['title'],
+				fieldLinkDepths: { linkField: 1 },
 			};
 
 			await client.entries.search(query as any, 99);
