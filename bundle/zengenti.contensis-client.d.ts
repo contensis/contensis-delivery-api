@@ -1269,18 +1269,23 @@ interface ITaxonomyOperations {
     resolveChildren(node: string | TaxonomyNode | TaxonomyResolveChildrenOptions): Promise<TaxonomyNode>;
 }
 
+declare type NodeVersionInfo = Pick<VersionInfo, 'versionNo'>;
 interface Node {
     id: string;
-    projectId: string;
-    title: string;
-    slug: string;
-    path: string;
     parentId?: string;
+    projectId: string;
+    slug: string;
+    displayName: string;
     language: string;
-    entryId?: string;
-    entry?: Entry;
+    path: string;
     childCount: number;
+    children?: Node[];
+    entry?: Entry;
+    isCanonical: boolean;
+    version: NodeVersionInfo;
     includeInMenu: boolean;
+    title: string;
+    entryId?: string;
 }
 
 interface NodeDefaultOptions {
