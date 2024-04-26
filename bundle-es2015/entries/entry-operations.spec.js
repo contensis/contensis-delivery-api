@@ -671,9 +671,14 @@ describe('Entry Operations', function () {
                 fieldLinkDepths: { linkField: 1 },
             };
             await client.entries.search(query, 99);
+            let expectedQueryString = toQuery({
+                fieldLinkDepths: JSON.stringify(query.fieldLinkDepths),
+                linkDepth: 99
+            });
+            delete query.fieldLinkDepths; // we don't want this in the POST body
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/delivery/projects/myProject/entries/search?linkDepth=99`,
+                `http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
                 getDefaultFetchRequestForAccessToken('POST', 'application/json; charset=utf-8', false, JSON.stringify(query))
             ]);
         });
