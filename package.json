@@ -1,6 +1,6 @@
 {
   "name": "contensis-delivery-api",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Contensis Javascript Delivery API",
   "engines": {
     "node": ">=14"
