@@ -35,7 +35,9 @@ let listMappers: { [key: string]: MapperFn } = {
 };
 
 let searchMappers: { [key: string]: MapperFn } = {
-	linkDepth: (value: number) => (value && (value > 0)) ? value : null
+	linkDepth: (value: number) => (value && (value > 0)) ? value : null,
+	fieldLinkDepths: (value: FieldLinkDepths) =>
+		Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
 };
 
 
@@ -110,6 +112,7 @@ export class EntryOperations implements IEntryOperations {
 
 		let payload = {
 			...requestParams,
+			fieldLinkDepths,
 			linkDepth,
 			pageSize,
 			pageIndex,
@@ -118,9 +121,6 @@ export class EntryOperations implements IEntryOperations {
 
 		if (fields && fields.length > 0) {
 			payload['fields'] = fields;
-		}
-		if (Object.keys(fieldLinkDepths).length > 0) {
-			payload['fieldLinkDepths'] = JSON.stringify(fieldLinkDepths);
 		}
 
 		let url = UrlBuilder.create(defaultListUrl, { ...payload })
@@ -166,6 +166,7 @@ export class EntryOperations implements IEntryOperations {
 
 		let payload = {
 			...requestParams,
+			fieldLinkDepths,
 			linkDepth,
 			pageSize,
 			pageIndex,
@@ -174,9 +175,6 @@ export class EntryOperations implements IEntryOperations {
 
 		if (fields && fields.length > 0) {
 			payload['fields'] = fields;
-		}
-		if (Object.keys(fieldLinkDepths).length > 0) {
-			payload['fieldLinkDepths'] = JSON.stringify(fieldLinkDepths);
 		}
 
 		if (deliveryQuery.orderBy && (!Array.isArray(deliveryQuery.orderBy) || deliveryQuery.orderBy.length > 0)) {
@@ -209,16 +207,21 @@ export class EntryOperations implements IEntryOperations {
 		query.pageSize = query.pageSize || params.pageSize;
 		query.pageIndex = query.pageIndex || 0;
 
-		let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/search', { linkDepth })
+		let url = UrlBuilder.create('/api/delivery/projects/:projectId/entries/search', { linkDepth, fieldLinkDepths: query.fieldLinkDepths })
 			.setParams(this.contensisClient.getParams())
 			.addMappers(searchMappers)
 			.toUrl();
 
 		return this.contensisClient.ensureIsAuthorized().then(() => {
+			// Clone the query instance so we can remove the fieldLinkDepths
+			// from the POST body without mutating the supplied query arg
+			const clone = Object.assign(Object.create(Object.getPrototypeOf(query)), query);
+			delete clone.fieldLinkDepths;
+
 			return this.httpClient.request<PagedList<Entry>>(url, {
 				method: 'POST',
 				headers: this.contensisClient.getHeaders('application/json; charset=utf-8'),
-				body: JSON.stringify(query)
+				body: JSON.stringify(clone)
 			});
 		});
 	}
