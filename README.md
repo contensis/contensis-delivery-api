@@ -1,4 +1,4 @@
-# contensis-delivery-api [![NPM version](https://img.shields.io/npm/v/contensis-delivery-api.svg?style=flat)](https://www.npmjs.com/package/contensis-delivery-api)
+# contensis-delivery-api [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)]() [![NPM version](https://img.shields.io/npm/v/contensis-delivery-api.svg?style=flat)](https://www.npmjs.com/package/contensis-delivery-api)
 
 [![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)]()
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)]()
@@ -9,11 +9,9 @@
 [![Contensis](https://img.shields.io/badge/Contensis-00304d?style=for-the-badge)](https://www.contensis.com)
 [![Contensis Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)](https://contensis.slack.com)
 
-Contensis Delivery API JavaScript implementation written in TypeScript
+Create a Contensis client that allows the querying and retrieval of entries, site view nodes, content types and projects. It can be used in all your JavaScript / TypeScript projects, whether it runs in a browser, Node.js app, or both.
 
-Provides a Contensis client that allows the querying and retrieval of entries, site view nodes, content types and projects. It can be used in all your JavaScript / TypeScript projects, whether it runs in a browser, Node.js app, or both.
-
-Read our documentation on [contensis.com](https://www.contensis.com/help-and-docs/apis/delivery-js) and there is a _[contensis-delivery-api-examples](https://github.com/contensis/contensis-delivery-api-examples)_ repo containing Express, React and Angular test applications, as well as an extended example using nodes api in a Node.js project.
+Read our documentation on [contensis.com](https://www.contensis.com/help-and-docs/apis/delivery-js) and there is a [contensis-delivery-api-examples](https://github.com/contensis/contensis-delivery-api-examples) repo containing Express, React and Angular test applications, as well as an extended example using nodes api in a Node.js project.
 
 Use with Contensis version 12.0 and above. For Contensis 11.3 support use [this version](https://github.com/contensis/contensis-delivery-api/tree/release/1.0) | [npm](https://www.npmjs.com/package/contensis-delivery-api/v/1.0.0). This library requires Node.js 8 or above.
 
