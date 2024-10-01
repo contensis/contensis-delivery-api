@@ -1,12 +1,12 @@
 # contensis-delivery-api [![NPM version](https://img.shields.io/npm/v/contensis-delivery-api.svg?style=flat)](https://www.npmjs.com/package/contensis-delivery-api)
 
-Contensis Delivery API JavaScript implementation written in TypeScript, provides a Contensis client that allows the querying and retrieval of entries, site view nodes, content types and projects.
+Contensis Delivery API JavaScript implementation written in TypeScript
 
-It can be used in all your JavaScript / TypeScript projects, whether it runs in a browser, Node.js app, or both. The library works in Node.js 8 and above.
+Provides a Contensis client that allows the querying and retrieval of entries, site view nodes, content types and projects. It can be used in all your JavaScript / TypeScript projects, whether it runs in a browser, Node.js app, or both.
 
 Read our documentation on [contensis.com](https://www.contensis.com/help-and-docs/apis/delivery-js) and there is a _[contensis-delivery-api-examples](https://github.com/contensis/contensis-delivery-api-examples)_ repo containing Express, React and Angular test applications, as well as an extended example using nodes api in a Node.js project.
 
-Use with Contensis version 12.0 and above. For Contensis 11.3 support use [this version](https://github.com/contensis/contensis-delivery-api/tree/release/1.0) | [npm](https://www.npmjs.com/package/contensis-delivery-api/v/1.0.0).
+Use with Contensis version 12.0 and above. For Contensis 11.3 support use [this version](https://github.com/contensis/contensis-delivery-api/tree/release/1.0) | [npm](https://www.npmjs.com/package/contensis-delivery-api/v/1.0.0). This library requires Node.js 8 or above.
 
 # Installation
 
@@ -174,13 +174,15 @@ The build of the library that targets browsers can be found in the `bundle` fold
 
 ## Node.js support
 
-When using this library in Node.js the `fetch` API is already polyfilled with `node-fetch`.
+When using this library in Node.js the `fetch` API is already polyfilled with [`cross-fetch`](https://www.npmjs.com/package/cross-fetch) package (which uses [`node-fetch`](https://www.npmjs.com/package/node-fetch) when used with a Node.js runtime).
 
-You can override the built-in fetch API by providing your own Fetch method when instantiating the Client.
+Node.js [version 16](https://nodejs.org/docs/latest-v16.x/api/globals.html#fetch) introduced experimental support for a native global `fetch` API and shipped as standard with Node.js versions [18](https://nodejs.org/docs/latest-v18.x/api/globals.html#fetch) and [20](https://nodejs.org/docs/latest-v20.x/api/globals.html#fetch). The global `fetch` support in Node.js [version 21](https://nodejs.org/docs/latest-v21.x/api/globals.html#fetch) and greater is marked as stable.
 
 ## Use your own fetch
 
-The library allows you to supply your own fetch implementation in the client config and fetch calls from this client will be made using your chosen API
+You can override the built-in fetch API by providing your own `fetchFn` method when creating the Client.
+
+Method calls that require fetch invoked from this client instance will be made using your chosen API.
 
 ```typescript
 import { Client } from "contensis-delivery-api";
