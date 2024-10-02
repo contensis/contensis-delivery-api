@@ -17,7 +17,7 @@ Use with Contensis version 12.0 and above. For Contensis 11.3 support use [this 
 
 # Installation
 
-Install the package to your project `dependencies` using npm, or your favourite Node.js package manager.
+Install the package to your project `dependencies` using npm, or your preferred Node.js package manager.
 
 ```shell
 npm install --save contensis-delivery-api
