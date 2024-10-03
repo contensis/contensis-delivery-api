@@ -13,7 +13,7 @@ Create a Contensis client that allows you to query and retrieve entries, site vi
 
 Read our documentation on [contensis.com](https://www.contensis.com/help-and-docs/apis/delivery-js) and there is a [contensis-delivery-api-examples](https://github.com/contensis/contensis-delivery-api-examples) repo containing Express, React and Angular test applications, as well as an extended example using nodes api in a Node.js project.
 
-Use with Contensis version 12.0 and above. For Contensis 11.3 support use [this version](https://github.com/contensis/contensis-delivery-api/tree/release/1.0) | [npm](https://www.npmjs.com/package/contensis-delivery-api/v/1.0.0). This library requires Node.js 8 or above.
+Use with Contensis version 12.0 and above. For Contensis 11.3 support use [this version](https://github.com/contensis/contensis-delivery-api/tree/release/1.0) | [npm](https://www.npmjs.com/package/contensis-delivery-api/v/1.0.0). This library requires Node.js 14 or above.
 
 # Installation
 
@@ -87,10 +87,12 @@ loadMovies();
 Keep a common client configuration and create the delivery client when you need it
 
 ```typescript
-// Using TypeScript with imported typing
+// Using async / await syntax (avoiding callbacks)
 
+// Import the additional "Config" type when using TypeScript
 import { Client, Config } from "contensis-delivery-api";
 
+// Remove ": Config" annotation when NOT using TypeScript
 const contensisConfig: Config = {
   rootUrl: "https://my-cms.com",
   accessToken: "DELIVERY_API_ACCESS_TOKEN",
@@ -110,32 +112,6 @@ const loadMovies = async () => {
     console.log(movie);
   }
 };
-
-loadMovies();
-```
-
-```mjs
-// Using async / await syntax in JavaScript (avoiding callbacks)
-
-import { Client } from "contensis-delivery-api";
-
-const contensisConfig = {
-  rootUrl: "https://my-cms.com",
-  accessToken: "DELIVERY_API_ACCESS_TOKEN",
-  projectId: "website",
-  language: "en-GB",
-  versionStatus: "published",
-};
-
-async function loadMovies() {
-  const client = Client.create(contensisConfig);
-  const movieList = await client.entries.list({
-    contentTypeId: "movie",
-    pageOptions: { pageIndex: 0, pageSize: 10 },
-    order: ["-releaseDate"],
-  });
-  console.log(movieList.items);
-}
 
 loadMovies();
 ```
@@ -204,4 +180,3 @@ const client = Client.create({
   fetchFn: enterpriseFetch,
 });
 ```
-
