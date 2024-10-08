@@ -15,7 +15,7 @@ Read our documentation on [contensis.com](https://www.contensis.com/help-and-doc
 
 Use with Contensis version 12.0 and above. For Contensis 11.3 support use [this version](https://github.com/contensis/contensis-delivery-api/tree/release/1.0) | [npm](https://www.npmjs.com/package/contensis-delivery-api/v/1.0.0). This library requires Node.js 14 or above.
 
-# Installation
+## Installation
 
 Install the package to your project `dependencies` using npm, or your preferred Node.js package manager.
 
@@ -23,11 +23,11 @@ Install the package to your project `dependencies` using npm, or your preferred 
 npm install --save contensis-delivery-api
 ```
 
-# Usage
+## Usage
 
 Follow the examples with the preferred coding style that best suits your project
 
-## Create a client
+### Create a client
 
 All of the delivery methods are available under the `client` instance returned by `Client.create(...)`
 
@@ -61,7 +61,7 @@ const client = Client.create({
 });
 ```
 
-## Get a list of entries
+### Get a list of entries
 
 Reusing the `client` instance we created above
 
@@ -82,7 +82,7 @@ const loadMovies = async () => {
 loadMovies();
 ```
 
-## Create a client config and get a list of entries
+### Create a client config and get a list of entries
 
 Keep a common client configuration and create the delivery client when you need it
 
@@ -145,23 +145,23 @@ function loadMovies() {
 loadMovies();
 ```
 
-# Fetch API
+## Fetch API
 
 This library uses the `fetch` API and relies on it being available at runtime.
 
-## Browser support
+### Browser support
 
 In modern browsers `fetch` is available natively, a polyfill is provided for older browsers.
 
 The build of the library that targets browsers can be found in the `bundle` folder.
 
-## Node.js support
+### Node.js support
 
 When using this library in Node.js the `fetch` API is already polyfilled with [`cross-fetch`](https://www.npmjs.com/package/cross-fetch) package (which uses [`node-fetch`](https://www.npmjs.com/package/node-fetch) when used with a Node.js runtime).
 
 Node.js [version 16](https://nodejs.org/docs/latest-v16.x/api/globals.html#fetch) introduced experimental support for a native global `fetch` API and shipped as standard with Node.js versions [18](https://nodejs.org/docs/latest-v18.x/api/globals.html#fetch) and [20](https://nodejs.org/docs/latest-v20.x/api/globals.html#fetch). The global `fetch` support in Node.js [version 21](https://nodejs.org/docs/latest-v21.x/api/globals.html#fetch) and greater is marked as stable.
 
-## Use your own fetch
+### Use your own fetch
 
 You can override the built-in fetch API by providing your own `fetchFn` method when creating the Client.
 
