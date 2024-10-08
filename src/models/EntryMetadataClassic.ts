@@ -1,5 +1,4 @@
-export interface ClassicMetadata {
-    [key: string]: any;
+export interface EntryMetadataClassic {
     includeInAToZ?: boolean;
     includeInSearch?: boolean;
     includeInSiteMap?: boolean;

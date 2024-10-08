@@ -1,7 +1,7 @@
-import { VersionInfo, VersionStatus } from 'contensis-core-api';
+import { ContentTypeFormat, VersionInfo, VersionStatus } from 'contensis-core-api';
+import { EntryMetadata } from './EntryMetadata';
+import { EntryMetadataClassic } from './EntryMetadataClassic';
 import { Workflow } from './Workflow';
-import { ClassicMetadata } from './ClassicMetadata';
-import { ContentTypeFormat } from 'contensis-core-api';
 
 export interface BaseSys<T extends ContentTypeFormat> {
     availableLanguages?: string[];
@@ -17,5 +17,5 @@ export interface BaseSys<T extends ContentTypeFormat> {
     version?: VersionInfo;
     versionStatus: VersionStatus;
     workflow?: Workflow;
-    metadata?: ClassicMetadata;
+    metadata?: EntryMetadata & EntryMetadataClassic;
 }

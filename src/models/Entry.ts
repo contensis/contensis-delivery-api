@@ -1,6 +1,7 @@
-import { EntrySys } from './EntrySys';
 import { AssetSys } from './AssetSys';
-import { Image } from './ContensisFields';
+import { Image } from './EntryFields';
+import { EntrySys } from './EntrySys';
+
 interface BaseEntryFields {
 	entryTitle: string;
 	entryDescription?: string;
