@@ -11,7 +11,7 @@
 
 Create a Contensis client that allows you to query and retrieve entries, site view nodes, content types and projects. It can be used in all your JavaScript / TypeScript projects, whether it runs in a browser, Node.js app, or both.
 
-Read our documentation on [contensis.com](https://www.contensis.com/help-and-docs/apis/delivery-js) and there is a [contensis-delivery-api-examples](https://github.com/contensis/contensis-delivery-api-examples) repo containing Express, React and Angular test applications, as well as an extended example using nodes api in a Node.js project.
+[**Explore the docs on contensis.com**](https://www.contensis.com/help-and-docs/apis/delivery-js) and the [contensis-delivery-api-examples](https://github.com/contensis/contensis-delivery-api-examples) repository containing Express.js, React and Angular test applications, as well as an extended example using nodes api in a Node.js project.
 
 Use with Contensis version 12.0 and above. For Contensis 11.3 support use [this version](https://github.com/contensis/contensis-delivery-api/tree/release/1.0) | [npm](https://www.npmjs.com/package/contensis-delivery-api/v/1.0.0). This library requires Node.js 14 or above.
 
@@ -144,6 +144,8 @@ function loadMovies() {
 
 loadMovies();
 ```
+
+_For more examples refer to our [documentation on contensis.com](https://www.contensis.com/help-and-docs/apis/delivery-js)_
 
 ## Fetch API
 
