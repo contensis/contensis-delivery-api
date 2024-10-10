@@ -1,7 +1,7 @@
 {
   "name": "contensis-delivery-api",
   "version": "1.4.1",
-  "description": "Contensis Javascript Delivery API",
+  "description": "Client for retrieving content using the read-only Contensis Delivery API",
   "engines": {
     "node": ">=14"
   },
@@ -28,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/contensis/contensis-delivery-api/issues"
   },
-  "homepage": "https://github.com/contensis/contensis-delivery-api#readme",
+  "homepage": "https://www.contensis.com/help-and-docs/apis/delivery-js",
   "devDependencies": {
     "@types/jasmine": "3.6.2",
     "@types/node": "14.14.20",
@@ -62,7 +62,13 @@
   },
   "keywords": [
     "contensis",
+    "cms",
+    "dxp",
+    "content",
     "delivery",
-    "api"
+    "api",
+    "js",
+    "library",
+    "client"
   ]
 }
