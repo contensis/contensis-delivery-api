@@ -2,7 +2,6 @@ import { ContentTypeFormat, VersionInfo, VersionStatus } from 'contensis-core-ap
 import { EntryMetadata } from './EntryMetadata';
 import { EntryMetadataClassic } from './EntryMetadataClassic';
 import { Workflow } from './Workflow';
-
 export interface BaseSys<T extends ContentTypeFormat> {
     availableLanguages?: string[];
     contentTypeId: string;

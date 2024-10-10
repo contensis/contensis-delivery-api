@@ -191,7 +191,7 @@ var ManagementQuery = /** @class */ (function () {
 }());
 { ManagementQuery };
 //# sourceMappingURL=ManagementQuery.js.map
-{"version":3,"file":"ManagementQuery.js","sourceRoot":"","sources":["../../../src/models/search/ManagementQuery.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,eAAe,EAAE,MAAM,aAAa,CAAC;AAC9C,OAAO,EAAE,cAAc,EAAE,MAAM,cAAc,CAAC;AAE9C;IAUC;QAAY,0BAAkC;aAAlC,UAAkC,EAAlC,qBAAkC,EAAlC,IAAkC;YAAlC,qCAAkC;;QAP9C,UAAK,GAAoB,IAAI,eAAe,EAAE,CAAC;QAC/C,YAAO,GAA8C,EAAE,CAAC;QACxD,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAa,KAAK,CAAC;QAClC,mBAAc,GAAa,KAAK,CAAC;QAGhC,IAAI,gBAAgB,EAAE;YACrB,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,gBAAgB,CAAC,CAAC;SACtC;IACF,CAAC;IAED,gCAAM,GAAN;QACC,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAEhC,IAAI,WAAW,GAAG,cAAc,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;QAC/C,IAAI,WAAW,IAAI,WAAW,CAAC,MAAM,GAAG,CAAC,EAAE;YAC1C,MAAM,CAAC,OAAO,GAAG,WAAW,CAAC;SAC7B;QAED,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAC1B,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;QAC9C,MAAM,CAAC,cAAc,GAAG,IAAI,CAAC,cAAc,CAAC;QAC5C,OAAO,MAAM,CAAC;IACf,CAAC;IACF,sBAAC;AAAD,CAAC,AA/BD,IA+BC"}
+{"version":3,"file":"ManagementQuery.js","sourceRoot":"","sources":["../../../src/models/search/ManagementQuery.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,eAAe,EAAE,MAAM,aAAa,CAAC;AAC9C,OAAO,EAAE,cAAc,EAAE,MAAM,cAAc,CAAC;AAE9C;IAUI;QAAY,0BAAkC;aAAlC,UAAkC,EAAlC,qBAAkC,EAAlC,IAAkC;YAAlC,qCAAkC;;QAP9C,UAAK,GAAoB,IAAI,eAAe,EAAE,CAAC;QAC/C,YAAO,GAA8C,EAAE,CAAC;QACxD,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAa,KAAK,CAAC;QAClC,mBAAc,GAAa,KAAK,CAAC;QAG7B,IAAI,gBAAgB,EAAE;YAClB,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,gBAAgB,CAAC,CAAC;SACzC;IACL,CAAC;IAED,gCAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAEhC,IAAI,WAAW,GAAG,cAAc,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;QAC/C,IAAI,WAAW,IAAI,WAAW,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,OAAO,GAAG,WAAW,CAAC;SAChC;QAED,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAC1B,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;QAC9C,MAAM,CAAC,cAAc,GAAG,IAAI,CAAC,cAAc,CAAC;QAC5C,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,sBAAC;AAAD,CAAC,AA/BD,IA+BC"}
 declare class ManagementZenqlQuery implements Omit<IZenqlQuery, 'fields' | 'fieldLinkDepths'> {
     zenql: string;
     pageIndex: number;
@@ -224,7 +224,7 @@ var ManagementZenqlQuery = /** @class */ (function () {
 }());
 { ManagementZenqlQuery };
 //# sourceMappingURL=ManagementZenqlQuery.js.map
-{"version":3,"file":"ManagementZenqlQuery.js","sourceRoot":"","sources":["../../../src/models/search/ManagementZenqlQuery.ts"],"names":[],"mappings":"AAGA;IAOC,8BAAY,KAAa;QANzB,UAAK,GAAW,EAAE,CAAC;QACnB,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAa,KAAK,CAAC;QAClC,mBAAc,GAAa,KAAK,CAAC;QAGhC,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACpB,CAAC;IAED,qCAAM,GAAN;QACC,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAChC,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAC1B,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;QAC9C,MAAM,CAAC,cAAc,GAAG,IAAI,CAAC,cAAc,CAAC;QAE5C,OAAO,MAAM,CAAC;IACf,CAAC;IACF,2BAAC;AAAD,CAAC,AArBD,IAqBC"}
+{"version":3,"file":"ManagementZenqlQuery.js","sourceRoot":"","sources":["../../../src/models/search/ManagementZenqlQuery.ts"],"names":[],"mappings":"AAGA;IAOI,8BAAY,KAAa;QANzB,UAAK,GAAW,EAAE,CAAC;QACnB,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAa,KAAK,CAAC;QAClC,mBAAc,GAAa,KAAK,CAAC;QAG7B,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACvB,CAAC;IAED,qCAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAChC,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAC1B,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;QAC9C,MAAM,CAAC,cAAc,GAAG,IAAI,CAAC,cAAc,CAAC;QAE5C,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,2BAAC;AAAD,CAAC,AArBD,IAqBC"}
 declare abstract class ExpressionBase implements IExpression {
     fieldName: string;
     values: any[];
@@ -844,12 +844,6 @@ interface ContentType extends ContentTypeBase<'entry' | 'asset'> {
 
 //# sourceMappingURL=ContentType.js.map
 {"version":3,"file":"ContentType.js","sourceRoot":"","sources":["../../src/models/ContentType.ts"],"names":[],"mappings":""}
-declare type ContentTypeFormatMap<T> = {
-    entry: T;
-    component: T;
-    asset: T;
-};
-declare type ContentTypeFormat = keyof ContentTypeFormatMap<any>;
 interface ContentTypeBase<TFormat extends ContentTypeFormat> {
     description?: LocalisedString;
     enabled?: boolean;
@@ -863,10 +857,19 @@ interface ContentTypeBase<TFormat extends ContentTypeFormat> {
 }
 interface ContentTypeGroup extends LocalisedIdAndValue {
 }
-{};
 
 //# sourceMappingURL=ContentTypeBase.js.map
 {"version":3,"file":"ContentTypeBase.js","sourceRoot":"","sources":["../../src/models/ContentTypeBase.ts"],"names":[],"mappings":""}
+declare type ContentTypeFormatMap<T> = {
+    entry: T;
+    component: T;
+    asset: T;
+};
+declare type ContentTypeFormat = keyof ContentTypeFormatMap<any>;
+{};
+
+//# sourceMappingURL=ContentTypeFormat.js.map
+{"version":3,"file":"ContentTypeFormat.js","sourceRoot":"","sources":["../../src/models/ContentTypeFormat.ts"],"names":[],"mappings":""}
 interface Editor {
     id?: string;
     instructions?: LocalisedString;
@@ -993,7 +996,7 @@ interface IHttpClient {
 * from './errors';
 * from './search';
 //# sourceMappingURL=index.js.map
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/models/index.ts"],"names":[],"mappings":"AAEA,cAAc,UAAU,CAAC;AAiBzB,cAAc,UAAU,CAAC"}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/models/index.ts"],"names":[],"mappings":"AAEA,cAAc,UAAU,CAAC;AAkBzB,cAAc,UAAU,CAAC"}
 interface IParamsProvider {
     getParams(): ClientParams;
 }
@@ -1021,6 +1024,7 @@ interface PagedList<T> {
     pageIndex: number;
     pageSize: number;
     totalCount: number;
+    pageCount: number;
     items: T[];
 }
 
@@ -1039,6 +1043,7 @@ interface Project {
     description: string;
     primaryLanguage: string;
     supportedLanguages: string[];
+    deliverySysExclusions: string[];
 }
 
 //# sourceMappingURL=Project.js.map
@@ -1128,6 +1133,10 @@ interface VersionInfo {
     modified: string;
     publishedBy: string;
     published: string;
+    deleted?: string;
+    deletedBy?: string;
+    archived?: string;
+    archivedBy?: string;
     versionNo: string;
 }
 
@@ -1137,6 +1146,34 @@ declare type VersionStatus = 'published' | 'latest';
 
 //# sourceMappingURL=VersionStatus.js.map
 {"version":3,"file":"VersionStatus.js","sourceRoot":"","sources":["../../src/models/VersionStatus.ts"],"names":[],"mappings":""}
+interface AssetSys extends BaseSys<'asset'> {
+    properties: {
+        filename: string;
+        fileSize: number;
+        fileId: string;
+        filePath: string;
+        width?: number;
+        height?: number;
+    };
+}
+
+interface BaseSys<T extends ContentTypeFormat> {
+    availableLanguages?: string[];
+    contentTypeId: string;
+    dataFormat: T;
+    id: string;
+    isPublished?: boolean;
+    language: string;
+    owner?: string;
+    projectId?: string;
+    slug?: string;
+    uri?: string;
+    version?: VersionInfo;
+    versionStatus: VersionStatus;
+    workflow?: Workflow;
+    metadata?: EntryMetadata & EntryMetadataClassic;
+}
+
 interface ClientConfigFactory {
     new (value: Config, previous: Config): Config;
 }
@@ -1183,17 +1220,57 @@ interface ContensisStatic {
     OrderBy: ContensisQueryOrderBy;
 }
 
-interface Entry {
-    sys: EntrySys;
-    [key: string]: any;
-    entryTitle?: string;
+interface BaseEntryFields {
+    entryTitle: string;
     entryDescription?: string;
-    entryThumbnail?: EntryThumbnail;
+    entryThumbnail?: Image;
 }
-interface EntryThumbnail {
+interface Entry extends StrictEntry {
+    [key: string]: any;
+}
+interface EntryAsset extends BaseEntryFields {
+    sys: AssetSys;
+}
+interface StrictEntry extends BaseEntryFields {
+    sys: EntrySys;
+}
+{};
+
+interface Asset extends EntryAsset {
     altText?: string;
+    description?: string;
+    keywords?: string[];
+    thumbnail?: string;
+    title: string;
+}
+interface Image {
+    altText?: string;
+    transformations?: string;
     caption?: string;
-    asset?: Entry;
+    asset: Asset;
+}
+interface Composer<T extends string = string, V = any> {
+    type: T;
+    value: V;
+}
+interface DateRange {
+    from: string;
+    to: string;
+}
+interface Quote {
+    text: string;
+    source: string;
+}
+interface Location {
+    lon: number;
+    lat: number;
+}
+interface Taxonomy {
+    path: string;
+    key: string;
+    hasChildren: boolean;
+    name: string;
+    children: Taxonomy[] | [];
 }
 
 interface EntryGetOptions {
@@ -1214,27 +1291,24 @@ interface EntryListOptions {
     fieldLinkDepths?: FieldLinkDepths;
 }
 
-interface EntrySys {
+interface EntryMetadata {
+    [key: string]: string | boolean | number | null | undefined;
+}
+
+interface EntryMetadataClassic {
+    includeInAToZ?: boolean;
+    includeInSearch?: boolean;
+    includeInSiteMap?: boolean;
+    includeInMenu?: boolean;
+    nodeId?: string;
+}
+
+interface EntrySys extends BaseSys<'entry'> {
     allUris: string[];
-    availableLanguages?: string[];
-    contentTypeId: string;
-    dataFormat: string;
-    id: string;
-    isPublished?: boolean;
-    language: string;
-    owner?: string;
-    projectId?: string;
-    properties?: {
+    metadata: EntryMetadata;
+    properties: {
         [key: string]: any;
-        width?: number;
-        height?: number;
-        fileSize?: number;
     };
-    slug?: string;
-    uri: string;
-    version?: VersionInfo;
-    versionStatus: 'published' | 'latest';
-    workflow?: Workflow;
 }
 
 interface IContentTypeOperations {
@@ -1270,7 +1344,7 @@ interface ITaxonomyOperations {
 }
 
 declare type NodeVersionInfo = Pick<VersionInfo, 'versionNo'>;
-interface Node {
+interface Node<TEntry extends StrictEntry = LooseEntry> {
     id: string;
     parentId?: string;
     projectId: string;
@@ -1280,12 +1354,10 @@ interface Node {
     path: string;
     childCount: number;
     children?: Node[];
-    entry?: Entry;
+    entry?: TEntry;
     isCanonical: boolean;
     version: NodeVersionInfo;
     includeInMenu: boolean;
-    title: string;
-    entryId?: string;
 }
 
 interface NodeDefaultOptions {

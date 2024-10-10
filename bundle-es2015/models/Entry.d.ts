@@ -1,13 +1,18 @@
+import { AssetSys } from './AssetSys';
+import { Image } from './EntryFields';
 import { EntrySys } from './EntrySys';
-export interface Entry {
-    sys: EntrySys;
-    [key: string]: any;
-    entryTitle?: string;
+interface BaseEntryFields {
+    entryTitle: string;
     entryDescription?: string;
-    entryThumbnail?: EntryThumbnail;
+    entryThumbnail?: Image;
 }
-export interface EntryThumbnail {
-    altText?: string;
-    caption?: string;
-    asset?: Entry;
+export interface Entry extends StrictEntry {
+    [key: string]: any;
 }
+export interface EntryAsset extends BaseEntryFields {
+    sys: AssetSys;
+}
+export interface StrictEntry extends BaseEntryFields {
+    sys: EntrySys;
+}
+export {};
