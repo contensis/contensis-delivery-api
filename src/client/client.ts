@@ -9,7 +9,7 @@ import { ProjectOperations } from '../projects/project-operations';
 import { TaxonomyOperations } from '../taxonomy/taxonomy-operations';
 import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
-import { ClientParams, HttpClient, IHttpClient, ContensisAuthenticationError, ContensisApplicationError, ContensisClassicGrant, ClientCredentialsGrant, ContensisClassicResfreshTokenGrant } from 'contensis-core-api';
+import { ClientParams, HttpClient, IHttpClient, ContensisAuthenticationError, ContensisApplicationError, ContensisClassicGrant, ClientCredentialsGrant, ContensisClassicRefreshTokenGrant } from 'contensis-core-api';
 import * as Scopes from './scopes';
 
 import fetch from 'cross-fetch';
@@ -188,7 +188,7 @@ export class Client implements ContensisClient {
 			payload['username'] = clientDetails.username;
 			payload['password'] = clientDetails.password;
 		} else if (this.clientConfig.clientType === 'contensis_classic_refresh_token') {
-			let clientDetails = this.clientConfig.clientDetails as ContensisClassicResfreshTokenGrant;
+			let clientDetails = this.clientConfig.clientDetails as ContensisClassicRefreshTokenGrant;
 			payload['refresh_token'] = clientDetails.refreshToken;
 		}
 
