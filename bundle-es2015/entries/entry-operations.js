@@ -20,6 +20,7 @@ let listMappers = {
     pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize)
 };
 let searchMappers = {
+    aggregations: (value) => Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
     linkDepth: (value) => (value && (value > 0)) ? value : null,
     fieldLinkDepths: (value) => Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
 };
@@ -75,13 +76,16 @@ export class EntryOperations {
         let pageIndex = params.pageIndex || 0;
         let fields = [];
         let fieldLinkDepths = {};
+        let aggregations = {};
         pageSize = zenqlQuery.pageSize || pageSize;
         pageIndex = zenqlQuery.pageIndex || pageIndex;
         fields = zenqlQuery.fields || fields;
         fieldLinkDepths = zenqlQuery.fieldLinkDepths || fieldLinkDepths;
+        aggregations = zenqlQuery.aggregations || aggregations;
         let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
         let payload = {
             ...requestParams,
+            aggregations,
             fieldLinkDepths,
             linkDepth,
             pageSize,
@@ -117,14 +121,17 @@ export class EntryOperations {
         let pageIndex = params.pageIndex || 0;
         let fields = [];
         let fieldLinkDepths = {};
+        let aggregations = {};
         pageSize = deliveryQuery.pageSize || pageSize;
         pageIndex = deliveryQuery.pageIndex || pageIndex;
         fields = deliveryQuery.fields || fields;
         fieldLinkDepths = deliveryQuery.fieldLinkDepths || fieldLinkDepths;
+        aggregations = deliveryQuery.aggregations || aggregations;
         let orderBy = (deliveryQuery.orderBy && (deliveryQuery.orderBy._items || deliveryQuery.orderBy));
         let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
         let payload = {
             ...requestParams,
+            aggregations,
             fieldLinkDepths,
             linkDepth,
             pageSize,

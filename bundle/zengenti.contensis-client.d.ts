@@ -1,14 +1,25 @@
 interface ContensisQuery {
-    where: ILogicalExpression;
+    aggregations?: ContensisQueryAggregations;
+    fieldLinkDepths?: FieldLinkDepths;
+    fields?: string[];
     orderBy: string | string[] | ContensisQueryOrderBy;
     pageIndex: number;
     pageSize: number;
-    fields?: string[];
-    fieldLinkDepths?: FieldLinkDepths;
+    where: ILogicalExpression;
 }
 
 //# sourceMappingURL=ContensisQuery.js.map
 {"version":3,"file":"ContensisQuery.js","sourceRoot":"","sources":["../../../src/models/search/ContensisQuery.ts"],"names":[],"mappings":""}
+interface ContensisQueryAggregations {
+    [name: string]: {
+        missing?: string;
+        field: string;
+        size?: number;
+    };
+}
+
+//# sourceMappingURL=ContensisQueryAggregations.js.map
+{"version":3,"file":"ContensisQueryAggregations.js","sourceRoot":"","sources":["../../../src/models/search/ContensisQueryAggregations.ts"],"names":[],"mappings":""}
 interface ContensisQueryFactory {
     new (...whereExpressions: IExpression[]): ContensisQuery;
 }
@@ -136,13 +147,14 @@ interface ILogicalExpression extends IExpression {
 * from './QueryTypes';
 * from './ZenqlQuery';
 //# sourceMappingURL=index.js.map
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/models/search/index.ts"],"names":[],"mappings":"AAKA,cAAc,uBAAuB,CAAC;AAEtC,cAAc,8BAA8B,CAAC;AAI7C,cAAc,mBAAmB,CAAC;AAClC,cAAc,wBAAwB,CAAC;AACvC,cAAc,aAAa,CAAC;AAC5B,cAAc,gBAAgB,CAAC;AAC/B,cAAc,SAAS,CAAC;AACxB,cAAc,cAAc,CAAC;AAC7B,cAAc,cAAc,CAAC"}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/models/search/index.ts"],"names":[],"mappings":"AAMA,cAAc,uBAAuB,CAAC;AAEtC,cAAc,8BAA8B,CAAC;AAI7C,cAAc,mBAAmB,CAAC;AAClC,cAAc,wBAAwB,CAAC;AACvC,cAAc,aAAa,CAAC;AAC5B,cAAc,gBAAgB,CAAC;AAC/B,cAAc,SAAS,CAAC;AACxB,cAAc,cAAc,CAAC;AAC7B,cAAc,cAAc,CAAC"}
 interface IZenqlQuery {
-    zenql: string;
+    aggregations?: ContensisQueryAggregations;
+    fieldLinkDepths?: FieldLinkDepths;
+    fields?: string[];
     pageIndex: number;
     pageSize: number;
-    fields?: string[];
-    fieldLinkDepths?: FieldLinkDepths;
+    zenql: string;
 }
 
 //# sourceMappingURL=IZenqlQuery.js.map
@@ -658,6 +670,7 @@ declare class Query implements ContensisQuery {
     pageSize: number;
     fieldLinkDepths?: FieldLinkDepths;
     fields?: string[];
+    aggregations?: ContensisQueryAggregations;
     constructor(...whereExpressions: IExpression[]);
     toJSON(): any;
 }
@@ -674,6 +687,7 @@ var Query = /** @class */ (function () {
         this.pageSize = 20;
         this.fieldLinkDepths = {};
         this.fields = [];
+        this.aggregations = {};
         if (whereExpressions) {
             this.where.addRange(whereExpressions);
         }
@@ -693,13 +707,16 @@ var Query = /** @class */ (function () {
         if (this.fieldLinkDepths && Object.keys(this.fieldLinkDepths).length > 0) {
             result.fieldLinkDepths = this.fieldLinkDepths;
         }
+        if (this.aggregations && Object.keys(this.aggregations).length > 0) {
+            result.aggregations = this.aggregations;
+        }
         return result;
     };
     return Query;
 }());
 { Query };
 //# sourceMappingURL=query.js.map
-{"version":3,"file":"query.js","sourceRoot":"","sources":["../../../src/models/search/query.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,eAAe,EAAE,MAAM,aAAa,CAAC;AAC9C,OAAO,EAAE,cAAc,EAAE,MAAM,cAAc,CAAC;AAE9C;IAQI;QAAY,0BAAkC;aAAlC,UAAkC,EAAlC,qBAAkC,EAAlC,IAAkC;YAAlC,qCAAkC;;QAP9C,UAAK,GAAoB,IAAI,eAAe,EAAE,CAAC;QAC/C,YAAO,GAA8C,EAAE,CAAC;QACxD,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAqB,EAAE,CAAC;QACvC,WAAM,GAAc,EAAE,CAAC;QAGnB,IAAI,gBAAgB,EAAE;YAClB,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,gBAAgB,CAAC,CAAC;SACzC;IACL,CAAC;IAED,sBAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAEhC,IAAI,WAAW,GAAG,cAAc,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;QAC/C,IAAI,WAAW,IAAI,WAAW,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,OAAO,GAAG,WAAW,CAAC;SAChC;QAED,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAE1B,IAAI,IAAI,CAAC,MAAM,IAAI,IAAI,CAAC,MAAM,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC;SAC/B;QACD,IAAI,IAAI,CAAC,eAAe,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,eAAe,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YACxE,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;SAC/C;QAED,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,YAAC;AAAD,CAAC,AAnCD,IAmCC"}
+{"version":3,"file":"query.js","sourceRoot":"","sources":["../../../src/models/search/query.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,eAAe,EAAE,MAAM,aAAa,CAAC;AAC9C,OAAO,EAAE,cAAc,EAAE,MAAM,cAAc,CAAC;AAE9C;IASI;QAAY,0BAAkC;aAAlC,UAAkC,EAAlC,qBAAkC,EAAlC,IAAkC;YAAlC,qCAAkC;;QAR9C,UAAK,GAAoB,IAAI,eAAe,EAAE,CAAC;QAC/C,YAAO,GAA8C,EAAE,CAAC;QACxD,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAqB,EAAE,CAAC;QACvC,WAAM,GAAc,EAAE,CAAC;QACvB,iBAAY,GAAgC,EAAE,CAAC;QAG3C,IAAI,gBAAgB,EAAE;YAClB,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,gBAAgB,CAAC,CAAC;SACzC;IACL,CAAC;IAED,sBAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAEhC,IAAI,WAAW,GAAG,cAAc,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;QAC/C,IAAI,WAAW,IAAI,WAAW,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,OAAO,GAAG,WAAW,CAAC;SAChC;QAED,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAE1B,IAAI,IAAI,CAAC,MAAM,IAAI,IAAI,CAAC,MAAM,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC;SAC/B;QACD,IAAI,IAAI,CAAC,eAAe,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,eAAe,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YACxE,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;SAC/C;QACD,IAAI,IAAI,CAAC,YAAY,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YAChE,MAAM,CAAC,YAAY,GAAG,IAAI,CAAC,YAAY,CAAC;SAC3C;QAED,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,YAAC;AAAD,CAAC,AAvCD,IAuCC"}
 declare const Op: Operators;
 declare const OrderBy: ContensisQueryOrderBy;
 declare function serializeOrder(orderBy: string | string[] | ContensisQueryOrderBy | ContensisQueryOrderBy[]): ContensisQueryOrderByDto[];
@@ -746,6 +763,7 @@ declare class ZenqlQuery implements IZenqlQuery {
     pageSize: number;
     fieldLinkDepths?: FieldLinkDepths;
     fields?: string[];
+    aggregations?: ContensisQueryAggregations;
     constructor(zenql: string);
     toJSON(): any;
 }
@@ -757,6 +775,7 @@ var ZenqlQuery = /** @class */ (function () {
         this.pageSize = 20;
         this.fieldLinkDepths = {};
         this.fields = [];
+        this.aggregations = {};
         this.zenql = zenql;
     }
     ZenqlQuery.prototype.toJSON = function () {
@@ -770,13 +789,16 @@ var ZenqlQuery = /** @class */ (function () {
         if (this.fieldLinkDepths && Object.keys(this.fieldLinkDepths).length > 0) {
             result.fieldLinkDepths = this.fieldLinkDepths;
         }
+        if (this.aggregations && Object.keys(this.aggregations).length > 0) {
+            result.aggregations = this.aggregations;
+        }
         return result;
     };
     return ZenqlQuery;
 }());
 { ZenqlQuery };
 //# sourceMappingURL=ZenqlQuery.js.map
-{"version":3,"file":"ZenqlQuery.js","sourceRoot":"","sources":["../../../src/models/search/ZenqlQuery.ts"],"names":[],"mappings":"AAGA;IAOI,oBAAY,KAAa;QANzB,UAAK,GAAW,EAAE,CAAC;QACnB,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAqB,EAAE,CAAC;QACvC,WAAM,GAAc,EAAE,CAAC;QAGnB,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACvB,CAAC;IAED,2BAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAChC,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAE1B,IAAI,IAAI,CAAC,MAAM,IAAI,IAAI,CAAC,MAAM,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC;SAC/B;QACD,IAAI,IAAI,CAAC,eAAe,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,eAAe,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YACxE,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;SAC/C;QAED,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,iBAAC;AAAD,CAAC,AA1BD,IA0BC"}
+{"version":3,"file":"ZenqlQuery.js","sourceRoot":"","sources":["../../../src/models/search/ZenqlQuery.ts"],"names":[],"mappings":"AAGA;IAQI,oBAAY,KAAa;QAPzB,UAAK,GAAW,EAAE,CAAC;QACnB,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAqB,EAAE,CAAC;QACvC,WAAM,GAAc,EAAE,CAAC;QACvB,iBAAY,GAAgC,EAAE,CAAC;QAG3C,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACvB,CAAC;IAED,2BAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAChC,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAE1B,IAAI,IAAI,CAAC,MAAM,IAAI,IAAI,CAAC,MAAM,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC;SAC/B;QACD,IAAI,IAAI,CAAC,eAAe,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,eAAe,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YACtE,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;SACjD;QACD,IAAI,IAAI,CAAC,YAAY,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YAChE,MAAM,CAAC,YAAY,GAAG,IAAI,CAAC,YAAY,CAAC;SAC3C;QAED,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,iBAAC;AAAD,CAAC,AA9BD,IA8BC"}
 interface AssetUpload {
     fileId: string;
 }
@@ -791,7 +813,7 @@ interface ClientCredentialsGrant {
 //# sourceMappingURL=ClientCredentialsGrant.js.map
 {"version":3,"file":"ClientCredentialsGrant.js","sourceRoot":"","sources":["../../src/models/ClientCredentialsGrant.ts"],"names":[],"mappings":""}
 declare type ClientGrantType = 'client_credentials' | 'contensis_classic' | 'contensis_classic_refresh_token' | 'none';
-declare type ClientGrants = ClientCredentialsGrant | ContensisClassicGrant | ContensisClassicResfreshTokenGrant;
+declare type ClientGrants = ClientCredentialsGrant | ContensisClassicGrant | ContensisClassicRefreshTokenGrant;
 
 //# sourceMappingURL=ClientGrants.js.map
 {"version":3,"file":"ClientGrants.js","sourceRoot":"","sources":["../../src/models/ClientGrants.ts"],"names":[],"mappings":""}
@@ -825,12 +847,12 @@ interface ContensisClassicGrant {
 
 //# sourceMappingURL=ContensisClassicGrant.js.map
 {"version":3,"file":"ContensisClassicGrant.js","sourceRoot":"","sources":["../../src/models/ContensisClassicGrant.ts"],"names":[],"mappings":""}
-interface ContensisClassicResfreshTokenGrant {
+interface ContensisClassicRefreshTokenGrant {
     refreshToken: string;
 }
 
-//# sourceMappingURL=ContensisClassicResfreshTokenGrant.js.map
-{"version":3,"file":"ContensisClassicResfreshTokenGrant.js","sourceRoot":"","sources":["../../src/models/ContensisClassicResfreshTokenGrant.ts"],"names":[],"mappings":""}
+//# sourceMappingURL=ContensisClassicRefreshTokenGrant.js.map
+{"version":3,"file":"ContensisClassicRefreshTokenGrant.js","sourceRoot":"","sources":["../../src/models/ContensisClassicRefreshTokenGrant.ts"],"names":[],"mappings":""}
 interface ContentType extends ContentTypeBase<'entry' | 'asset'> {
     defaultLanguage?: string;
     entryTitleField?: string;

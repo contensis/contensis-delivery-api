@@ -326,13 +326,15 @@ describe('Entry Operations', function () {
                     startsWith: 'W'
                 }];
             let fieldLinkDepths = { linkField: 1 };
+            let aggregations = { tags: { field: 'testField' } };
             let query = {
                 pageIndex: 1,
                 pageSize: 50,
                 orderBy,
                 where,
                 fields: ['title'],
-                fieldLinkDepths
+                fieldLinkDepths,
+                aggregations
             };
             await client.entries.search(query, 99);
             let expectedQueryString = toQuery({
@@ -340,7 +342,8 @@ describe('Entry Operations', function () {
                 orderBy: JSON.stringify(orderBy),
                 where: JSON.stringify(where),
                 linkDepth: 99,
-                fieldLinkDepths: JSON.stringify(fieldLinkDepths)
+                fieldLinkDepths: JSON.stringify(fieldLinkDepths),
+                aggregations: JSON.stringify(aggregations)
             });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
@@ -383,6 +386,36 @@ describe('Entry Operations', function () {
                         field: 'authorName',
                         startsWith: 'W'
                     }])
+            });
+            expect(global.fetch).toHaveBeenCalled();
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
+                getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+            ]);
+        });
+        it('Do Search with aggregations using a Query instance', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            let aggregations = { tags: { field: 'testField' } };
+            let query = new Contensis.Query(Contensis.Op.startsWith('authorName', 'W'));
+            query.orderBy = Contensis.OrderBy.asc('authorName');
+            query.fields = ['title'];
+            query.pageIndex = 1;
+            query.pageSize = 50;
+            query.aggregations = aggregations;
+            await client.entries.search(query, 99);
+            let expectedQueryString = toQuery({
+                fields: ['title'],
+                linkDepth: 99,
+                pageIndex: 1,
+                pageSize: 50,
+                orderBy: JSON.stringify([{
+                        asc: 'authorName'
+                    }]),
+                where: JSON.stringify([{
+                        field: 'authorName',
+                        startsWith: 'W'
+                    }]),
+                aggregations: JSON.stringify(aggregations)
             });
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
@@ -571,6 +604,29 @@ describe('Entry Operations', function () {
             expect(global.fetch).toHaveBeenCalled();
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
+                getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+            ]);
+        });
+        it('Do Search with aggregations using a ZenqlQuery instance', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            let zenqlQuery = new Contensis.ZenqlQuery('sys.contentTypeId = plant and sys.version.created >= startOfWeek()');
+            let aggregations = { tags: { field: 'testField' } };
+            zenqlQuery.fields = ['title'];
+            zenqlQuery.pageIndex = 1;
+            zenqlQuery.pageSize = 50;
+            zenqlQuery.aggregations = aggregations;
+            await client.entries.search(zenqlQuery, 99);
+            let expectedQueryString = toQuery({
+                aggregations: JSON.stringify(aggregations),
+                fields: ['title'],
+                linkDepth: 99,
+                pageIndex: 1,
+                pageSize: 50,
+                zenql: zenqlQuery.zenql
+            });
+            expect(global.fetch).toHaveBeenCalled();
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/delivery/projects/myProject/entries${expectedQueryString}`,
                 getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
             ]);
         });
