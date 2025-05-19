@@ -58,6 +58,7 @@ export function setDefaultSpyForClientCredentials(global: any, returnValueForApi
 }
 
 
+// eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
 export function getDefaultFetchRequestForAccessToken(method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'DELETE', contentType?: string, isRelativeUrl?: boolean, body?: string): Object {
     if (!contentType) {
         contentType = 'application/json';
@@ -84,6 +85,7 @@ export function getDefaultFetchRequestForAccessToken(method?: 'GET' | 'POST' | '
     return request;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
 export function getDefaultFetchRequestForClientCredentials(method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'DELETE', isRelativeUrl?: boolean, body?: string): Object {
     let request = Object({
         method: !method ? 'GET' : method,
