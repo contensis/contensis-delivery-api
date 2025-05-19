@@ -7,12 +7,14 @@ import { NodeOperations } from '../nodes/node-operations';
 import { HttpClient, ContensisAuthenticationError, ContensisApplicationError } from 'contensis-core-api';
 import * as Scopes from './scopes';
 import fetch from 'cross-fetch';
+const browserGlobal = typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : null;
+const defaultFetch = browserGlobal ? browserGlobal.fetch.bind(browserGlobal) : fetch;
 const ContensisClassicTokenKey = 'x-contensis-classic-token';
 export class Client {
     constructor(config = null) {
         this.clientConfig = null;
         this.clientConfig = new ClientConfig(config, Client.defaultClientConfig);
-        this.fetchFn = !this.clientConfig.fetchFn ? fetch : this.clientConfig.fetchFn;
+        this.fetchFn = !this.clientConfig.fetchFn ? defaultFetch : this.clientConfig.fetchFn;
         this.httpClient = new HttpClient(this, this.fetchFn);
         this.entries = new EntryOperations(this.httpClient, this);
         this.project = new ProjectOperations(this.httpClient, this);
