@@ -1439,7 +1439,7 @@ interface ITaxonomyOperations {
     resolveChildren(node: string | TaxonomyNode | TaxonomyResolveChildrenOptions): Promise<TaxonomyNode>;
 }
 
-declare type NodeVersionInfo = Pick<VersionInfo, 'versionNo'>;
+type NodeVersionInfo = Pick<VersionInfo, 'versionNo'>;
 interface Node<TEntry extends StrictEntry = LooseEntry> {
     id: string;
     parentId?: string;

@@ -1,5 +1,11 @@
 import { Op } from 'contensis-core-api';
 export class DeferredEntry {
+    sys;
+    versionStatus;
+    promise;
+    resolve;
+    reject;
+    expression;
     constructor(sys, versionStatus) {
         this.sys = sys;
         this.versionStatus = versionStatus;

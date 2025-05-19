@@ -45,6 +45,7 @@ export function setDefaultSpyForClientCredentials(global, returnValueForApi, rej
         }
     }));
 }
+// eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
 export function getDefaultFetchRequestForAccessToken(method, contentType, isRelativeUrl, body) {
     if (!contentType) {
         contentType = 'application/json';
@@ -66,6 +67,7 @@ export function getDefaultFetchRequestForAccessToken(method, contentType, isRela
     }
     return request;
 }
+// eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
 export function getDefaultFetchRequestForClientCredentials(method, isRelativeUrl, body) {
     let request = Object({
         method: !method ? 'GET' : method,

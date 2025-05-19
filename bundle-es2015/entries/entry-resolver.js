@@ -26,6 +26,9 @@ function isComposerItem(value) {
     return false;
 }
 export class EntryResolver {
+    entry;
+    paths;
+    getEntry;
     constructor(entry, paths, getEntry) {
         this.entry = entry;
         this.paths = paths;

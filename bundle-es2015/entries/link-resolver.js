@@ -1,5 +1,9 @@
 import { ListResolver } from './list-resolver';
 export class LinkResolver {
+    entryOrList;
+    paths;
+    versionStatus;
+    search;
     constructor(entryOrList, paths, versionStatus, search) {
         this.entryOrList = entryOrList;
         this.paths = paths;
