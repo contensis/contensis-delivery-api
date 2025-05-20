@@ -6,7 +6,7 @@ import {
 import { LinkResolver } from './link-resolver';
 import {
 	ClientParams, ContensisQueryAggregations, defaultMapperForLanguage, defaultMapperForPublishedVersionStatus,
-	FieldLinkDepths, IHttpClient, isBrowser, isIE, MapperFn, PagedList, Query, UrlBuilder,
+	FieldLinkDepths, IHttpClient, isBrowser, isIE, MapperFn, PagedList, PagedSearchList, Query, UrlBuilder,
 	ZenqlQuery
 } from 'contensis-core-api';
 
@@ -79,9 +79,9 @@ export class EntryOperations implements IEntryOperations {
 		});
 	}
 
-	search(query: string | Query | ZenqlQuery, linkDepth: number = 0): Promise<PagedList<Entry>> {
+	search<Q extends string | Query | ZenqlQuery>(query: Q, linkDepth: number = 0) {
 		if (!query) {
-			return new Promise((resolve) => { resolve(null); });
+			return new Promise((resolve) => { resolve(null); }) as Promise<PagedList<Entry> | PagedSearchList<Entry>>;
 		}
 
 		let deliveryQuery = query instanceof Query ? query as Query : null;
@@ -112,6 +112,7 @@ export class EntryOperations implements IEntryOperations {
 		fieldLinkDepths = zenqlQuery.fieldLinkDepths || fieldLinkDepths;
 		aggregations = zenqlQuery.aggregations || aggregations;
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
 
 		let payload = {
@@ -134,7 +135,7 @@ export class EntryOperations implements IEntryOperations {
 			.toUrl();
 
 		return this.contensisClient.ensureIsAuthorized().then(() => {
-			return this.httpClient.request<PagedList<Entry>>(url, {
+			return this.httpClient.request<PagedSearchList<Entry>>(url, {
 				method: 'GET',
 				headers: this.contensisClient.getHeaders('application/json; charset=utf-8')
 			});
@@ -147,7 +148,7 @@ export class EntryOperations implements IEntryOperations {
 		return resolver.resolve();
 	}
 
-	private searchUsingQuery(query: Query, linkDepth: number = 0): Promise<PagedList<Entry>> {
+	private searchUsingQuery(query: Query, linkDepth: number = 0): Promise<PagedSearchList<Entry>> {
 		if (!query) {
 			return new Promise((resolve) => { resolve(null); });
 		}
@@ -169,6 +170,7 @@ export class EntryOperations implements IEntryOperations {
 
 		let orderBy = (deliveryQuery.orderBy && ((deliveryQuery.orderBy as any)._items || deliveryQuery.orderBy));
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
 
 		let payload = {
@@ -199,14 +201,14 @@ export class EntryOperations implements IEntryOperations {
 		}
 
 		return this.contensisClient.ensureIsAuthorized().then(() => {
-			return this.httpClient.request<PagedList<Entry>>(url, {
+			return this.httpClient.request<PagedSearchList<Entry>>(url, {
 				method: 'GET',
 				headers: this.contensisClient.getHeaders('application/json; charset=utf-8')
 			});
 		});
 	}
 
-	private searchUsingPost(query: any, linkDepth: number = 0): Promise<PagedList<Entry>> {
+	private searchUsingPost(query: any, linkDepth: number = 0): Promise<PagedSearchList<Entry>> {
 		if (!query) {
 			return new Promise((resolve) => { resolve(null); });
 		}
@@ -226,7 +228,7 @@ export class EntryOperations implements IEntryOperations {
 			const clone = Object.assign(Object.create(Object.getPrototypeOf(query)), query);
 			delete clone.fieldLinkDepths;
 
-			return this.httpClient.request<PagedList<Entry>>(url, {
+			return this.httpClient.request<PagedSearchList<Entry>>(url, {
 				method: 'POST',
 				headers: this.contensisClient.getHeaders('application/json; charset=utf-8'),
 				body: JSON.stringify(clone)
