@@ -164,11 +164,12 @@ interface ILogicalExpression extends IExpression {
 * from './ManagementZenqlQuery';
 * from './Operators';
 * from './OperatorType';
+* from './PagedSearchList';
 * from './query';
 * from './QueryTypes';
 * from './ZenqlQuery';
 //# sourceMappingURL=index.js.map
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/models/search/index.ts"],"names":[],"mappings":"AAAA,cAAc,kBAAkB,CAAC;AACjC,cAAc,8BAA8B,CAAC;AAC7C,cAAc,yBAAyB,CAAC;AACxC,cAAc,2BAA2B,CAAC;AAC1C,cAAc,yBAAyB,CAAC;AACxC,cAAc,4BAA4B,CAAC;AAC3C,cAAc,uBAAuB,CAAC;AACtC,cAAc,mBAAmB,CAAC;AAClC,cAAc,8BAA8B,CAAC;AAC7C,cAAc,eAAe,CAAC;AAC9B,cAAc,sBAAsB,CAAC;AACrC,cAAc,eAAe,CAAC;AAC9B,cAAc,mBAAmB,CAAC;AAClC,cAAc,wBAAwB,CAAC;AACvC,cAAc,aAAa,CAAC;AAC5B,cAAc,gBAAgB,CAAC;AAC/B,cAAc,SAAS,CAAC;AACxB,cAAc,cAAc,CAAC;AAC7B,cAAc,cAAc,CAAC"}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/models/search/index.ts"],"names":[],"mappings":"AAAA,cAAc,kBAAkB,CAAC;AACjC,cAAc,8BAA8B,CAAC;AAC7C,cAAc,yBAAyB,CAAC;AACxC,cAAc,2BAA2B,CAAC;AAC1C,cAAc,yBAAyB,CAAC;AACxC,cAAc,4BAA4B,CAAC;AAC3C,cAAc,uBAAuB,CAAC;AACtC,cAAc,mBAAmB,CAAC;AAClC,cAAc,8BAA8B,CAAC;AAC7C,cAAc,eAAe,CAAC;AAC9B,cAAc,sBAAsB,CAAC;AACrC,cAAc,eAAe,CAAC;AAC9B,cAAc,mBAAmB,CAAC;AAClC,cAAc,wBAAwB,CAAC;AACvC,cAAc,aAAa,CAAC;AAC5B,cAAc,gBAAgB,CAAC;AAC/B,cAAc,mBAAmB,CAAC;AAClC,cAAc,SAAS,CAAC;AACxB,cAAc,cAAc,CAAC;AAC7B,cAAc,cAAc,CAAC"}
 interface IZenqlQuery {
     aggregations?: ContensisQueryAggregations;
     fieldLinkDepths?: FieldLinkDepths;
@@ -685,6 +686,17 @@ var Ordering = /** @class */ (function () {
 { Ordering };
 //# sourceMappingURL=Ordering.js.map
 {"version":3,"file":"Ordering.js","sourceRoot":"","sources":["../../../src/models/search/Ordering.ts"],"names":[],"mappings":"AAEA;IAAA;QACY,WAAM,GAA+B,EAAE,CAAC;IAepD,CAAC;IAbG,sBAAG,GAAH,UAAI,SAAiB;QACjB,IAAI,CAAC,MAAM,CAAC,IAAI,CAAC,EAAE,KAAK,EAAE,SAAS,EAAE,CAAC,CAAC;QACvC,OAAO,IAAI,CAAC;IAChB,CAAC;IAED,uBAAI,GAAJ,UAAK,SAAiB;QAClB,IAAI,CAAC,MAAM,CAAC,IAAI,CAAC,EAAE,MAAM,EAAE,SAAS,EAAE,CAAC,CAAC;QACxC,OAAO,IAAI,CAAC;IAChB,CAAC;IAED,0BAAO,GAAP;QACI,OAAO,IAAI,CAAC,MAAM,CAAC;IACvB,CAAC;IACL,eAAC;AAAD,CAAC,AAhBD,IAgBC"}
+interface PagedSearchList<T> extends PagedList<T> {
+    aggregations?: {
+        [key: string]: {
+            [value: string]: number;
+        };
+    };
+}
+
+{};
+//# sourceMappingURL=PagedSearchList.js.map
+{"version":3,"file":"PagedSearchList.js","sourceRoot":"","sources":["../../../src/models/search/PagedSearchList.ts"],"names":[],"mappings":""}
 declare class Query implements ContensisQuery {
     where: WhereExpression;
     orderBy: string | string[] | ContensisQueryOrderBy;
@@ -732,16 +744,13 @@ var Query = /** @class */ (function () {
         if (this.aggregations && Object.keys(this.aggregations).length > 0) {
             result.aggregations = this.aggregations;
         }
-        if (this.aggregations && Object.keys(this.aggregations).length > 0) {
-            result.aggregations = this.aggregations;
-        }
         return result;
     };
     return Query;
 }());
 { Query };
 //# sourceMappingURL=query.js.map
-{"version":3,"file":"query.js","sourceRoot":"","sources":["../../../src/models/search/query.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,eAAe,EAAE,MAAM,aAAa,CAAC;AAC9C,OAAO,EAAE,cAAc,EAAE,MAAM,cAAc,CAAC;AAE9C;IASI;QAAY,0BAAkC;aAAlC,UAAkC,EAAlC,qBAAkC,EAAlC,IAAkC;YAAlC,qCAAkC;;QAR9C,UAAK,GAAoB,IAAI,eAAe,EAAE,CAAC;QAC/C,YAAO,GAA8C,EAAE,CAAC;QACxD,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAqB,EAAE,CAAC;QACvC,WAAM,GAAc,EAAE,CAAC;QACvB,iBAAY,GAAgC,EAAE,CAAC;QAG3C,IAAI,gBAAgB,EAAE;YAClB,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,gBAAgB,CAAC,CAAC;SACzC;IACL,CAAC;IAED,sBAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAEhC,IAAI,WAAW,GAAG,cAAc,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;QAC/C,IAAI,WAAW,IAAI,WAAW,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,OAAO,GAAG,WAAW,CAAC;SAChC;QAED,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAE1B,IAAI,IAAI,CAAC,MAAM,IAAI,IAAI,CAAC,MAAM,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC;SAC/B;QACD,IAAI,IAAI,CAAC,eAAe,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,eAAe,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YACtE,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;SACjD;QACD,IAAI,IAAI,CAAC,YAAY,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YAChE,MAAM,CAAC,YAAY,GAAG,IAAI,CAAC,YAAY,CAAC;SAC3C;QACD,IAAI,IAAI,CAAC,YAAY,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YAChE,MAAM,CAAC,YAAY,GAAG,IAAI,CAAC,YAAY,CAAC;SAC3C;QAED,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,YAAC;AAAD,CAAC,AA1CD,IA0CC"}
+{"version":3,"file":"query.js","sourceRoot":"","sources":["../../../src/models/search/query.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,eAAe,EAAE,MAAM,aAAa,CAAC;AAC9C,OAAO,EAAE,cAAc,EAAE,MAAM,cAAc,CAAC;AAE9C;IASI;QAAY,0BAAkC;aAAlC,UAAkC,EAAlC,qBAAkC,EAAlC,IAAkC;YAAlC,qCAAkC;;QAR9C,UAAK,GAAoB,IAAI,eAAe,EAAE,CAAC;QAC/C,YAAO,GAA8C,EAAE,CAAC;QACxD,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAqB,EAAE,CAAC;QACvC,WAAM,GAAc,EAAE,CAAC;QACvB,iBAAY,GAAgC,EAAE,CAAC;QAG3C,IAAI,gBAAgB,EAAE;YAClB,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,gBAAgB,CAAC,CAAC;SACzC;IACL,CAAC;IAED,sBAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAEhC,IAAI,WAAW,GAAG,cAAc,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;QAC/C,IAAI,WAAW,IAAI,WAAW,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,OAAO,GAAG,WAAW,CAAC;SAChC;QAED,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAE1B,IAAI,IAAI,CAAC,MAAM,IAAI,IAAI,CAAC,MAAM,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC;SAC/B;QACD,IAAI,IAAI,CAAC,eAAe,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,eAAe,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YACtE,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;SACjD;QACD,IAAI,IAAI,CAAC,YAAY,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YAChE,MAAM,CAAC,YAAY,GAAG,IAAI,CAAC,YAAY,CAAC;SAC3C;QAED,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,YAAC;AAAD,CAAC,AAvCD,IAuCC"}
 declare const Op: Operators;
 declare const OrderBy: ContensisQueryOrderBy;
 declare function serializeOrder(orderBy: string | string[] | ContensisQueryOrderBy | ContensisQueryOrderBy[]): ContensisQueryOrderByDto[];
@@ -1414,7 +1423,8 @@ interface IContentTypeOperations {
 interface IEntryOperations {
     get(idOrOptions: string | EntryGetOptions): Promise<Entry>;
     list(contentTypeIdOrOptions: string | EntryListOptions): Promise<PagedList<Entry>>;
-    search(query: string | Query | ZenqlQuery, linkDepth?: number): Promise<PagedList<Entry>>;
+    search(query: string, linkDepth?: number): Promise<PagedList<Entry>>;
+    search(query: Query | ZenqlQuery, linkDepth?: number): Promise<PagedSearchList<Entry>>;
     resolve<T extends Entry | Entry[] | PagedList<Entry>>(entryOrList: T, fields?: string[]): Promise<T>;
 }
 

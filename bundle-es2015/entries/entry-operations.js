@@ -84,6 +84,7 @@ export class EntryOperations {
         fields = zenqlQuery.fields || fields;
         fieldLinkDepths = zenqlQuery.fieldLinkDepths || fieldLinkDepths;
         aggregations = zenqlQuery.aggregations || aggregations;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
         let payload = {
             ...requestParams,
@@ -130,6 +131,7 @@ export class EntryOperations {
         fieldLinkDepths = deliveryQuery.fieldLinkDepths || fieldLinkDepths;
         aggregations = deliveryQuery.aggregations || aggregations;
         let orderBy = (deliveryQuery.orderBy && (deliveryQuery.orderBy._items || deliveryQuery.orderBy));
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
         let payload = {
             ...requestParams,
