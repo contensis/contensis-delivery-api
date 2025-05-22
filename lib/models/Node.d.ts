@@ -1,6 +1,6 @@
 import { VersionInfo } from 'contensis-core-api';
 import { Entry as LooseEntry, StrictEntry } from './Entry';
-export declare type NodeVersionInfo = Pick<VersionInfo, 'versionNo'>;
+export type NodeVersionInfo = Pick<VersionInfo, 'versionNo'>;
 export interface Node<TEntry extends StrictEntry = LooseEntry> {
     id: string;
     parentId?: string;

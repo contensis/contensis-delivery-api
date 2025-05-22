@@ -14,6 +14,9 @@ import * as Scopes from './scopes';
 
 import fetch from 'cross-fetch';
 
+const browserGlobal = typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : null;
+const defaultFetch = browserGlobal ? browserGlobal.fetch.bind(browserGlobal) as typeof browserGlobal.fetch : fetch;
+
 const ContensisClassicTokenKey = 'x-contensis-classic-token';
 
 export class Client implements ContensisClient {
@@ -48,7 +51,7 @@ export class Client implements ContensisClient {
 
 	constructor(config: Config = null) {
 		this.clientConfig = new ClientConfig(config, Client.defaultClientConfig);
-		this.fetchFn = !this.clientConfig.fetchFn ? fetch : this.clientConfig.fetchFn;
+		this.fetchFn = !this.clientConfig.fetchFn ? defaultFetch : this.clientConfig.fetchFn;
 		this.httpClient = new HttpClient(this, this.fetchFn);
 
 		this.entries = new EntryOperations(this.httpClient, this);

@@ -4,9 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.6.0] - 2024-05-20
+## [1.6.0] - 2024-05-26
 ### Added
 - support for *aggregations* in entries search
+### Fixed
+- fix *Failed to execute 'fetch' on 'Window': Illegal invocation* introduced by minor update of *cross-fetch* dependency
 
 ## [1.5.0] - 2024-10-10
 ### Added

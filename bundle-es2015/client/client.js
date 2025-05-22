@@ -7,24 +7,40 @@ import { NodeOperations } from '../nodes/node-operations';
 import { HttpClient, ContensisAuthenticationError, ContensisApplicationError } from 'contensis-core-api';
 import * as Scopes from './scopes';
 import fetch from 'cross-fetch';
+const browserGlobal = typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : null;
+const defaultFetch = browserGlobal ? browserGlobal.fetch.bind(browserGlobal) : fetch;
 const ContensisClassicTokenKey = 'x-contensis-classic-token';
 export class Client {
+    static defaultClientConfig = null;
+    clientConfig = null;
+    fetchFn;
+    entries;
+    contentTypes;
+    nodes;
+    project;
+    taxonomy;
+    bearerToken;
+    bearerTokenExpiryDate;
+    refreshToken;
+    refreshTokenExpiryDate;
+    httpClient;
+    // @ts-ignore
+    contensisClassicToken;
+    static create(config = null) {
+        return new Client(config);
+    }
+    static configure(config) {
+        Client.defaultClientConfig = new ClientConfig(config, Client.defaultClientConfig);
+    }
     constructor(config = null) {
-        this.clientConfig = null;
         this.clientConfig = new ClientConfig(config, Client.defaultClientConfig);
-        this.fetchFn = !this.clientConfig.fetchFn ? fetch : this.clientConfig.fetchFn;
+        this.fetchFn = !this.clientConfig.fetchFn ? defaultFetch : this.clientConfig.fetchFn;
         this.httpClient = new HttpClient(this, this.fetchFn);
         this.entries = new EntryOperations(this.httpClient, this);
         this.project = new ProjectOperations(this.httpClient, this);
         this.contentTypes = new ContentTypeOperations(this.httpClient, this);
         this.nodes = new NodeOperations(this.httpClient, this);
         this.taxonomy = new TaxonomyOperations(this.httpClient, this);
-    }
-    static create(config = null) {
-        return new Client(config);
-    }
-    static configure(config) {
-        Client.defaultClientConfig = new ClientConfig(config, Client.defaultClientConfig);
     }
     getParams() {
         return this.clientConfig.toParams();
@@ -146,4 +162,3 @@ export class Client {
         return payload;
     }
 }
-Client.defaultClientConfig = null;
