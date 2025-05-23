@@ -5,7 +5,7 @@ import {
 
 import { LinkResolver } from './link-resolver';
 import {
-	ClientParams, ContensisQueryAggregations, defaultMapperForLanguage, defaultMapperForPublishedVersionStatus,
+	ClientParams, QueryAggregations, defaultMapperForLanguage, defaultMapperForPublishedVersionStatus,
 	FieldLinkDepths, IHttpClient, isBrowser, isIE, MapperFn, PagedList, PagedSearchList, Query, UrlBuilder,
 	ZenqlQuery
 } from 'contensis-core-api';
@@ -35,7 +35,7 @@ let listMappers: { [key: string]: MapperFn } = {
 };
 
 let searchMappers: { [key: string]: MapperFn } = {
-	aggregations: (value: ContensisQueryAggregations) =>
+	aggregations: (value: QueryAggregations) =>
 		Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
 	linkDepth: (value: number) => (value && (value > 0)) ? value : null,
 	fieldLinkDepths: (value: FieldLinkDepths) =>
@@ -104,20 +104,18 @@ export class EntryOperations implements IEntryOperations {
 		let pageIndex = params.pageIndex || 0;
 		let fields: string[] = [];
 		let fieldLinkDepths: FieldLinkDepths = {};
-		let aggregations: ContensisQueryAggregations = {};
 
 		pageSize = zenqlQuery.pageSize || pageSize;
 		pageIndex = zenqlQuery.pageIndex || pageIndex;
 		fields = zenqlQuery.fields || fields;
 		fieldLinkDepths = zenqlQuery.fieldLinkDepths || fieldLinkDepths;
-		aggregations = zenqlQuery.aggregations || aggregations;
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
 
 		let payload = {
 			...requestParams,
-			aggregations,
+			aggregations: zenqlQuery.aggregations,
 			fieldLinkDepths,
 			linkDepth,
 			pageSize,
@@ -160,13 +158,11 @@ export class EntryOperations implements IEntryOperations {
 		let pageIndex = params.pageIndex || 0;
 		let fields: string[] = [];
 		let fieldLinkDepths: FieldLinkDepths = {};
-		let aggregations: ContensisQueryAggregations = {};
 
 		pageSize = deliveryQuery.pageSize || pageSize;
 		pageIndex = deliveryQuery.pageIndex || pageIndex;
 		fields = deliveryQuery.fields || fields;
 		fieldLinkDepths = deliveryQuery.fieldLinkDepths || fieldLinkDepths;
-		aggregations = deliveryQuery.aggregations || aggregations;
 
 		let orderBy = (deliveryQuery.orderBy && ((deliveryQuery.orderBy as any)._items || deliveryQuery.orderBy));
 
@@ -175,7 +171,7 @@ export class EntryOperations implements IEntryOperations {
 
 		let payload = {
 			...requestParams,
-			aggregations,
+			aggregations: deliveryQuery.aggregations,
 			fieldLinkDepths,
 			linkDepth,
 			pageSize,
