@@ -53,7 +53,7 @@
     "webpack": "3.12.0"
   },
   "dependencies": {
-    "contensis-core-api": "file:/C:/dev/_packages/contensis-core-api/contensis-core-api-1.2.0.tgz",
+    "contensis-core-api": "^1.2.0",
     "cross-fetch": "^3.2.0",
     "es6-promise": "^4.2.8",
     "tslib": "^2.8.1",
