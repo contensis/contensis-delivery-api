@@ -1,24 +1,19 @@
 {
-    "compilerOptions": {
-        "target": "es2017",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "lib": [
-            "es2017",
-            "dom",
-            "dom.iterable",
-            "scripthost"
-        ],
-        "skipLibCheck": true,
-        "sourceMap": false,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "removeComments": false,
-        "noImplicitAny": false,
-        "suppressImplicitAnyIndexErrors": true,
-        "allowSyntheticDefaultImports": true,
-        "importHelpers": true,
-        "outDir": "../lib",
-        "declaration": true
-    }
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["es2017", "dom", "dom.iterable", "scripthost"],
+    "skipLibCheck": true,
+    "sourceMap": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
+    "outDir": "../lib",
+    "declaration": true,
+    "types": ["jasmine"]
+  }
 }

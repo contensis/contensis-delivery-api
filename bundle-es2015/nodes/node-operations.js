@@ -27,6 +27,8 @@ let nodeGetAncestorsOptionsMappers = {
     startLevel: (value) => (value && (value > 0)) ? value : null,
 };
 export class NodeOperations {
+    httpClient;
+    contensisClient;
     constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;

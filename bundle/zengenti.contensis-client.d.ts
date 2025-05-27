@@ -1,18 +1,38 @@
+type Aggregate = number;
+interface Aggregation {
+    [fieldValue: string]: Aggregate;
+}
+{};
+
+;
+{};
+//# sourceMappingURL=Aggregation.js.map
+{"version":3,"file":"Aggregation.js","sourceRoot":"","sources":["../../../src/models/search/Aggregation.ts"],"names":[],"mappings":"AAEgE,CAAC"}
+interface Aggregations {
+    [aggregation: string]: Aggregation;
+}
+
+{};
+//# sourceMappingURL=Aggregations.js.map
+{"version":3,"file":"Aggregations.js","sourceRoot":"","sources":["../../../src/models/search/Aggregations.ts"],"names":[],"mappings":""}
 interface ContensisQuery {
-    where: ILogicalExpression;
+    aggregations?: QueryAggregations;
+    fieldLinkDepths?: FieldLinkDepths;
+    fields?: string[];
     orderBy: string | string[] | ContensisQueryOrderBy;
     pageIndex: number;
     pageSize: number;
-    fields?: string[];
-    fieldLinkDepths?: FieldLinkDepths;
+    where: ILogicalExpression;
 }
 
+{};
 //# sourceMappingURL=ContensisQuery.js.map
 {"version":3,"file":"ContensisQuery.js","sourceRoot":"","sources":["../../../src/models/search/ContensisQuery.ts"],"names":[],"mappings":""}
 interface ContensisQueryFactory {
     new (...whereExpressions: IExpression[]): ContensisQuery;
 }
 
+{};
 //# sourceMappingURL=ContensisQueryFactory.js.map
 {"version":3,"file":"ContensisQueryFactory.js","sourceRoot":"","sources":["../../../src/models/search/ContensisQueryFactory.ts"],"names":[],"mappings":""}
 interface ContensisQueryOperators {
@@ -34,6 +54,7 @@ interface ContensisQueryOperators {
     distanceWithin(name: string, lat: number, lon: number, distance: string): IExpression;
 }
 
+{};
 //# sourceMappingURL=ContensisQueryOperators.js.map
 {"version":3,"file":"ContensisQueryOperators.js","sourceRoot":"","sources":["../../../src/models/search/ContensisQueryOperators.ts"],"names":[],"mappings":""}
 interface ContensisQueryOrderBy {
@@ -41,6 +62,7 @@ interface ContensisQueryOrderBy {
     desc(fieldName: string): ContensisQueryOrderBy;
 }
 
+{};
 //# sourceMappingURL=ContensisQueryOrderBy.js.map
 {"version":3,"file":"ContensisQueryOrderBy.js","sourceRoot":"","sources":["../../../src/models/search/ContensisQueryOrderBy.ts"],"names":[],"mappings":""}
 interface ContensisQueryOrderByDto {
@@ -48,6 +70,7 @@ interface ContensisQueryOrderByDto {
     desc?: string;
 }
 
+{};
 //# sourceMappingURL=ContensisQueryOrderByDto.js.map
 {"version":3,"file":"ContensisQueryOrderByDto.js","sourceRoot":"","sources":["../../../src/models/search/ContensisQueryOrderByDto.ts"],"names":[],"mappings":""}
 interface DistanceSearch {
@@ -56,9 +79,10 @@ interface DistanceSearch {
     distance: string;
 }
 
+{};
 //# sourceMappingURL=DistanceSearch.js.map
 {"version":3,"file":"DistanceSearch.js","sourceRoot":"","sources":["../../../src/models/search/DistanceSearch.ts"],"names":[],"mappings":""}
-declare type ExpressionValueType = 'single' | 'array' | 'unknown';
+type ExpressionValueType = 'single' | 'array' | 'unknown';
 declare const ExpressionValueTypeEnum: {
     Single: ExpressionValueType;
     Array: ExpressionValueType;
@@ -76,6 +100,7 @@ interface FieldLinkDepths {
     [field: string]: number;
 }
 
+{};
 //# sourceMappingURL=FieldLinkDepths.js.map
 {"version":3,"file":"FieldLinkDepths.js","sourceRoot":"","sources":["../../../src/models/search/FieldLinkDepths.ts"],"names":[],"mappings":""}
 interface FreeTextSearch {
@@ -84,9 +109,10 @@ interface FreeTextSearch {
     operator: FreeTextSearchOperatorType;
 }
 
+{};
 //# sourceMappingURL=FreeTextSearch.js.map
 {"version":3,"file":"FreeTextSearch.js","sourceRoot":"","sources":["../../../src/models/search/FreeTextSearch.ts"],"names":[],"mappings":""}
-declare type FreeTextSearchOperatorType = 'and' | 'or';
+type FreeTextSearchOperatorType = 'and' | 'or';
 declare const FreeTextSearchOperatorTypeEnum: {
     And: FreeTextSearchOperatorType;
     Or: FreeTextSearchOperatorType;
@@ -108,6 +134,7 @@ interface IExpression {
     toJSON(): any;
 }
 
+{};
 //# sourceMappingURL=IExpression.js.map
 {"version":3,"file":"IExpression.js","sourceRoot":"","sources":["../../../src/models/search/IExpression.ts"],"names":[],"mappings":""}
 interface ILogicalExpression extends IExpression {
@@ -124,27 +151,44 @@ interface ILogicalExpression extends IExpression {
     count(): number;
 }
 
+{};
 //# sourceMappingURL=ILogicalExpression.js.map
 {"version":3,"file":"ILogicalExpression.js","sourceRoot":"","sources":["../../../src/models/search/ILogicalExpression.ts"],"names":[],"mappings":""}
+* from './Aggregation';
+* from './Aggregations';
+* from './ContensisQuery';
+* from './ContensisQueryFactory';
+* from './ContensisQueryOperators';
+* from './ContensisQueryOrderBy';
+* from './ContensisQueryOrderByDto';
 * from './ExpressionValueType';
+* from './FieldLinkDepths';
 * from './FreeTextSearchOperatorType';
+* from './IExpression';
+* from './ILogicalExpression';
+* from './IZenqlQuery';
 * from './ManagementQuery';
 * from './ManagementZenqlQuery';
 * from './Operators';
 * from './OperatorType';
+* from './PagedSearchList';
 * from './query';
+* from './QueryAggregation';
+* from './QueryAggregations';
 * from './QueryTypes';
 * from './ZenqlQuery';
 //# sourceMappingURL=index.js.map
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/models/search/index.ts"],"names":[],"mappings":"AAKA,cAAc,uBAAuB,CAAC;AAEtC,cAAc,8BAA8B,CAAC;AAI7C,cAAc,mBAAmB,CAAC;AAClC,cAAc,wBAAwB,CAAC;AACvC,cAAc,aAAa,CAAC;AAC5B,cAAc,gBAAgB,CAAC;AAC/B,cAAc,SAAS,CAAC;AACxB,cAAc,cAAc,CAAC;AAC7B,cAAc,cAAc,CAAC"}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/models/search/index.ts"],"names":[],"mappings":"AAAA,cAAc,eAAe,CAAC;AAC9B,cAAc,gBAAgB,CAAC;AAC/B,cAAc,kBAAkB,CAAC;AACjC,cAAc,yBAAyB,CAAC;AACxC,cAAc,2BAA2B,CAAC;AAC1C,cAAc,yBAAyB,CAAC;AACxC,cAAc,4BAA4B,CAAC;AAC3C,cAAc,uBAAuB,CAAC;AACtC,cAAc,mBAAmB,CAAC;AAClC,cAAc,8BAA8B,CAAC;AAC7C,cAAc,eAAe,CAAC;AAC9B,cAAc,sBAAsB,CAAC;AACrC,cAAc,eAAe,CAAC;AAC9B,cAAc,mBAAmB,CAAC;AAClC,cAAc,wBAAwB,CAAC;AACvC,cAAc,aAAa,CAAC;AAC5B,cAAc,gBAAgB,CAAC;AAC/B,cAAc,mBAAmB,CAAC;AAClC,cAAc,SAAS,CAAC;AACxB,cAAc,oBAAoB,CAAC;AACnC,cAAc,qBAAqB,CAAC;AACpC,cAAc,cAAc,CAAC;AAC7B,cAAc,cAAc,CAAC"}
 interface IZenqlQuery {
-    zenql: string;
+    aggregations?: QueryAggregations;
+    fieldLinkDepths?: FieldLinkDepths;
+    fields?: string[];
     pageIndex: number;
     pageSize: number;
-    fields?: string[];
-    fieldLinkDepths?: FieldLinkDepths;
+    zenql: string;
 }
 
+{};
 //# sourceMappingURL=IZenqlQuery.js.map
 {"version":3,"file":"IZenqlQuery.js","sourceRoot":"","sources":["../../../src/models/search/IZenqlQuery.ts"],"names":[],"mappings":""}
 declare class ManagementQuery implements Omit<ContensisQuery, 'fields' | 'fieldLinkDepths'> {
@@ -154,6 +198,7 @@ declare class ManagementQuery implements Omit<ContensisQuery, 'fields' | 'fieldL
     pageSize: number;
     includeArchived?: boolean;
     includeDeleted?: boolean;
+    aggregations?: QueryAggregations;
     constructor(...whereExpressions: IExpression[]);
     toJSON(): any;
 }
@@ -170,6 +215,7 @@ var ManagementQuery = /** @class */ (function () {
         this.pageSize = 20;
         this.includeArchived = false;
         this.includeDeleted = false;
+        this.aggregations = {};
         if (whereExpressions) {
             this.where.addRange(whereExpressions);
         }
@@ -185,19 +231,22 @@ var ManagementQuery = /** @class */ (function () {
         result.where = this.where;
         result.includeArchived = this.includeArchived;
         result.includeDeleted = this.includeDeleted;
+        if (Object.keys(this.aggregations || {}).length)
+            result.aggregations = this.aggregations;
         return result;
     };
     return ManagementQuery;
 }());
 { ManagementQuery };
 //# sourceMappingURL=ManagementQuery.js.map
-{"version":3,"file":"ManagementQuery.js","sourceRoot":"","sources":["../../../src/models/search/ManagementQuery.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,eAAe,EAAE,MAAM,aAAa,CAAC;AAC9C,OAAO,EAAE,cAAc,EAAE,MAAM,cAAc,CAAC;AAE9C;IAUI;QAAY,0BAAkC;aAAlC,UAAkC,EAAlC,qBAAkC,EAAlC,IAAkC;YAAlC,qCAAkC;;QAP9C,UAAK,GAAoB,IAAI,eAAe,EAAE,CAAC;QAC/C,YAAO,GAA8C,EAAE,CAAC;QACxD,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAa,KAAK,CAAC;QAClC,mBAAc,GAAa,KAAK,CAAC;QAG7B,IAAI,gBAAgB,EAAE;YAClB,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,gBAAgB,CAAC,CAAC;SACzC;IACL,CAAC;IAED,gCAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAEhC,IAAI,WAAW,GAAG,cAAc,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;QAC/C,IAAI,WAAW,IAAI,WAAW,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,OAAO,GAAG,WAAW,CAAC;SAChC;QAED,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAC1B,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;QAC9C,MAAM,CAAC,cAAc,GAAG,IAAI,CAAC,cAAc,CAAC;QAC5C,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,sBAAC;AAAD,CAAC,AA/BD,IA+BC"}
+{"version":3,"file":"ManagementQuery.js","sourceRoot":"","sources":["../../../src/models/search/ManagementQuery.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,eAAe,EAAE,MAAM,aAAa,CAAC;AAC9C,OAAO,EAAE,cAAc,EAAE,MAAM,cAAc,CAAC;AAE9C;IAUI;QAAY,0BAAkC;aAAlC,UAAkC,EAAlC,qBAAkC,EAAlC,IAAkC;YAAlC,qCAAkC;;QAR9C,UAAK,GAAoB,IAAI,eAAe,EAAE,CAAC;QAC/C,YAAO,GAA8C,EAAE,CAAC;QACxD,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAa,KAAK,CAAC;QAClC,mBAAc,GAAa,KAAK,CAAC;QACjC,iBAAY,GAAuB,EAAE,CAAC;QAGlC,IAAI,gBAAgB,EAAE;YAClB,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,gBAAgB,CAAC,CAAC;SACzC;IACL,CAAC;IAED,gCAAM,GAAN;QACI,IAAM,MAAM,GAAQ,EAAE,CAAC;QACvB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAEhC,IAAM,WAAW,GAAG,cAAc,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;QACjD,IAAI,WAAW,IAAI,WAAW,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,OAAO,GAAG,WAAW,CAAC;SAChC;QAED,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAE1B,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;QAC9C,MAAM,CAAC,cAAc,GAAG,IAAI,CAAC,cAAc,CAAC;QAE5C,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,YAAY,IAAI,EAAE,CAAC,CAAC,MAAM;YAC3C,MAAM,CAAC,YAAY,GAAG,IAAI,CAAC,YAAY,CAAC;QAE5C,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,sBAAC;AAAD,CAAC,AApCD,IAoCC"}
 declare class ManagementZenqlQuery implements Omit<IZenqlQuery, 'fields' | 'fieldLinkDepths'> {
     zenql: string;
     pageIndex: number;
     pageSize: number;
     includeArchived?: boolean;
     includeDeleted?: boolean;
+    aggregations?: QueryAggregations;
     constructor(zenql: string);
     toJSON(): any;
 }
@@ -209,6 +258,7 @@ var ManagementZenqlQuery = /** @class */ (function () {
         this.pageSize = 20;
         this.includeArchived = false;
         this.includeDeleted = false;
+        this.aggregations = {};
         this.zenql = zenql;
     }
     ManagementZenqlQuery.prototype.toJSON = function () {
@@ -218,13 +268,15 @@ var ManagementZenqlQuery = /** @class */ (function () {
         result.zenql = this.zenql;
         result.includeArchived = this.includeArchived;
         result.includeDeleted = this.includeDeleted;
+        if (Object.keys(this.aggregations || {}).length)
+            result.aggregations = this.aggregations;
         return result;
     };
     return ManagementZenqlQuery;
 }());
 { ManagementZenqlQuery };
 //# sourceMappingURL=ManagementZenqlQuery.js.map
-{"version":3,"file":"ManagementZenqlQuery.js","sourceRoot":"","sources":["../../../src/models/search/ManagementZenqlQuery.ts"],"names":[],"mappings":"AAGA;IAOI,8BAAY,KAAa;QANzB,UAAK,GAAW,EAAE,CAAC;QACnB,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAa,KAAK,CAAC;QAClC,mBAAc,GAAa,KAAK,CAAC;QAG7B,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACvB,CAAC;IAED,qCAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAChC,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAC1B,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;QAC9C,MAAM,CAAC,cAAc,GAAG,IAAI,CAAC,cAAc,CAAC;QAE5C,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,2BAAC;AAAD,CAAC,AArBD,IAqBC"}
+{"version":3,"file":"ManagementZenqlQuery.js","sourceRoot":"","sources":["../../../src/models/search/ManagementZenqlQuery.ts"],"names":[],"mappings":"AAGA;IAQI,8BAAY,KAAa;QAPzB,UAAK,GAAW,EAAE,CAAC;QACnB,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAa,KAAK,CAAC;QAClC,mBAAc,GAAa,KAAK,CAAC;QACjC,iBAAY,GAAuB,EAAE,CAAC;QAGlC,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACvB,CAAC;IAED,qCAAM,GAAN;QACI,IAAM,MAAM,GAAQ,EAAE,CAAC;QACvB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAChC,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAC1B,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;QAC9C,MAAM,CAAC,cAAc,GAAG,IAAI,CAAC,cAAc,CAAC;QAE5C,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,YAAY,IAAI,EAAE,CAAC,CAAC,MAAM;YAC3C,MAAM,CAAC,YAAY,GAAG,IAAI,CAAC,YAAY,CAAC;QAE5C,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,2BAAC;AAAD,CAAC,AAzBD,IAyBC"}
 declare abstract class ExpressionBase implements IExpression {
     fieldName: string;
     values: any[];
@@ -316,7 +368,7 @@ var ExpressionBase = /** @class */ (function () {
 }());
 { ExpressionBase };
 var LogicalExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(LogicalExpression, _super);
+    __extends(LogicalExpression, _super);
     function LogicalExpression(values, operatorName, valueType) {
         if (values === void 0) { values = []; }
         return _super.call(this, null, values, operatorName, ExpressionValueTypeEnum.Array) || this;
@@ -369,119 +421,119 @@ var LogicalExpression = /** @class */ (function (_super) {
 }(ExpressionBase));
 { LogicalExpression };
 var AndExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(AndExpression, _super);
+    __extends(AndExpression, _super);
     function AndExpression(values) {
         return _super.call(this, values, OperatorTypeEnum.And, ExpressionValueTypeEnum.Array) || this;
     }
     return AndExpression;
 }(LogicalExpression));
 var BetweenExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(BetweenExpression, _super);
+    __extends(BetweenExpression, _super);
     function BetweenExpression(fieldName, minimum, maximum) {
         return _super.call(this, fieldName, [minimum, maximum], OperatorTypeEnum.Between, ExpressionValueTypeEnum.Array) || this;
     }
     return BetweenExpression;
 }(ExpressionBase));
 var ContainsExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(ContainsExpression, _super);
+    __extends(ContainsExpression, _super);
     function ContainsExpression(fieldName, value) {
         return _super.call(this, fieldName, [value], OperatorTypeEnum.Contains, ExpressionValueTypeEnum.Single) || this;
     }
     return ContainsExpression;
 }(ExpressionBase));
 var DistanceWithinExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(DistanceWithinExpression, _super);
+    __extends(DistanceWithinExpression, _super);
     function DistanceWithinExpression(fieldName, value) {
         return _super.call(this, fieldName, [value], OperatorTypeEnum.DistanceWithin, ExpressionValueTypeEnum.Single) || this;
     }
     return DistanceWithinExpression;
 }(ExpressionBase));
 var EndsWithExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(EndsWithExpression, _super);
+    __extends(EndsWithExpression, _super);
     function EndsWithExpression(fieldName, value) {
         return _super.call(this, fieldName, [value], OperatorTypeEnum.EndsWith, ExpressionValueTypeEnum.Single) || this;
     }
     return EndsWithExpression;
 }(ExpressionBase));
 var EqualToExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(EqualToExpression, _super);
+    __extends(EqualToExpression, _super);
     function EqualToExpression(fieldName, value) {
         return _super.call(this, fieldName, [value], OperatorTypeEnum.EqualTo, ExpressionValueTypeEnum.Single) || this;
     }
     return EqualToExpression;
 }(ExpressionBase));
 var ExistsExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(ExistsExpression, _super);
+    __extends(ExistsExpression, _super);
     function ExistsExpression(fieldName, value) {
         return _super.call(this, fieldName, [value], OperatorTypeEnum.Exists, ExpressionValueTypeEnum.Single) || this;
     }
     return ExistsExpression;
 }(ExpressionBase));
 var FreeTextExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(FreeTextExpression, _super);
+    __extends(FreeTextExpression, _super);
     function FreeTextExpression(fieldName, value) {
         return _super.call(this, fieldName, [value], OperatorTypeEnum.FreeText, ExpressionValueTypeEnum.Single) || this;
     }
     return FreeTextExpression;
 }(ExpressionBase));
 var GreaterThanExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(GreaterThanExpression, _super);
+    __extends(GreaterThanExpression, _super);
     function GreaterThanExpression(fieldName, value) {
         return _super.call(this, fieldName, [value], OperatorTypeEnum.GreaterThan, ExpressionValueTypeEnum.Single) || this;
     }
     return GreaterThanExpression;
 }(ExpressionBase));
 var GreaterThanOrEqualToExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(GreaterThanOrEqualToExpression, _super);
+    __extends(GreaterThanOrEqualToExpression, _super);
     function GreaterThanOrEqualToExpression(fieldName, value) {
         return _super.call(this, fieldName, [value], OperatorTypeEnum.GreaterThanOrEqualTo, ExpressionValueTypeEnum.Single) || this;
     }
     return GreaterThanOrEqualToExpression;
 }(ExpressionBase));
 var InExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(InExpression, _super);
+    __extends(InExpression, _super);
     function InExpression(fieldName, values) {
         return _super.call(this, fieldName, values, OperatorTypeEnum.In, ExpressionValueTypeEnum.Array) || this;
     }
     return InExpression;
 }(ExpressionBase));
 var LessThanExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(LessThanExpression, _super);
+    __extends(LessThanExpression, _super);
     function LessThanExpression(fieldName, value) {
         return _super.call(this, fieldName, [value], OperatorTypeEnum.LessThan, ExpressionValueTypeEnum.Single) || this;
     }
     return LessThanExpression;
 }(ExpressionBase));
 var LessThanOrEqualToExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(LessThanOrEqualToExpression, _super);
+    __extends(LessThanOrEqualToExpression, _super);
     function LessThanOrEqualToExpression(fieldName, value) {
         return _super.call(this, fieldName, [value], OperatorTypeEnum.LessThanOrEqualTo, ExpressionValueTypeEnum.Single) || this;
     }
     return LessThanOrEqualToExpression;
 }(ExpressionBase));
 var NotExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(NotExpression, _super);
+    __extends(NotExpression, _super);
     function NotExpression(value) {
         return _super.call(this, [value], OperatorTypeEnum.Not, ExpressionValueTypeEnum.Single) || this;
     }
     return NotExpression;
 }(LogicalExpression));
 var OrExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(OrExpression, _super);
+    __extends(OrExpression, _super);
     function OrExpression(values) {
         return _super.call(this, values, OperatorTypeEnum.Or, ExpressionValueTypeEnum.Array) || this;
     }
     return OrExpression;
 }(LogicalExpression));
 var StartsWithExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(StartsWithExpression, _super);
+    __extends(StartsWithExpression, _super);
     function StartsWithExpression(fieldName, value) {
         return _super.call(this, fieldName, [value], OperatorTypeEnum.StartsWith, ExpressionValueTypeEnum.Single) || this;
     }
     return StartsWithExpression;
 }(ExpressionBase));
 var WhereExpression = /** @class */ (function (_super) {
-    tslib_1.__extends(WhereExpression, _super);
+    __extends(WhereExpression, _super);
     function WhereExpression(values) {
         if (values === void 0) { values = []; }
         return _super.call(this, values, OperatorTypeEnum.Where, ExpressionValueTypeEnum.Array) || this;
@@ -562,8 +614,8 @@ var Operators = /** @class */ (function () {
 }());
 { Operators };
 //# sourceMappingURL=Operators.js.map
-{"version":3,"file":"Operators.js","sourceRoot":"","sources":["../../../src/models/search/Operators.ts"],"names":[],"mappings":"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"}
-declare type OperatorType = 'and' | 'between' | 'contains' | 'endsWith' | 'equalTo' | 'exists' | 'freeText' | 'greaterThan' | 'greaterThanOrEqualTo' | 'in' | 'lessThan' | 'lessThanOrEqualTo' | 'not' | 'or' | 'startsWith' | 'where' | 'distanceWithin';
+{"version":3,"file":"Operators.js","sourceRoot":"","sources":["../../../src/models/search/Operators.ts"],"names":[],"mappings":"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"}
+type OperatorType = 'and' | 'between' | 'contains' | 'endsWith' | 'equalTo' | 'exists' | 'freeText' | 'greaterThan' | 'greaterThanOrEqualTo' | 'in' | 'lessThan' | 'lessThanOrEqualTo' | 'not' | 'or' | 'startsWith' | 'where' | 'distanceWithin';
 declare const OperatorTypeEnum: {
     And: OperatorType;
     Between: OperatorType;
@@ -651,6 +703,13 @@ var Ordering = /** @class */ (function () {
 { Ordering };
 //# sourceMappingURL=Ordering.js.map
 {"version":3,"file":"Ordering.js","sourceRoot":"","sources":["../../../src/models/search/Ordering.ts"],"names":[],"mappings":"AAEA;IAAA;QACY,WAAM,GAA+B,EAAE,CAAC;IAepD,CAAC;IAbG,sBAAG,GAAH,UAAI,SAAiB;QACjB,IAAI,CAAC,MAAM,CAAC,IAAI,CAAC,EAAE,KAAK,EAAE,SAAS,EAAE,CAAC,CAAC;QACvC,OAAO,IAAI,CAAC;IAChB,CAAC;IAED,uBAAI,GAAJ,UAAK,SAAiB;QAClB,IAAI,CAAC,MAAM,CAAC,IAAI,CAAC,EAAE,MAAM,EAAE,SAAS,EAAE,CAAC,CAAC;QACxC,OAAO,IAAI,CAAC;IAChB,CAAC;IAED,0BAAO,GAAP;QACI,OAAO,IAAI,CAAC,MAAM,CAAC;IACvB,CAAC;IACL,eAAC;AAAD,CAAC,AAhBD,IAgBC"}
+interface PagedSearchList<T> extends PagedList<T> {
+    aggregations?: Aggregations;
+}
+
+{};
+//# sourceMappingURL=PagedSearchList.js.map
+{"version":3,"file":"PagedSearchList.js","sourceRoot":"","sources":["../../../src/models/search/PagedSearchList.ts"],"names":[],"mappings":""}
 declare class Query implements ContensisQuery {
     where: WhereExpression;
     orderBy: string | string[] | ContensisQueryOrderBy;
@@ -658,6 +717,7 @@ declare class Query implements ContensisQuery {
     pageSize: number;
     fieldLinkDepths?: FieldLinkDepths;
     fields?: string[];
+    aggregations?: QueryAggregations;
     constructor(...whereExpressions: IExpression[]);
     toJSON(): any;
 }
@@ -674,6 +734,7 @@ var Query = /** @class */ (function () {
         this.pageSize = 20;
         this.fieldLinkDepths = {};
         this.fields = [];
+        this.aggregations = {};
         if (whereExpressions) {
             this.where.addRange(whereExpressions);
         }
@@ -693,13 +754,32 @@ var Query = /** @class */ (function () {
         if (this.fieldLinkDepths && Object.keys(this.fieldLinkDepths).length > 0) {
             result.fieldLinkDepths = this.fieldLinkDepths;
         }
+        if (this.aggregations && Object.keys(this.aggregations).length > 0) {
+            result.aggregations = this.aggregations;
+        }
         return result;
     };
     return Query;
 }());
 { Query };
 //# sourceMappingURL=query.js.map
-{"version":3,"file":"query.js","sourceRoot":"","sources":["../../../src/models/search/query.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,eAAe,EAAE,MAAM,aAAa,CAAC;AAC9C,OAAO,EAAE,cAAc,EAAE,MAAM,cAAc,CAAC;AAE9C;IAQI;QAAY,0BAAkC;aAAlC,UAAkC,EAAlC,qBAAkC,EAAlC,IAAkC;YAAlC,qCAAkC;;QAP9C,UAAK,GAAoB,IAAI,eAAe,EAAE,CAAC;QAC/C,YAAO,GAA8C,EAAE,CAAC;QACxD,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAqB,EAAE,CAAC;QACvC,WAAM,GAAc,EAAE,CAAC;QAGnB,IAAI,gBAAgB,EAAE;YAClB,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,gBAAgB,CAAC,CAAC;SACzC;IACL,CAAC;IAED,sBAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAEhC,IAAI,WAAW,GAAG,cAAc,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;QAC/C,IAAI,WAAW,IAAI,WAAW,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,OAAO,GAAG,WAAW,CAAC;SAChC;QAED,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAE1B,IAAI,IAAI,CAAC,MAAM,IAAI,IAAI,CAAC,MAAM,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC;SAC/B;QACD,IAAI,IAAI,CAAC,eAAe,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,eAAe,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YACxE,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;SAC/C;QAED,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,YAAC;AAAD,CAAC,AAnCD,IAmCC"}
+{"version":3,"file":"query.js","sourceRoot":"","sources":["../../../src/models/search/query.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,eAAe,EAAE,MAAM,aAAa,CAAC;AAC9C,OAAO,EAAE,cAAc,EAAE,MAAM,cAAc,CAAC;AAE9C;IASI;QAAY,0BAAkC;aAAlC,UAAkC,EAAlC,qBAAkC,EAAlC,IAAkC;YAAlC,qCAAkC;;QAR9C,UAAK,GAAoB,IAAI,eAAe,EAAE,CAAC;QAC/C,YAAO,GAA8C,EAAE,CAAC;QACxD,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAqB,EAAE,CAAC;QACvC,WAAM,GAAc,EAAE,CAAC;QACvB,iBAAY,GAAuB,EAAE,CAAC;QAGlC,IAAI,gBAAgB,EAAE;YAClB,IAAI,CAAC,KAAK,CAAC,QAAQ,CAAC,gBAAgB,CAAC,CAAC;SACzC;IACL,CAAC;IAED,sBAAM,GAAN;QACI,IAAM,MAAM,GAAQ,EAAE,CAAC;QACvB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAEhC,IAAM,WAAW,GAAG,cAAc,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;QACjD,IAAI,WAAW,IAAI,WAAW,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,OAAO,GAAG,WAAW,CAAC;SAChC;QAED,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAE1B,IAAI,IAAI,CAAC,MAAM,IAAI,IAAI,CAAC,MAAM,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC;SAC/B;QACD,IAAI,IAAI,CAAC,eAAe,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,eAAe,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YACtE,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;SACjD;QACD,IAAI,IAAI,CAAC,YAAY,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YAChE,MAAM,CAAC,YAAY,GAAG,IAAI,CAAC,YAAY,CAAC;SAC3C;QAED,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,YAAC;AAAD,CAAC,AAvCD,IAuCC"}
+interface QueryAggregation {
+    missing?: string;
+    field: string;
+    size?: number;
+}
+
+{};
+//# sourceMappingURL=QueryAggregation.js.map
+{"version":3,"file":"QueryAggregation.js","sourceRoot":"","sources":["../../../src/models/search/QueryAggregation.ts"],"names":[],"mappings":""}
+interface QueryAggregations {
+    [name: string]: QueryAggregation;
+}
+
+{};
+//# sourceMappingURL=QueryAggregations.js.map
+{"version":3,"file":"QueryAggregations.js","sourceRoot":"","sources":["../../../src/models/search/QueryAggregations.ts"],"names":[],"mappings":""}
 declare const Op: Operators;
 declare const OrderBy: ContensisQueryOrderBy;
 declare function serializeOrder(orderBy: string | string[] | ContensisQueryOrderBy | ContensisQueryOrderBy[]): ContensisQueryOrderByDto[];
@@ -746,6 +826,7 @@ declare class ZenqlQuery implements IZenqlQuery {
     pageSize: number;
     fieldLinkDepths?: FieldLinkDepths;
     fields?: string[];
+    aggregations?: QueryAggregations;
     constructor(zenql: string);
     toJSON(): any;
 }
@@ -757,6 +838,7 @@ var ZenqlQuery = /** @class */ (function () {
         this.pageSize = 20;
         this.fieldLinkDepths = {};
         this.fields = [];
+        this.aggregations = {};
         this.zenql = zenql;
     }
     ZenqlQuery.prototype.toJSON = function () {
@@ -770,17 +852,21 @@ var ZenqlQuery = /** @class */ (function () {
         if (this.fieldLinkDepths && Object.keys(this.fieldLinkDepths).length > 0) {
             result.fieldLinkDepths = this.fieldLinkDepths;
         }
+        if (this.aggregations && Object.keys(this.aggregations).length > 0) {
+            result.aggregations = this.aggregations;
+        }
         return result;
     };
     return ZenqlQuery;
 }());
 { ZenqlQuery };
 //# sourceMappingURL=ZenqlQuery.js.map
-{"version":3,"file":"ZenqlQuery.js","sourceRoot":"","sources":["../../../src/models/search/ZenqlQuery.ts"],"names":[],"mappings":"AAGA;IAOI,oBAAY,KAAa;QANzB,UAAK,GAAW,EAAE,CAAC;QACnB,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAqB,EAAE,CAAC;QACvC,WAAM,GAAc,EAAE,CAAC;QAGnB,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACvB,CAAC;IAED,2BAAM,GAAN;QACI,IAAI,MAAM,GAAQ,EAAE,CAAC;QACrB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAChC,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAE1B,IAAI,IAAI,CAAC,MAAM,IAAI,IAAI,CAAC,MAAM,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC;SAC/B;QACD,IAAI,IAAI,CAAC,eAAe,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,eAAe,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YACxE,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;SAC/C;QAED,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,iBAAC;AAAD,CAAC,AA1BD,IA0BC"}
+{"version":3,"file":"ZenqlQuery.js","sourceRoot":"","sources":["../../../src/models/search/ZenqlQuery.ts"],"names":[],"mappings":"AAGA;IAQI,oBAAY,KAAa;QAPzB,UAAK,GAAW,EAAE,CAAC;QACnB,cAAS,GAAW,CAAC,CAAC;QACtB,aAAQ,GAAW,EAAE,CAAC;QACtB,oBAAe,GAAqB,EAAE,CAAC;QACvC,WAAM,GAAc,EAAE,CAAC;QACvB,iBAAY,GAAuB,EAAE,CAAC;QAGlC,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACvB,CAAC;IAED,2BAAM,GAAN;QACI,IAAM,MAAM,GAAQ,EAAE,CAAC;QACvB,MAAM,CAAC,SAAS,GAAG,IAAI,CAAC,SAAS,CAAC;QAClC,MAAM,CAAC,QAAQ,GAAG,IAAI,CAAC,QAAQ,CAAC;QAChC,MAAM,CAAC,KAAK,GAAG,IAAI,CAAC,KAAK,CAAC;QAE1B,IAAI,IAAI,CAAC,MAAM,IAAI,IAAI,CAAC,MAAM,CAAC,MAAM,GAAG,CAAC,EAAE;YACvC,MAAM,CAAC,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC;SAC/B;QACD,IAAI,IAAI,CAAC,eAAe,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,eAAe,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YACtE,MAAM,CAAC,eAAe,GAAG,IAAI,CAAC,eAAe,CAAC;SACjD;QACD,IAAI,IAAI,CAAC,YAAY,IAAI,MAAM,CAAC,IAAI,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC,MAAM,GAAG,CAAC,EAAE;YAChE,MAAM,CAAC,YAAY,GAAG,IAAI,CAAC,YAAY,CAAC;SAC3C;QAED,OAAO,MAAM,CAAC;IAClB,CAAC;IACL,iBAAC;AAAD,CAAC,AA9BD,IA8BC"}
 interface AssetUpload {
     fileId: string;
 }
 
+{};
 //# sourceMappingURL=AssetUpload.js.map
 {"version":3,"file":"AssetUpload.js","sourceRoot":"","sources":["../../src/models/AssetUpload.ts"],"names":[],"mappings":""}
 interface ClientCredentialsGrant {
@@ -788,11 +874,13 @@ interface ClientCredentialsGrant {
     clientSecret: string;
 }
 
+{};
 //# sourceMappingURL=ClientCredentialsGrant.js.map
 {"version":3,"file":"ClientCredentialsGrant.js","sourceRoot":"","sources":["../../src/models/ClientCredentialsGrant.ts"],"names":[],"mappings":""}
-declare type ClientGrantType = 'client_credentials' | 'contensis_classic' | 'contensis_classic_refresh_token' | 'none';
-declare type ClientGrants = ClientCredentialsGrant | ContensisClassicGrant | ContensisClassicResfreshTokenGrant;
+type ClientGrantType = 'client_credentials' | 'contensis_classic' | 'contensis_classic_refresh_token' | 'none';
+type ClientGrants = ClientCredentialsGrant | ContensisClassicGrant | ContensisClassicRefreshTokenGrant;
 
+{};
 //# sourceMappingURL=ClientGrants.js.map
 {"version":3,"file":"ClientGrants.js","sourceRoot":"","sources":["../../src/models/ClientGrants.ts"],"names":[],"mappings":""}
 interface ClientParams {
@@ -811,11 +899,13 @@ interface ClientParams {
     responseHandler?: ResponseHandler;
 }
 
+{};
 //# sourceMappingURL=ClientParams.js.map
 {"version":3,"file":"ClientParams.js","sourceRoot":"","sources":["../../src/models/ClientParams.ts"],"names":[],"mappings":""}
 interface Component extends ContentTypeBase<'component'> {
 }
 
+{};
 //# sourceMappingURL=Component.js.map
 {"version":3,"file":"Component.js","sourceRoot":"","sources":["../../src/models/Component.ts"],"names":[],"mappings":""}
 interface ContensisClassicGrant {
@@ -823,14 +913,16 @@ interface ContensisClassicGrant {
     password: string;
 }
 
+{};
 //# sourceMappingURL=ContensisClassicGrant.js.map
 {"version":3,"file":"ContensisClassicGrant.js","sourceRoot":"","sources":["../../src/models/ContensisClassicGrant.ts"],"names":[],"mappings":""}
-interface ContensisClassicResfreshTokenGrant {
+interface ContensisClassicRefreshTokenGrant {
     refreshToken: string;
 }
 
-//# sourceMappingURL=ContensisClassicResfreshTokenGrant.js.map
-{"version":3,"file":"ContensisClassicResfreshTokenGrant.js","sourceRoot":"","sources":["../../src/models/ContensisClassicResfreshTokenGrant.ts"],"names":[],"mappings":""}
+{};
+//# sourceMappingURL=ContensisClassicRefreshTokenGrant.js.map
+{"version":3,"file":"ContensisClassicRefreshTokenGrant.js","sourceRoot":"","sources":["../../src/models/ContensisClassicRefreshTokenGrant.ts"],"names":[],"mappings":""}
 interface ContentType extends ContentTypeBase<'entry' | 'asset'> {
     defaultLanguage?: string;
     entryTitleField?: string;
@@ -842,6 +934,7 @@ interface ContentType extends ContentTypeBase<'entry' | 'asset'> {
     groups?: ContentTypeGroup[];
 }
 
+{};
 //# sourceMappingURL=ContentType.js.map
 {"version":3,"file":"ContentType.js","sourceRoot":"","sources":["../../src/models/ContentType.ts"],"names":[],"mappings":""}
 interface ContentTypeBase<TFormat extends ContentTypeFormat> {
@@ -858,16 +951,18 @@ interface ContentTypeBase<TFormat extends ContentTypeFormat> {
 interface ContentTypeGroup extends LocalisedIdAndValue {
 }
 
+{};
 //# sourceMappingURL=ContentTypeBase.js.map
 {"version":3,"file":"ContentTypeBase.js","sourceRoot":"","sources":["../../src/models/ContentTypeBase.ts"],"names":[],"mappings":""}
-declare type ContentTypeFormatMap<T> = {
+type ContentTypeFormatMap<T> = {
     entry: T;
     component: T;
     asset: T;
 };
-declare type ContentTypeFormat = keyof ContentTypeFormatMap<any>;
+type ContentTypeFormat = keyof ContentTypeFormatMap<any>;
 {};
 
+{};
 //# sourceMappingURL=ContentTypeFormat.js.map
 {"version":3,"file":"ContentTypeFormat.js","sourceRoot":"","sources":["../../src/models/ContentTypeFormat.ts"],"names":[],"mappings":""}
 interface Editor {
@@ -905,6 +1000,7 @@ interface EditorProperties {
 }
 {};
 
+{};
 //# sourceMappingURL=Editor.js.map
 {"version":3,"file":"Editor.js","sourceRoot":"","sources":["../../src/models/Editor.ts"],"names":[],"mappings":""}
 declare class ContensisApplicationError extends Error {
@@ -915,7 +1011,7 @@ declare class ContensisAuthenticationError extends Error {
 }
 
 var ContensisApplicationError = /** @class */ (function (_super) {
-    tslib_1.__extends(ContensisApplicationError, _super);
+    __extends(ContensisApplicationError, _super);
     function ContensisApplicationError(message) {
         var _newTarget = this.constructor;
         var _this = _super.call(this, message) || this;
@@ -927,7 +1023,7 @@ var ContensisApplicationError = /** @class */ (function (_super) {
 }(Error));
 { ContensisApplicationError };
 var ContensisAuthenticationError = /** @class */ (function (_super) {
-    tslib_1.__extends(ContensisAuthenticationError, _super);
+    __extends(ContensisAuthenticationError, _super);
     function ContensisAuthenticationError(message) {
         var _newTarget = this.constructor;
         var _this = _super.call(this, message) || this;
@@ -939,8 +1035,8 @@ var ContensisAuthenticationError = /** @class */ (function (_super) {
 }(Error));
 { ContensisAuthenticationError };
 //# sourceMappingURL=errors.js.map
-{"version":3,"file":"errors.js","sourceRoot":"","sources":["../../src/models/errors.ts"],"names":[],"mappings":";AAAA;IAA+C,qDAAK;IAChD,mCAAY,OAAgB;;QAA5B,YACI,kBAAM,OAAO,CAAC,SAGjB;QAFG,KAAI,CAAC,IAAI,GAAG,2BAA2B,CAAC;QACxC,MAAM,CAAC,cAAc,CAAC,KAAI,EAAE,WAAW,SAAS,CAAC,CAAC;;IACtD,CAAC;IACL,gCAAC;AAAD,CAAC,AAND,CAA+C,KAAK,GAMnD;;AAED;IAAkD,wDAAK;IACnD,sCAAY,OAAgB;;QAA5B,YACI,kBAAM,OAAO,CAAC,SAGjB;QAFG,KAAI,CAAC,IAAI,GAAG,8BAA8B,CAAC;QAC3C,MAAM,CAAC,cAAc,CAAC,KAAI,EAAE,WAAW,SAAS,CAAC,CAAC;;IACtD,CAAC;IACL,mCAAC;AAAD,CAAC,AAND,CAAkD,KAAK,GAMtD"}
-declare type FieldDataTypeMap<T> = {
+{"version":3,"file":"errors.js","sourceRoot":"","sources":["../../src/models/errors.ts"],"names":[],"mappings":";AAAA;IAA+C,6CAAK;IAChD,mCAAY,OAAgB;;QAA5B,YACI,kBAAM,OAAO,CAAC,SAGjB;QAFG,KAAI,CAAC,IAAI,GAAG,2BAA2B,CAAC;QACxC,MAAM,CAAC,cAAc,CAAC,KAAI,EAAE,WAAW,SAAS,CAAC,CAAC;;IACtD,CAAC;IACL,gCAAC;AAAD,CAAC,AAND,CAA+C,KAAK,GAMnD;;AAED;IAAkD,gDAAK;IACnD,sCAAY,OAAgB;;QAA5B,YACI,kBAAM,OAAO,CAAC,SAGjB;QAFG,KAAI,CAAC,IAAI,GAAG,8BAA8B,CAAC;QAC3C,MAAM,CAAC,cAAc,CAAC,KAAI,EAAE,WAAW,SAAS,CAAC,CAAC;;IACtD,CAAC;IACL,mCAAC;AAAD,CAAC,AAND,CAAkD,KAAK,GAMtD"}
+type FieldDataTypeMap<T> = {
     'boolean': T;
     'booleanArray': T;
     'dateTime': T;
@@ -954,7 +1050,7 @@ declare type FieldDataTypeMap<T> = {
     'string': T;
     'stringArray': T;
 };
-declare type FieldDataFormatMap<T> = {
+type FieldDataFormatMap<T> = {
     'asset': T;
     'daterange': T;
     'embed': T;
@@ -969,8 +1065,8 @@ declare type FieldDataFormatMap<T> = {
     'taxonomy': T;
     'component': T;
 };
-declare type FieldDataType = keyof FieldDataTypeMap<any>;
-declare type FieldDataFormat = keyof FieldDataFormatMap<any> | string;
+type FieldDataType = keyof FieldDataTypeMap<any>;
+type FieldDataFormat = keyof FieldDataFormatMap<any> | string;
 interface Field {
     id: string;
     name: LocalisedString;
@@ -985,39 +1081,67 @@ interface Field {
 }
 {};
 
+{};
 //# sourceMappingURL=Field.js.map
 {"version":3,"file":"Field.js","sourceRoot":"","sources":["../../src/models/Field.ts"],"names":[],"mappings":""}
 interface IHttpClient {
     request<T>(url: string, request?: RequestInit): Promise<T>;
 }
 
+{};
 //# sourceMappingURL=IHttpClient.js.map
 {"version":3,"file":"IHttpClient.js","sourceRoot":"","sources":["../../src/models/IHttpClient.ts"],"names":[],"mappings":""}
+* from './AssetUpload';
+* from './ClientCredentialsGrant';
 * from './errors';
+* from './ClientGrants';
+* from './ClientParams';
+* from './ContentTypeFormat';
+* from './ContensisClassicGrant';
+* from './ContensisClassicRefreshTokenGrant';
+* from './Component';
+* from './ContentType';
+* from './Editor';
+* from './Field';
+* from './IHttpClient';
+* from './IParamsProvider';
+* from './MapperFn';
+* from './PagedList';
+* from './PageOptions';
+* from './Project';
+* from './ResponseContext';
+* from './ResponseHandler';
 * from './search';
+* from './SysAssetFile';
+* from './UrlFn';
+* from './VersionInfo';
+* from './VersionStatus';
 //# sourceMappingURL=index.js.map
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/models/index.ts"],"names":[],"mappings":"AAEA,cAAc,UAAU,CAAC;AAkBzB,cAAc,UAAU,CAAC"}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/models/index.ts"],"names":[],"mappings":"AAAA,cAAc,eAAe,CAAC;AAC9B,cAAc,0BAA0B,CAAC;AACzC,cAAc,UAAU,CAAC;AACzB,cAAc,gBAAgB,CAAC;AAC/B,cAAc,gBAAgB,CAAC;AAC/B,cAAc,qBAAqB,CAAC;AACpC,cAAc,yBAAyB,CAAC;AACxC,cAAc,qCAAqC,CAAC;AACpD,cAAc,aAAa,CAAC;AAC5B,cAAc,eAAe,CAAC;AAC9B,cAAc,UAAU,CAAC;AACzB,cAAc,SAAS,CAAC;AACxB,cAAc,eAAe,CAAC;AAC9B,cAAc,mBAAmB,CAAC;AAClC,cAAc,YAAY,CAAC;AAC3B,cAAc,aAAa,CAAC;AAC5B,cAAc,eAAe,CAAC;AAC9B,cAAc,WAAW,CAAC;AAC1B,cAAc,mBAAmB,CAAC;AAClC,cAAc,mBAAmB,CAAC;AAClC,cAAc,UAAU,CAAC;AACzB,cAAc,gBAAgB,CAAC;AAC/B,cAAc,SAAS,CAAC;AACxB,cAAc,eAAe,CAAC;AAC9B,cAAc,iBAAiB,CAAC"}
 interface IParamsProvider {
     getParams(): ClientParams;
 }
 
+{};
 //# sourceMappingURL=IParamsProvider.js.map
 {"version":3,"file":"IParamsProvider.js","sourceRoot":"","sources":["../../src/models/IParamsProvider.ts"],"names":[],"mappings":""}
-declare type LocalisedValue<T> = {
+type LocalisedValue<T> = {
     [key: string]: T;
 };
-declare type LocalisedString = LocalisedValue<string>;
-declare type LocalisedIdAndValue = {
+type LocalisedString = LocalisedValue<string>;
+type LocalisedIdAndValue = {
     id: string;
     name: LocalisedString;
 };
 
+{};
 //# sourceMappingURL=Localised.js.map
 {"version":3,"file":"Localised.js","sourceRoot":"","sources":["../../src/models/Localised.ts"],"names":[],"mappings":""}
 interface MapperFn {
     (value: any, options: any, params: ClientParams): any;
 }
 
+{};
 //# sourceMappingURL=MapperFn.js.map
 {"version":3,"file":"MapperFn.js","sourceRoot":"","sources":["../../src/models/MapperFn.ts"],"names":[],"mappings":""}
 interface PagedList<T> {
@@ -1028,6 +1152,7 @@ interface PagedList<T> {
     items: T[];
 }
 
+{};
 //# sourceMappingURL=PagedList.js.map
 {"version":3,"file":"PagedList.js","sourceRoot":"","sources":["../../src/models/PagedList.ts"],"names":[],"mappings":""}
 interface PageOptions {
@@ -1035,6 +1160,7 @@ interface PageOptions {
     pageSize?: number;
 }
 
+{};
 //# sourceMappingURL=PageOptions.js.map
 {"version":3,"file":"PageOptions.js","sourceRoot":"","sources":["../../src/models/PageOptions.ts"],"names":[],"mappings":""}
 interface Project {
@@ -1046,6 +1172,7 @@ interface Project {
     deliverySysExclusions: string[];
 }
 
+{};
 //# sourceMappingURL=Project.js.map
 {"version":3,"file":"Project.js","sourceRoot":"","sources":["../../src/models/Project.ts"],"names":[],"mappings":""}
 interface ResponseContext {
@@ -1055,14 +1182,16 @@ interface ResponseContext {
     data: any;
 }
 
+{};
 //# sourceMappingURL=ResponseContext.js.map
 {"version":3,"file":"ResponseContext.js","sourceRoot":"","sources":["../../src/models/ResponseContext.ts"],"names":[],"mappings":""}
-declare type ResponseHandlerFunction = (response: Response, context: ResponseContext) => any;
+type ResponseHandlerFunction = (response: Response, context: ResponseContext) => any;
 interface ResponseHandler {
     ['*']?: ResponseHandlerFunction;
     [statusCode: number]: ResponseHandlerFunction;
 }
 
+{};
 //# sourceMappingURL=ResponseHandler.js.map
 {"version":3,"file":"ResponseHandler.js","sourceRoot":"","sources":["../../src/models/ResponseHandler.ts"],"names":[],"mappings":""}
 interface SysAssetFile {
@@ -1070,18 +1199,20 @@ interface SysAssetFile {
     parentNodePath?: string;
 }
 
+{};
 //# sourceMappingURL=SysAssetFile.js.map
 {"version":3,"file":"SysAssetFile.js","sourceRoot":"","sources":["../../src/models/SysAssetFile.ts"],"names":[],"mappings":""}
 interface UrlFn {
     (options: any, params: ClientParams): string;
 }
 
+{};
 //# sourceMappingURL=UrlFn.js.map
 {"version":3,"file":"UrlFn.js","sourceRoot":"","sources":["../../src/models/UrlFn.ts"],"names":[],"mappings":""}
-declare type ValidationMessage = {
+type ValidationMessage = {
     message?: LocalisedString;
 };
-declare type ValidationMessageAndValue<T> = ValidationMessage & {
+type ValidationMessageAndValue<T> = ValidationMessage & {
     value: T;
 };
 interface Validations<TField> {
@@ -1124,6 +1255,7 @@ interface Validations<TField> {
 }
 {};
 
+{};
 //# sourceMappingURL=Validations.js.map
 {"version":3,"file":"Validations.js","sourceRoot":"","sources":["../../src/models/Validations.ts"],"names":[],"mappings":""}
 interface VersionInfo {
@@ -1140,10 +1272,12 @@ interface VersionInfo {
     versionNo: string;
 }
 
+{};
 //# sourceMappingURL=VersionInfo.js.map
 {"version":3,"file":"VersionInfo.js","sourceRoot":"","sources":["../../src/models/VersionInfo.ts"],"names":[],"mappings":""}
-declare type VersionStatus = 'published' | 'latest';
+type VersionStatus = 'published' | 'latest';
 
+{};
 //# sourceMappingURL=VersionStatus.js.map
 {"version":3,"file":"VersionStatus.js","sourceRoot":"","sources":["../../src/models/VersionStatus.ts"],"names":[],"mappings":""}
 interface AssetSys extends BaseSys<'asset'> {
@@ -1318,7 +1452,8 @@ interface IContentTypeOperations {
 interface IEntryOperations {
     get(idOrOptions: string | EntryGetOptions): Promise<Entry>;
     list(contentTypeIdOrOptions: string | EntryListOptions): Promise<PagedList<Entry>>;
-    search(query: string | Query | ZenqlQuery, linkDepth?: number): Promise<PagedList<Entry>>;
+    search(query: string, linkDepth?: number): Promise<PagedList<Entry>>;
+    search(query: Query | ZenqlQuery, linkDepth?: number): Promise<PagedSearchList<Entry>>;
     resolve<T extends Entry | Entry[] | PagedList<Entry>>(entryOrList: T, fields?: string[]): Promise<T>;
 }
 
@@ -1343,7 +1478,7 @@ interface ITaxonomyOperations {
     resolveChildren(node: string | TaxonomyNode | TaxonomyResolveChildrenOptions): Promise<TaxonomyNode>;
 }
 
-declare type NodeVersionInfo = Pick<VersionInfo, 'versionNo'>;
+type NodeVersionInfo = Pick<VersionInfo, 'versionNo'>;
 interface Node<TEntry extends StrictEntry = LooseEntry> {
     id: string;
     parentId?: string;

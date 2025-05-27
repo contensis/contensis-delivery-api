@@ -1,5 +1,7 @@
 import { UrlBuilder } from 'contensis-core-api';
 export class ContentTypeOperations {
+    httpClient;
+    contensisClient;
     constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;

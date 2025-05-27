@@ -20,10 +20,13 @@ let listMappers = {
     pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize)
 };
 let searchMappers = {
+    aggregations: (value) => Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
     linkDepth: (value) => (value && (value > 0)) ? value : null,
     fieldLinkDepths: (value) => Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
 };
 export class EntryOperations {
+    httpClient;
+    contensisClient;
     constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;
@@ -79,9 +82,11 @@ export class EntryOperations {
         pageIndex = zenqlQuery.pageIndex || pageIndex;
         fields = zenqlQuery.fields || fields;
         fieldLinkDepths = zenqlQuery.fieldLinkDepths || fieldLinkDepths;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
         let payload = {
             ...requestParams,
+            aggregations: zenqlQuery.aggregations,
             fieldLinkDepths,
             linkDepth,
             pageSize,
@@ -122,9 +127,11 @@ export class EntryOperations {
         fields = deliveryQuery.fields || fields;
         fieldLinkDepths = deliveryQuery.fieldLinkDepths || fieldLinkDepths;
         let orderBy = (deliveryQuery.orderBy && (deliveryQuery.orderBy._items || deliveryQuery.orderBy));
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
         let payload = {
             ...requestParams,
+            aggregations: deliveryQuery.aggregations,
             fieldLinkDepths,
             linkDepth,
             pageSize,

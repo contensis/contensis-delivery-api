@@ -2,12 +2,16 @@ import { Op, Query } from 'contensis-core-api';
 import { DeferredEntry } from './DeferredEntry';
 import { EntryResolver } from './entry-resolver';
 export class ListResolver {
+    entries;
+    paths;
+    versionStatus;
+    search;
+    deferredEntries = [];
     constructor(entries, paths, versionStatus, search) {
         this.entries = entries;
         this.paths = paths;
         this.versionStatus = versionStatus;
         this.search = search;
-        this.deferredEntries = [];
     }
     resolve() {
         this.deferredEntries = [];

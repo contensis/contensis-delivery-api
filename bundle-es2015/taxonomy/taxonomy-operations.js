@@ -3,6 +3,8 @@ let taxonomyMappers = {
     order: (value) => (value === 'defined') ? value : null
 };
 export class TaxonomyOperations {
+    httpClient;
+    contensisClient;
     constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;

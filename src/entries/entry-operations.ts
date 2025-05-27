@@ -5,8 +5,8 @@ import {
 
 import { LinkResolver } from './link-resolver';
 import {
-	ClientParams, defaultMapperForLanguage, defaultMapperForPublishedVersionStatus,
-	FieldLinkDepths, IHttpClient, isBrowser, isIE, MapperFn, PagedList, Query, UrlBuilder,
+	ClientParams, QueryAggregations, defaultMapperForLanguage, defaultMapperForPublishedVersionStatus,
+	FieldLinkDepths, IHttpClient, isBrowser, isIE, MapperFn, PagedList, PagedSearchList, Query, UrlBuilder,
 	ZenqlQuery
 } from 'contensis-core-api';
 
@@ -35,6 +35,8 @@ let listMappers: { [key: string]: MapperFn } = {
 };
 
 let searchMappers: { [key: string]: MapperFn } = {
+	aggregations: (value: QueryAggregations) =>
+		Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
 	linkDepth: (value: number) => (value && (value > 0)) ? value : null,
 	fieldLinkDepths: (value: FieldLinkDepths) =>
 		Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
@@ -77,9 +79,9 @@ export class EntryOperations implements IEntryOperations {
 		});
 	}
 
-	search(query: string | Query | ZenqlQuery, linkDepth: number = 0): Promise<PagedList<Entry>> {
+	search<Q extends string | Query | ZenqlQuery>(query: Q, linkDepth: number = 0) {
 		if (!query) {
-			return new Promise((resolve) => { resolve(null); });
+			return new Promise((resolve) => { resolve(null); }) as Promise<PagedList<Entry> | PagedSearchList<Entry>>;
 		}
 
 		let deliveryQuery = query instanceof Query ? query as Query : null;
@@ -108,10 +110,12 @@ export class EntryOperations implements IEntryOperations {
 		fields = zenqlQuery.fields || fields;
 		fieldLinkDepths = zenqlQuery.fieldLinkDepths || fieldLinkDepths;
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
 
 		let payload = {
 			...requestParams,
+			aggregations: zenqlQuery.aggregations,
 			fieldLinkDepths,
 			linkDepth,
 			pageSize,
@@ -129,7 +133,7 @@ export class EntryOperations implements IEntryOperations {
 			.toUrl();
 
 		return this.contensisClient.ensureIsAuthorized().then(() => {
-			return this.httpClient.request<PagedList<Entry>>(url, {
+			return this.httpClient.request<PagedSearchList<Entry>>(url, {
 				method: 'GET',
 				headers: this.contensisClient.getHeaders('application/json; charset=utf-8')
 			});
@@ -142,7 +146,7 @@ export class EntryOperations implements IEntryOperations {
 		return resolver.resolve();
 	}
 
-	private searchUsingQuery(query: Query, linkDepth: number = 0): Promise<PagedList<Entry>> {
+	private searchUsingQuery(query: Query, linkDepth: number = 0): Promise<PagedSearchList<Entry>> {
 		if (!query) {
 			return new Promise((resolve) => { resolve(null); });
 		}
@@ -162,10 +166,12 @@ export class EntryOperations implements IEntryOperations {
 
 		let orderBy = (deliveryQuery.orderBy && ((deliveryQuery.orderBy as any)._items || deliveryQuery.orderBy));
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		let { accessToken, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
 
 		let payload = {
 			...requestParams,
+			aggregations: deliveryQuery.aggregations,
 			fieldLinkDepths,
 			linkDepth,
 			pageSize,
@@ -191,14 +197,14 @@ export class EntryOperations implements IEntryOperations {
 		}
 
 		return this.contensisClient.ensureIsAuthorized().then(() => {
-			return this.httpClient.request<PagedList<Entry>>(url, {
+			return this.httpClient.request<PagedSearchList<Entry>>(url, {
 				method: 'GET',
 				headers: this.contensisClient.getHeaders('application/json; charset=utf-8')
 			});
 		});
 	}
 
-	private searchUsingPost(query: any, linkDepth: number = 0): Promise<PagedList<Entry>> {
+	private searchUsingPost(query: any, linkDepth: number = 0): Promise<PagedSearchList<Entry>> {
 		if (!query) {
 			return new Promise((resolve) => { resolve(null); });
 		}
@@ -218,7 +224,7 @@ export class EntryOperations implements IEntryOperations {
 			const clone = Object.assign(Object.create(Object.getPrototypeOf(query)), query);
 			delete clone.fieldLinkDepths;
 
-			return this.httpClient.request<PagedList<Entry>>(url, {
+			return this.httpClient.request<PagedSearchList<Entry>>(url, {
 				method: 'POST',
 				headers: this.contensisClient.getHeaders('application/json; charset=utf-8'),
 				body: JSON.stringify(clone)

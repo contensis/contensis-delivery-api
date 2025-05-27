@@ -1,24 +1,19 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "module": "es2015",
-        "moduleResolution": "node",
-        "lib": [
-            "es2015",
-            "es2017",
-            "dom",
-            "es2015.iterable"
-        ],
-        "skipLibCheck": true,
-        "sourceMap": false,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "removeComments": false,
-        "noImplicitAny": false,
-        "suppressImplicitAnyIndexErrors": true,
-        "allowSyntheticDefaultImports": true,
-        "importHelpers": true,
-        "outDir": "../bundle-es2015",
-        "declaration": true
-    }
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "lib": ["es2015", "es2017", "dom", "es2015.iterable"],
+    "skipLibCheck": true,
+    "sourceMap": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
+    "outDir": "../bundle-es2015",
+    "declaration": true,
+    "types": ["jasmine"]
+  }
 }

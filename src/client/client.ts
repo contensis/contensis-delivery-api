@@ -9,10 +9,13 @@ import { ProjectOperations } from '../projects/project-operations';
 import { TaxonomyOperations } from '../taxonomy/taxonomy-operations';
 import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
-import { ClientParams, HttpClient, IHttpClient, ContensisAuthenticationError, ContensisApplicationError, ContensisClassicGrant, ClientCredentialsGrant, ContensisClassicResfreshTokenGrant } from 'contensis-core-api';
+import { ClientParams, HttpClient, IHttpClient, ContensisAuthenticationError, ContensisApplicationError, ContensisClassicGrant, ClientCredentialsGrant, ContensisClassicRefreshTokenGrant } from 'contensis-core-api';
 import * as Scopes from './scopes';
 
 import fetch from 'cross-fetch';
+
+const browserGlobal = typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : null;
+const defaultFetch = browserGlobal ? browserGlobal.fetch.bind(browserGlobal) as typeof browserGlobal.fetch : fetch;
 
 const ContensisClassicTokenKey = 'x-contensis-classic-token';
 
@@ -48,7 +51,7 @@ export class Client implements ContensisClient {
 
 	constructor(config: Config = null) {
 		this.clientConfig = new ClientConfig(config, Client.defaultClientConfig);
-		this.fetchFn = !this.clientConfig.fetchFn ? fetch : this.clientConfig.fetchFn;
+		this.fetchFn = !this.clientConfig.fetchFn ? defaultFetch : this.clientConfig.fetchFn;
 		this.httpClient = new HttpClient(this, this.fetchFn);
 
 		this.entries = new EntryOperations(this.httpClient, this);
@@ -188,7 +191,7 @@ export class Client implements ContensisClient {
 			payload['username'] = clientDetails.username;
 			payload['password'] = clientDetails.password;
 		} else if (this.clientConfig.clientType === 'contensis_classic_refresh_token') {
-			let clientDetails = this.clientConfig.clientDetails as ContensisClassicResfreshTokenGrant;
+			let clientDetails = this.clientConfig.clientDetails as ContensisClassicRefreshTokenGrant;
 			payload['refresh_token'] = clientDetails.refreshToken;
 		}
 

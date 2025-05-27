@@ -13,12 +13,12 @@ describe('Contensis Client', function () {
         spyOn(global, 'fetch').and.callFake((...args) => {
             return new Promise((resolve, reject) => {
                 resolve({
-                    json: () => {
+                    json: async () => {
                         return {
                             items: []
                         };
                     }
-                });
+                } as Response | PromiseLike<Response>);
             });
         });
     });
