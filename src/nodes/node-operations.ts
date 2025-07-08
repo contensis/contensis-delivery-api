@@ -30,7 +30,8 @@ let nodeGetByPathOptions = {
 
 let nodeGetByEntryOptions = {
     ...nodeDefaultWithDepthOptionsMappers,
-    entryId: (value: string) => (!!value) ? value : null,
+    canonicalOnly: (value: boolean) => value ? true : null,
+    entryId: (value: string) => value ? value : null,
 };
 
 let nodeGetAncestorAtLevelOptionsMappers = {
