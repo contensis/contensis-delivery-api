@@ -958,6 +958,7 @@ type ContentTypeFormatMap<T> = {
     entry: T;
     component: T;
     asset: T;
+    form: T;
 };
 type ContentTypeFormat = keyof ContentTypeFormatMap<any>;
 {};
@@ -1064,6 +1065,8 @@ type FieldDataFormatMap<T> = {
     'quote': T;
     'taxonomy': T;
     'component': T;
+    'contenttype': T;
+    'tag': T;
 };
 type FieldDataType = keyof FieldDataTypeMap<any>;
 type FieldDataFormat = keyof FieldDataFormatMap<any> | string;
@@ -1105,6 +1108,7 @@ interface IHttpClient {
 * from './Field';
 * from './IHttpClient';
 * from './IParamsProvider';
+* from './Localised';
 * from './MapperFn';
 * from './PagedList';
 * from './PageOptions';
@@ -1115,9 +1119,10 @@ interface IHttpClient {
 * from './SysAssetFile';
 * from './UrlFn';
 * from './VersionInfo';
+* from './VersionInfoBase';
 * from './VersionStatus';
 //# sourceMappingURL=index.js.map
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/models/index.ts"],"names":[],"mappings":"AAAA,cAAc,eAAe,CAAC;AAC9B,cAAc,0BAA0B,CAAC;AACzC,cAAc,UAAU,CAAC;AACzB,cAAc,gBAAgB,CAAC;AAC/B,cAAc,gBAAgB,CAAC;AAC/B,cAAc,qBAAqB,CAAC;AACpC,cAAc,yBAAyB,CAAC;AACxC,cAAc,qCAAqC,CAAC;AACpD,cAAc,aAAa,CAAC;AAC5B,cAAc,eAAe,CAAC;AAC9B,cAAc,UAAU,CAAC;AACzB,cAAc,SAAS,CAAC;AACxB,cAAc,eAAe,CAAC;AAC9B,cAAc,mBAAmB,CAAC;AAClC,cAAc,YAAY,CAAC;AAC3B,cAAc,aAAa,CAAC;AAC5B,cAAc,eAAe,CAAC;AAC9B,cAAc,WAAW,CAAC;AAC1B,cAAc,mBAAmB,CAAC;AAClC,cAAc,mBAAmB,CAAC;AAClC,cAAc,UAAU,CAAC;AACzB,cAAc,gBAAgB,CAAC;AAC/B,cAAc,SAAS,CAAC;AACxB,cAAc,eAAe,CAAC;AAC9B,cAAc,iBAAiB,CAAC"}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/models/index.ts"],"names":[],"mappings":"AAAA,cAAc,eAAe,CAAC;AAC9B,cAAc,0BAA0B,CAAC;AACzC,cAAc,UAAU,CAAC;AACzB,cAAc,gBAAgB,CAAC;AAC/B,cAAc,gBAAgB,CAAC;AAC/B,cAAc,qBAAqB,CAAC;AACpC,cAAc,yBAAyB,CAAC;AACxC,cAAc,qCAAqC,CAAC;AACpD,cAAc,aAAa,CAAC;AAC5B,cAAc,eAAe,CAAC;AAC9B,cAAc,UAAU,CAAC;AACzB,cAAc,SAAS,CAAC;AACxB,cAAc,eAAe,CAAC;AAC9B,cAAc,mBAAmB,CAAC;AAClC,cAAc,aAAa,CAAC;AAC5B,cAAc,YAAY,CAAC;AAC3B,cAAc,aAAa,CAAC;AAC5B,cAAc,eAAe,CAAC;AAC9B,cAAc,WAAW,CAAC;AAC1B,cAAc,mBAAmB,CAAC;AAClC,cAAc,mBAAmB,CAAC;AAClC,cAAc,UAAU,CAAC;AACzB,cAAc,gBAAgB,CAAC;AAC/B,cAAc,SAAS,CAAC;AACxB,cAAc,eAAe,CAAC;AAC9B,cAAc,mBAAmB,CAAC;AAClC,cAAc,iBAAiB,CAAC"}
 interface IParamsProvider {
     getParams(): ClientParams;
 }
@@ -1252,29 +1257,45 @@ interface Validations<TField> {
     allowedFieldTypes?: ValidationMessage & {
         fields: TField[];
     };
+    allowedDataFormats?: ValidationMessage & {
+        dataFormats: Exclude<ContentTypeFormat[], 'component'>;
+    };
+    allowedIds?: ValidationMessage & {
+        ids: string[];
+    };
 }
 {};
 
 {};
 //# sourceMappingURL=Validations.js.map
 {"version":3,"file":"Validations.js","sourceRoot":"","sources":["../../src/models/Validations.ts"],"names":[],"mappings":""}
-interface VersionInfo {
-    createdBy: string;
-    created: string;
-    modifiedBy: string;
-    modified: string;
+/** Complete VersionInfo object for resources that support
+ * publishing, recycling and archiving */
+interface VersionInfo extends VersionInfoBase {
     publishedBy: string;
     published: string;
     deleted?: string;
     deletedBy?: string;
     archived?: string;
     archivedBy?: string;
-    versionNo: string;
 }
 
 {};
 //# sourceMappingURL=VersionInfo.js.map
 {"version":3,"file":"VersionInfo.js","sourceRoot":"","sources":["../../src/models/VersionInfo.ts"],"names":[],"mappings":""}
+/** Contains base members for a VersionInfo object that
+ * might not support publishing, archiving or recycling */
+interface VersionInfoBase {
+    createdBy: string;
+    created: string;
+    modifiedBy: string;
+    modified: string;
+    versionNo: string;
+}
+
+{};
+//# sourceMappingURL=VersionInfoBase.js.map
+{"version":3,"file":"VersionInfoBase.js","sourceRoot":"","sources":["../../src/models/VersionInfoBase.ts"],"names":[],"mappings":""}
 type VersionStatus = 'published' | 'latest';
 
 {};
@@ -1358,6 +1379,7 @@ interface BaseEntryFields {
     entryTitle: string;
     entryDescription?: string;
     entryThumbnail?: Image;
+    entryTags?: string[];
 }
 interface Entry extends StrictEntry {
     [key: string]: any;
@@ -1460,7 +1482,10 @@ interface IEntryOperations {
 interface INodeOperations {
     getRoot(options?: NodeGetRootOptions): Promise<Node>;
     get(idOrPathOrOptions: string | NodeGetByIdOptions | NodeGetByPathOptions): Promise<Node>;
-    getByEntry(entryIdOrEntryOrOptions: string | Entry | NodeGetByEntryOptions): Promise<Node[]>;
+    getByEntry(options: NodeGetCanonicalByEntryOptions): Promise<Node>;
+    getByEntry(options: NodeGetByEntryOptions): Promise<Node[]>;
+    getByEntry(entry: Entry): Promise<Node[]>;
+    getByEntry(entryId: string): Promise<Node[]>;
     getChildren(idOrNodeOrOptions: string | Node | NodeGetChildrenOptions): Promise<Node[]>;
     getParent(idOrNodeOrOptions: string | Node | NodeGetParentOptions): Promise<Node>;
     getAncestorAtLevel(options: NodeGetAncestorAtLevelOptions): Promise<Node>;
@@ -1517,6 +1542,10 @@ interface NodeGetAncestorsOptions extends NodeDefaultOptions, NodeIdOptions {
 interface NodeGetByEntryOptions extends NodeDefaultOptions {
     entryId?: string;
     entry?: Entry;
+    canonicalOnly?: boolean;
+}
+interface NodeGetCanonicalByEntryOptions extends NodeGetByEntryOptions, NodeDefaultWithDepthOptions {
+    canonicalOnly: true;
 }
 
 interface NodeGetByIdOptions extends NodeDefaultWithDepthOptions {

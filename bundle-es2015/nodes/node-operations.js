@@ -1,28 +1,29 @@
 import { defaultMapperForLanguage, defaultMapperForPublishedVersionStatus, isString, UrlBuilder } from 'contensis-core-api';
-let nodeDefaultOptionsMappers = {
+const nodeDefaultOptionsMappers = {
     language: defaultMapperForLanguage,
     versionStatus: defaultMapperForPublishedVersionStatus,
     entryFields: (value) => (value && value.length > 0 ? value : null),
     entryLinkDepth: (value) => (value && value > 0 ? value : null),
     entryFieldLinkDepths: (value) => Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
 };
-let nodeDefaultWithDepthOptionsMappers = {
+const nodeDefaultWithDepthOptionsMappers = {
     ...nodeDefaultOptionsMappers,
     depth: (value) => (value && (value > 0)) ? value : null,
 };
-let nodeGetByPathOptions = {
+const nodeGetByPathOptions = {
     ...nodeDefaultWithDepthOptionsMappers,
     allowPartialMatch: (value) => (!!value) ? true : null,
 };
-let nodeGetByEntryOptions = {
-    ...nodeDefaultOptionsMappers,
-    entryId: (value) => (!!value) ? value : null,
+const nodeGetByEntryOptions = {
+    ...nodeDefaultWithDepthOptionsMappers,
+    canonicalOnly: (value) => value ? true : null,
+    entryId: (value) => value ? value : null,
 };
-let nodeGetAncestorAtLevelOptionsMappers = {
+const nodeGetAncestorAtLevelOptionsMappers = {
     ...nodeDefaultWithDepthOptionsMappers,
     startLevel: (value) => (value && (value > 0)) ? value : null,
 };
-let nodeGetAncestorsOptionsMappers = {
+const nodeGetAncestorsOptionsMappers = {
     ...nodeDefaultOptionsMappers,
     startLevel: (value) => (value && (value > 0)) ? value : null,
 };
@@ -36,40 +37,38 @@ export class NodeOperations {
             throw new Error('The class was not initialised correctly.');
         }
     }
-    getRoot(options) {
-        let url = UrlBuilder.create('/api/delivery/projects/:projectId/nodes/root', { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
+    async getRoot(options) {
+        const url = UrlBuilder.create('/api/delivery/projects/:projectId/nodes/root', { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
             .addMappers(nodeDefaultWithDepthOptionsMappers)
             .toUrl();
-        return this.contensisClient.ensureIsAuthorized().then(() => {
-            return this.httpClient.request(url, {
-                headers: this.contensisClient.getHeaders()
-            });
+        await this.contensisClient.ensureIsAuthorized();
+        return await this.httpClient.request(url, {
+            headers: this.contensisClient.getHeaders()
         });
     }
-    get(idOrPathOrOptions) {
+    async get(idOrPathOrOptions) {
         const validationMessage = 'A valid node id or path needs to be specified.';
         if ((isString(idOrPathOrOptions) && !idOrPathOrOptions)
             || (typeof idOrPathOrOptions === 'object' &&
                 (idOrPathOrOptions === null || (!idOrPathOrOptions.id && !idOrPathOrOptions.path)))) {
             throw new Error(validationMessage);
         }
-        let isPath = (isString(idOrPathOrOptions) && idOrPathOrOptions.startsWith('/'))
+        const isPath = (isString(idOrPathOrOptions) && idOrPathOrOptions.startsWith('/'))
             || (!!idOrPathOrOptions && !!idOrPathOrOptions.path);
-        let urlTemplate = isPath ? '/api/delivery/projects/:projectId/nodes:path' : '/api/delivery/projects/:projectId/nodes/:id';
-        let url = UrlBuilder.create(urlTemplate, { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null, allowPartialMatch: null })
+        const urlTemplate = isPath ? '/api/delivery/projects/:projectId/nodes:path' : '/api/delivery/projects/:projectId/nodes/:id';
+        const url = UrlBuilder.create(urlTemplate, { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null, allowPartialMatch: null })
             .addOptions(idOrPathOrOptions, isPath ? 'path' : 'id')
             .setParams(this.contensisClient.getParams())
             .addMappers(nodeGetByPathOptions)
             .toUrl();
-        return this.contensisClient.ensureIsAuthorized().then(() => {
-            return this.httpClient.request(url, {
-                headers: this.contensisClient.getHeaders()
-            });
+        await this.contensisClient.ensureIsAuthorized();
+        return await this.httpClient.request(url, {
+            headers: this.contensisClient.getHeaders()
         });
     }
-    getByEntry(entryIdOrEntryOrOptions) {
+    async getByEntry(entryIdOrEntryOrOptions) {
         const validationMessage = 'A valid entry id needs to be specified.';
         if (isString(entryIdOrEntryOrOptions) && !entryIdOrEntryOrOptions) {
             throw new Error(validationMessage);
@@ -98,97 +97,91 @@ export class NodeOperations {
                 entryId = entryIdOrEntryOrOptions.entry.sys.id;
             }
         }
-        let url = UrlBuilder
-            .create('/api/delivery/projects/:projectId/nodes/', { entryId: null, language: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
+        const url = UrlBuilder
+            .create('/api/delivery/projects/:projectId/nodes/', { canonicalOnly: null, depth: null, entryFields: null, entryFieldLinkDepths: null, entryLinkDepth: null, entryId: null, language: null, versionStatus: null })
             .addOptions(entryId, 'entryId')
             .addOptions(entryIdOrEntryOrOptions)
             .setParams(this.contensisClient.getParams())
             .addMappers(nodeGetByEntryOptions)
             .toUrl();
-        return this.contensisClient.ensureIsAuthorized().then(() => {
-            return this.httpClient.request(url, {
-                headers: this.contensisClient.getHeaders()
-            });
+        await this.contensisClient.ensureIsAuthorized();
+        return await this.httpClient.request(url, {
+            headers: this.contensisClient.getHeaders()
         });
     }
-    getChildren(idOrNodeOrOptions) {
+    async getChildren(idOrNodeOrOptions) {
         this.validateNodeId(idOrNodeOrOptions);
-        let nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
-        let url = UrlBuilder
+        const nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
+        const url = UrlBuilder
             .create('/api/delivery/projects/:projectId/nodes/:id/children', { language: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
             .setParams(this.contensisClient.getParams())
             .addMappers(nodeDefaultOptionsMappers)
             .toUrl();
-        return this.contensisClient.ensureIsAuthorized().then(() => {
-            return this.httpClient.request(url, {
-                headers: this.contensisClient.getHeaders()
-            });
+        await this.contensisClient.ensureIsAuthorized();
+        return await this.httpClient.request(url, {
+            headers: this.contensisClient.getHeaders()
         });
     }
-    getParent(idOrNodeOrOptions) {
+    async getParent(idOrNodeOrOptions) {
         this.validateNodeId(idOrNodeOrOptions);
-        let nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
-        let url = UrlBuilder
+        const nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
+        const url = UrlBuilder
             .create('/api/delivery/projects/:projectId/nodes/:id/parent', { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
             .setParams(this.contensisClient.getParams())
             .addMappers(nodeDefaultWithDepthOptionsMappers)
             .toUrl();
-        return this.contensisClient.ensureIsAuthorized().then(() => {
-            return this.httpClient.request(url, {
-                headers: this.contensisClient.getHeaders()
-            });
+        await this.contensisClient.ensureIsAuthorized();
+        return await this.httpClient.request(url, {
+            headers: this.contensisClient.getHeaders()
         });
     }
-    getAncestorAtLevel(options) {
+    async getAncestorAtLevel(options) {
         this.validateNodeId(options);
-        let nodeId = this.getNodeIdFromOptions(options);
-        let url = UrlBuilder
+        const nodeId = this.getNodeIdFromOptions(options);
+        const url = UrlBuilder
             .create('/api/delivery/projects/:projectId/nodes/:id/ancestors', { language: null, startLevel: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(nodeId, 'id')
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
             .addMappers(nodeGetAncestorAtLevelOptionsMappers)
             .toUrl();
-        return this.contensisClient.ensureIsAuthorized().then(() => {
-            return this.httpClient.request(url, {
-                headers: this.contensisClient.getHeaders()
-            });
+        await this.contensisClient.ensureIsAuthorized();
+        return await this.httpClient.request(url, {
+            headers: this.contensisClient.getHeaders()
         });
     }
-    getAncestors(idOrNodeOrOptions) {
+    async getAncestors(idOrNodeOrOptions) {
         this.validateNodeId(idOrNodeOrOptions);
-        let nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
-        let url = UrlBuilder
+        const nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
+        const url = UrlBuilder
             .create('/api/delivery/projects/:projectId/nodes/:id/ancestors', { language: null, startLevel: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
             .setParams(this.contensisClient.getParams())
             .addMappers(nodeGetAncestorsOptionsMappers)
             .toUrl();
-        return this.contensisClient.ensureIsAuthorized().then(() => {
-            return this.httpClient.request(url, {
-                headers: this.contensisClient.getHeaders()
-            });
+        await this.contensisClient.ensureIsAuthorized();
+        return await this.httpClient.request(url, {
+            headers: this.contensisClient.getHeaders()
         });
     }
-    getSiblings(idOrNodeOrOptions) {
+    async getSiblings(idOrNodeOrOptions) {
         this.validateNodeId(idOrNodeOrOptions);
-        let nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
-        let url = UrlBuilder
+        const nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
+        const url = UrlBuilder
             .create('/api/delivery/projects/:projectId/nodes/:id/siblings', { language: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(nodeId, 'id')
             .addOptions(idOrNodeOrOptions)
             .setParams(this.contensisClient.getParams())
             .addMappers(nodeDefaultOptionsMappers)
             .toUrl();
-        return this.contensisClient.ensureIsAuthorized().then(() => {
-            return this.httpClient.request(url, {
-                headers: this.contensisClient.getHeaders()
-            });
+        await this.contensisClient.ensureIsAuthorized();
+        return await this.httpClient.request(url, {
+            headers: this.contensisClient.getHeaders()
         });
     }
     validateNodeId(idOrNodeOrOptions) {
