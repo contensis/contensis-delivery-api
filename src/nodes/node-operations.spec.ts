@@ -217,14 +217,14 @@ describe('Nodes Operations', () => {
         it('Validate invalid node id or path', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            expect(() => client.nodes.get('')).toThrowError('A valid node id or path needs to be specified.');
+            await expectAsync(client.nodes.get('')).toBeRejectedWithError('A valid node id or path needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
 
-        it('Validate invalid node or options', () => {
+        it('Validate invalid node or options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            expect(() => client.nodes.get({} as Node)).toThrowError('A valid node id or path needs to be specified.');
+            await expectAsync(client.nodes.get({} as Node)).toBeRejectedWithError('A valid node id or path needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
     });
@@ -431,7 +431,7 @@ describe('Nodes Operations', () => {
         it('Get Live Version with all options and entry', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getByEntry({ entry: entry, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
+            let node = await client.nodes.getByEntry({ entry, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -442,10 +442,24 @@ describe('Nodes Operations', () => {
             expect(node).not.toBeNull();
         });
 
+        it('Get Canonical Live Version with all options and entry', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+
+            let node = await client.nodes.getByEntry({ canonicalOnly: true, depth: 1, entry, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
+
+            expect(global.fetch).toHaveBeenCalled();
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/delivery/projects/myProject/nodes/?canonicalOnly=true&depth=1&entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryId=${entryId}&entryLinkDepth=1&language=de`,
+                getDefaultFetchRequestForAccessToken()
+            ]);
+
+            expect(node).not.toBeNull();
+        });
+
         it('Get Live Version with minimal options and entry id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getByEntry({ entryId: entryId, language: '', depth: 0, entryFields: [], entryLinkDepth: 0 });
+            let node = await client.nodes.getByEntry({ entryId, language: '', entryFields: [], entryLinkDepth: 0 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -474,17 +488,17 @@ describe('Nodes Operations', () => {
             expect(node).not.toBeNull();
         });
 
-        it('Validate invalid entry id', () => {
+        it('Validate invalid entry id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            expect(() => client.nodes.getByEntry('')).toThrowError('A valid entry id needs to be specified.');
+            await expectAsync(client.nodes.getByEntry('')).toBeRejectedWithError('A valid entry id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
 
-        it('Validate invalid entry or options', () => {
+        it('Validate invalid entry or options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            expect(() => client.nodes.getByEntry({} as Entry)).toThrowError('A valid entry id needs to be specified.');
+            await expectAsync(client.nodes.getByEntry({} as Entry)).toBeRejectedWithError('A valid entry id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
     });
@@ -615,17 +629,17 @@ describe('Nodes Operations', () => {
             expect(nodes).not.toBeNull();
         });
 
-        it('Validate invalid node id', () => {
+        it('Validate invalid node id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            expect(() => client.nodes.getChildren('')).toThrowError('A valid node id needs to be specified.');
+            await expectAsync(client.nodes.getChildren('')).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
 
-        it('Validate invalid node or options', () => {
+        it('Validate invalid node or options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            expect(() => client.nodes.getChildren({} as Node)).toThrowError('A valid node id needs to be specified.');
+            await expectAsync(client.nodes.getChildren({} as Node)).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
     });
@@ -759,17 +773,17 @@ describe('Nodes Operations', () => {
             expect(parentNode).not.toBeNull();
         });
 
-        it('Validate invalid node id', () => {
+        it('Validate invalid node id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            expect(() => client.nodes.getParent('')).toThrowError('A valid node id needs to be specified.');
+            await expectAsync(client.nodes.getParent('')).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
 
-        it('Validate invalid node or options', () => {
+        it('Validate invalid node or options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            expect(() => client.nodes.getParent({} as Node)).toThrowError('A valid node id needs to be specified.');
+            await expectAsync(client.nodes.getParent({} as Node)).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
     });
@@ -901,17 +915,17 @@ describe('Nodes Operations', () => {
             expect(ancestorNode).not.toBeNull();
         });
 
-        it('Validate invalid node id', () => {
+        it('Validate invalid node id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            expect(() => client.nodes.getAncestorAtLevel({ id: '', startLevel: 0 })).toThrowError('A valid node id needs to be specified.');
+            await expectAsync(client.nodes.getAncestorAtLevel({ id: '', startLevel: 0 })).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
 
-        it('Validate invalid node or options', () => {
+        it('Validate invalid node or options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            expect(() => client.nodes.getAncestorAtLevel({ node: {} as Node, startLevel: 0 })).toThrowError('A valid node id needs to be specified.');
+            await expectAsync(client.nodes.getAncestorAtLevel({ node: {} as Node, startLevel: 0 })).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
     });
@@ -1043,17 +1057,17 @@ describe('Nodes Operations', () => {
             expect(nodes).not.toBeNull();
         });
 
-        it('Validate invalid node id', () => {
+        it('Validate invalid node id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            expect(() => client.nodes.getAncestors('')).toThrowError('A valid node id needs to be specified.');
+            await expectAsync(client.nodes.getAncestors('')).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
 
-        it('Validate invalid node or options', () => {
+        it('Validate invalid node or options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            expect(() => client.nodes.getAncestors(({} as Node))).toThrowError('A valid node id needs to be specified.');
+            await expectAsync(client.nodes.getAncestors(({} as Node))).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
     });
@@ -1183,17 +1197,17 @@ describe('Nodes Operations', () => {
             expect(nodes).not.toBeNull();
         });
 
-        it('Validate invalid node id', () => {
+        it('Validate invalid node id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            expect(() => client.nodes.getSiblings('')).toThrowError('A valid node id needs to be specified.');
+            await expectAsync(client.nodes.getSiblings('')).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
 
-        it('Validate invalid node or options', () => {
+        it('Validate invalid node or options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            expect(() => client.nodes.getSiblings(({} as Node))).toThrowError('A valid node id needs to be specified.');
+            await expectAsync(client.nodes.getSiblings(({} as Node))).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
     });
