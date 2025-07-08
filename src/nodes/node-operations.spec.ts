@@ -21,9 +21,9 @@ describe('Nodes Operations', () => {
 
     describe('Get root node', () => {
         it('Get Live Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getRoot({});
+            const node = await client.nodes.getRoot({});
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -34,9 +34,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Preview Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
 
-            let node = await client.nodes.getRoot({});
+            const node = await client.nodes.getRoot({});
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -56,9 +56,9 @@ describe('Nodes Operations', () => {
                 accessToken: 'XXXXXX'
             });
 
-            let client = Zengenti.Contensis.Client.create();
+            const client = Zengenti.Contensis.Client.create();
 
-            let node = await client.nodes.getRoot({});
+            const node = await client.nodes.getRoot({});
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/delivery/projects/myProject/nodes/root?language=fr-FR',
@@ -69,9 +69,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with all options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getRoot({ language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
+            const node = await client.nodes.getRoot({ language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -83,13 +83,13 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with no options', async () => {
-            let client = Zengenti.Contensis.Client.create({
+            const client = Zengenti.Contensis.Client.create({
                 projectId: 'myProject',
                 rootUrl: 'http://my-website.com/',
                 accessToken: 'XXXXXX'
             });
 
-            let node = await client.nodes.getRoot();
+            const node = await client.nodes.getRoot();
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -102,12 +102,12 @@ describe('Nodes Operations', () => {
     });
 
     describe('Get node by id', () => {
-        let nodeId = '9db1098f-4eb3-409b-a2dc-56256c441c69';
+        const nodeId = '9db1098f-4eb3-409b-a2dc-56256c441c69';
 
         it('Get Live Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.get(nodeId);
+            const node = await client.nodes.get(nodeId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -119,9 +119,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Preview Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
 
-            let node = await client.nodes.get(nodeId);
+            const node = await client.nodes.get(nodeId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -140,9 +140,9 @@ describe('Nodes Operations', () => {
                 versionStatus: 'published',
                 accessToken: 'XXXXXX'
             });
-            let client = Zengenti.Contensis.Client.create();
+            const client = Zengenti.Contensis.Client.create();
 
-            let node = await client.nodes.get(nodeId);
+            const node = await client.nodes.get(nodeId);
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}?language=fr-FR`,
@@ -153,9 +153,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with node', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.get({
+            const node = await client.nodes.get({
                 id: nodeId
             } as Node);
 
@@ -169,9 +169,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with all options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.get({ id: nodeId, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
+            const node = await client.nodes.get({ id: nodeId, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -183,9 +183,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with minimal options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.get({ id: nodeId, language: '', depth: 0, entryFields: [], entryLinkDepth: 0 });
+            const node = await client.nodes.get({ id: nodeId, language: '', depth: 0, entryFields: [], entryLinkDepth: 0 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -197,13 +197,13 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with no options', async () => {
-            let client = Zengenti.Contensis.Client.create({
+            const client = Zengenti.Contensis.Client.create({
                 projectId: 'myProject',
                 rootUrl: 'http://my-website.com/',
                 accessToken: 'XXXXXX'
             });
 
-            let node = await client.nodes.get({ id: nodeId, language: '', depth: 0, entryFields: [], entryLinkDepth: 0 });
+            const node = await client.nodes.get({ id: nodeId, language: '', depth: 0, entryFields: [], entryLinkDepth: 0 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -215,14 +215,14 @@ describe('Nodes Operations', () => {
         });
 
         it('Validate invalid node id or path', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             await expectAsync(client.nodes.get('')).toBeRejectedWithError('A valid node id or path needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
 
         it('Validate invalid node or options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             await expectAsync(client.nodes.get({} as Node)).toBeRejectedWithError('A valid node id or path needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
@@ -230,12 +230,12 @@ describe('Nodes Operations', () => {
     });
 
     describe('Get node by path', () => {
-        let nodePath = '/node1/node2';
+        const nodePath = '/node1/node2';
 
         it('Get Live Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.get(nodePath);
+            const node = await client.nodes.get(nodePath);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -247,9 +247,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Preview Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
 
-            let node = await client.nodes.get(nodePath);
+            const node = await client.nodes.get(nodePath);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -268,9 +268,9 @@ describe('Nodes Operations', () => {
                 versionStatus: 'published',
                 accessToken: 'XXXXXX'
             });
-            let client = Zengenti.Contensis.Client.create();
+            const client = Zengenti.Contensis.Client.create();
 
-            let node = await client.nodes.get(nodePath);
+            const node = await client.nodes.get(nodePath);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -282,9 +282,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with node', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.get({
+            const node = await client.nodes.get({
                 path: nodePath
             } as Node);
 
@@ -298,9 +298,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with all options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.get({ path: nodePath, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 }, allowPartialMatch: true });
+            const node = await client.nodes.get({ path: nodePath, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 }, allowPartialMatch: true });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -312,9 +312,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with minimal options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.get({ path: nodePath, language: '', depth: 0, entryFields: [], entryLinkDepth: 0, allowPartialMatch: false });
+            const node = await client.nodes.get({ path: nodePath, language: '', depth: 0, entryFields: [], entryLinkDepth: 0, allowPartialMatch: false });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -326,13 +326,13 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with no options', async () => {
-            let client = Zengenti.Contensis.Client.create({
+            const client = Zengenti.Contensis.Client.create({
                 projectId: 'myProject',
                 rootUrl: 'http://my-website.com/',
                 accessToken: 'XXXXXX'
             });
 
-            let node = await client.nodes.get({ path: nodePath });
+            const node = await client.nodes.get({ path: nodePath });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -345,17 +345,17 @@ describe('Nodes Operations', () => {
     });
 
     describe('Get node by entry', () => {
-        let entryId = '9db1098f-4eb3-409b-a2dc-56256c441c69';
-        let entry = {
+        const entryId = '9db1098f-4eb3-409b-a2dc-56256c441c69';
+        const entry = {
             sys: {
                 id: entryId
             }
         } as Entry;
 
         it('Get Live Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getByEntry(entryId);
+            const node = await client.nodes.getByEntry(entryId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -367,9 +367,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Preview Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
 
-            let node = await client.nodes.getByEntry(entryId);
+            const node = await client.nodes.getByEntry(entryId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -388,9 +388,9 @@ describe('Nodes Operations', () => {
                 versionStatus: 'published',
                 accessToken: 'XXXXXX'
             });
-            let client = Zengenti.Contensis.Client.create();
+            const client = Zengenti.Contensis.Client.create();
 
-            let node = await client.nodes.getByEntry(entryId);
+            const node = await client.nodes.getByEntry(entryId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -402,9 +402,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with entry', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getByEntry(entry);
+            const node = await client.nodes.getByEntry(entry);
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/delivery/projects/myProject/nodes/?entryId=${entryId}&language=en-US`,
@@ -415,9 +415,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with all options and entry id', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getByEntry({ canonicalOnly: false, entryId: entryId, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
+            const node = await client.nodes.getByEntry({ canonicalOnly: false, entryId: entryId, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -429,9 +429,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with all options and entry', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getByEntry({ canonicalOnly: false, entry, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
+            const node = await client.nodes.getByEntry({ canonicalOnly: false, entry, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -445,9 +445,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Canonical Live Version with all options and entry', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getByEntry({ canonicalOnly: true, depth: 1, entry, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
+            const node = await client.nodes.getByEntry({ canonicalOnly: true, depth: 1, entry, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -461,9 +461,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with minimal options and entry id', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getByEntry({ entryId, language: '', entryFields: [], entryLinkDepth: 0 });
+            const node = await client.nodes.getByEntry({ entryId, language: '', entryFields: [], entryLinkDepth: 0 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -475,13 +475,13 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with no options and entry', async () => {
-            let client = Zengenti.Contensis.Client.create({
+            const client = Zengenti.Contensis.Client.create({
                 projectId: 'myProject',
                 rootUrl: 'http://my-website.com/',
                 accessToken: 'XXXXXX'
             });
 
-            let node = await client.nodes.getByEntry({ entry });
+            const node = await client.nodes.getByEntry({ entry });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -493,14 +493,14 @@ describe('Nodes Operations', () => {
         });
 
         it('Validate invalid entry id', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             await expectAsync(client.nodes.getByEntry('')).toBeRejectedWithError('A valid entry id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
 
         it('Validate invalid entry or options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             await expectAsync(client.nodes.getByEntry({} as Entry)).toBeRejectedWithError('A valid entry id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
@@ -508,12 +508,12 @@ describe('Nodes Operations', () => {
     });
 
     describe('Get node children', () => {
-        let nodeId = '9db1098f-4eb3-409b-a2dc-56256c441c69';
+        const nodeId = '9db1098f-4eb3-409b-a2dc-56256c441c69';
 
         it('Get Live Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getChildren(nodeId);
+            const nodes = await client.nodes.getChildren(nodeId);
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/children?language=en-US`,
@@ -524,9 +524,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Preview Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
 
-            let nodes = await client.nodes.getChildren(nodeId);
+            const nodes = await client.nodes.getChildren(nodeId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -545,9 +545,9 @@ describe('Nodes Operations', () => {
                 versionStatus: 'published',
                 accessToken: 'XXXXXX'
             });
-            let client = Zengenti.Contensis.Client.create();
+            const client = Zengenti.Contensis.Client.create();
 
-            let nodes = await client.nodes.getChildren(nodeId);
+            const nodes = await client.nodes.getChildren(nodeId);
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/children?language=fr-FR`,
@@ -558,9 +558,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with node', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getChildren({
+            const nodes = await client.nodes.getChildren({
                 id: nodeId
             } as Node);
 
@@ -574,9 +574,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with all options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getChildren({ id: nodeId, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
+            const nodes = await client.nodes.getChildren({ id: nodeId, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -588,9 +588,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with minimal options and node id', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getChildren({ id: nodeId, language: '', entryFields: [], entryLinkDepth: 0 });
+            const nodes = await client.nodes.getChildren({ id: nodeId, language: '', entryFields: [], entryLinkDepth: 0 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -602,9 +602,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with minimal options and node', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getChildren({ node: { id: nodeId } as Node, language: '', entryFields: [], entryLinkDepth: 0 });
+            const nodes = await client.nodes.getChildren({ node: { id: nodeId } as Node, language: '', entryFields: [], entryLinkDepth: 0 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -616,13 +616,13 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with no options and node', async () => {
-            let client = Zengenti.Contensis.Client.create({
+            const client = Zengenti.Contensis.Client.create({
                 projectId: 'myProject',
                 rootUrl: 'http://my-website.com/',
                 accessToken: 'XXXXXX'
             });
 
-            let nodes = await client.nodes.getChildren({ node: { id: nodeId } as Node });
+            const nodes = await client.nodes.getChildren({ node: { id: nodeId } as Node });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -634,14 +634,14 @@ describe('Nodes Operations', () => {
         });
 
         it('Validate invalid node id', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             await expectAsync(client.nodes.getChildren('')).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
 
         it('Validate invalid node or options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             await expectAsync(client.nodes.getChildren({} as Node)).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
@@ -649,13 +649,13 @@ describe('Nodes Operations', () => {
     });
 
     describe('Get node parent', () => {
-        let nodeId = '9db1098f-4eb3-409b-a2dc-56256c441c69';
-        let node = { id: nodeId } as Node;
+        const nodeId = '9db1098f-4eb3-409b-a2dc-56256c441c69';
+        const node = { id: nodeId } as Node;
 
         it('Get Live Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getParent(nodeId);
+            const node = await client.nodes.getParent(nodeId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -667,9 +667,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Preview Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
 
-            let node = await client.nodes.getParent(nodeId);
+            const node = await client.nodes.getParent(nodeId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -688,9 +688,9 @@ describe('Nodes Operations', () => {
                 versionStatus: 'published',
                 accessToken: 'XXXXXX'
             });
-            let client = Zengenti.Contensis.Client.create();
+            const client = Zengenti.Contensis.Client.create();
 
-            let node = await client.nodes.getParent(nodeId);
+            const node = await client.nodes.getParent(nodeId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -702,9 +702,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with node', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getParent({
+            const node = await client.nodes.getParent({
                 id: nodeId
             } as Node);
 
@@ -718,9 +718,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with all options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getParent({ id: nodeId, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
+            const node = await client.nodes.getParent({ id: nodeId, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -732,9 +732,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with minimal options and node id', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getParent({ id: nodeId, depth: 0, language: '', entryFields: [], entryLinkDepth: 0 });
+            const node = await client.nodes.getParent({ id: nodeId, depth: 0, language: '', entryFields: [], entryLinkDepth: 0 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -746,9 +746,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with minimal options and node', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getParent({ node: { id: nodeId } as Node, depth: 0, language: '', entryFields: [], entryLinkDepth: 0 });
+            const node = await client.nodes.getParent({ node: { id: nodeId } as Node, depth: 0, language: '', entryFields: [], entryLinkDepth: 0 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -760,13 +760,13 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with no options and node', async () => {
-            let client = Zengenti.Contensis.Client.create({
+            const client = Zengenti.Contensis.Client.create({
                 projectId: 'myProject',
                 rootUrl: 'http://my-website.com/',
                 accessToken: 'XXXXXX'
             });
 
-            let parentNode = await client.nodes.getParent({ node });
+            const parentNode = await client.nodes.getParent({ node });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -778,14 +778,14 @@ describe('Nodes Operations', () => {
         });
 
         it('Validate invalid node id', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             await expectAsync(client.nodes.getParent('')).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
 
         it('Validate invalid node or options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             await expectAsync(client.nodes.getParent({} as Node)).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
@@ -793,13 +793,13 @@ describe('Nodes Operations', () => {
     });
 
     describe('Get node ancestor at level', () => {
-        let nodeId = '9db1098f-4eb3-409b-a2dc-56256c441c69';
-        let node = { id: nodeId } as Node;
+        const nodeId = '9db1098f-4eb3-409b-a2dc-56256c441c69';
+        const node = { id: nodeId } as Node;
 
         it('Get Live Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 1 });
+            const node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 1 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -811,9 +811,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Preview Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
 
-            let node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 1 });
+            const node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 1 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -832,9 +832,9 @@ describe('Nodes Operations', () => {
                 versionStatus: 'published',
                 accessToken: 'XXXXXX'
             });
-            let client = Zengenti.Contensis.Client.create();
+            const client = Zengenti.Contensis.Client.create();
 
-            let node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 1 });
+            const node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 1 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -846,9 +846,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with node', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let ancestorNode = await client.nodes.getAncestorAtLevel({ node, startLevel: 1 });
+            const ancestorNode = await client.nodes.getAncestorAtLevel({ node, startLevel: 1 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -860,9 +860,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with all options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 1, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
+            const node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 1, language: 'de', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -874,9 +874,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with minimal options and node id', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 0, depth: 0, language: '', entryFields: [], entryLinkDepth: 0 });
+            const node = await client.nodes.getAncestorAtLevel({ id: nodeId, startLevel: 0, depth: 0, language: '', entryFields: [], entryLinkDepth: 0 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -888,9 +888,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with minimal options and node', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let ancestorNode = await client.nodes.getAncestorAtLevel({ node, startLevel: 0, depth: 0, language: '', entryFields: [], entryLinkDepth: 0 });
+            const ancestorNode = await client.nodes.getAncestorAtLevel({ node, startLevel: 0, depth: 0, language: '', entryFields: [], entryLinkDepth: 0 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -902,13 +902,13 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with no options and node', async () => {
-            let client = Zengenti.Contensis.Client.create({
+            const client = Zengenti.Contensis.Client.create({
                 projectId: 'myProject',
                 rootUrl: 'http://my-website.com/',
                 accessToken: 'XXXXXX'
             });
 
-            let ancestorNode = await client.nodes.getAncestorAtLevel({ node, startLevel: 0 });
+            const ancestorNode = await client.nodes.getAncestorAtLevel({ node, startLevel: 0 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -920,14 +920,14 @@ describe('Nodes Operations', () => {
         });
 
         it('Validate invalid node id', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             await expectAsync(client.nodes.getAncestorAtLevel({ id: '', startLevel: 0 })).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
 
         it('Validate invalid node or options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             await expectAsync(client.nodes.getAncestorAtLevel({ node: {} as Node, startLevel: 0 })).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
@@ -935,13 +935,13 @@ describe('Nodes Operations', () => {
     });
 
     describe('Get node ancestors', () => {
-        let nodeId = '9db1098f-4eb3-409b-a2dc-56256c441c69';
-        let node = { id: nodeId } as Node;
+        const nodeId = '9db1098f-4eb3-409b-a2dc-56256c441c69';
+        const node = { id: nodeId } as Node;
 
         it('Get Live Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getAncestors(nodeId);
+            const nodes = await client.nodes.getAncestors(nodeId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -953,9 +953,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Preview Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
 
-            let nodes = await client.nodes.getAncestors(nodeId);
+            const nodes = await client.nodes.getAncestors(nodeId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -974,9 +974,9 @@ describe('Nodes Operations', () => {
                 versionStatus: 'published',
                 accessToken: 'XXXXXX'
             });
-            let client = Zengenti.Contensis.Client.create();
+            const client = Zengenti.Contensis.Client.create();
 
-            let nodes = await client.nodes.getAncestors(nodeId);
+            const nodes = await client.nodes.getAncestors(nodeId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -988,9 +988,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with node', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getAncestors({ node });
+            const nodes = await client.nodes.getAncestors({ node });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -1002,9 +1002,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with all options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getAncestors({ id: nodeId, startLevel: 1, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
+            const nodes = await client.nodes.getAncestors({ id: nodeId, startLevel: 1, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -1016,9 +1016,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with minimal options and node id', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getAncestors({ id: nodeId, startLevel: 0, language: '', entryFields: [], entryLinkDepth: 0 });
+            const nodes = await client.nodes.getAncestors({ id: nodeId, startLevel: 0, language: '', entryFields: [], entryLinkDepth: 0 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -1030,9 +1030,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with minimal options and node', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getAncestors({ node, startLevel: 0, language: '', entryFields: [], entryLinkDepth: 0 });
+            const nodes = await client.nodes.getAncestors({ node, startLevel: 0, language: '', entryFields: [], entryLinkDepth: 0 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -1044,13 +1044,13 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with no options and node', async () => {
-            let client = Zengenti.Contensis.Client.create({
+            const client = Zengenti.Contensis.Client.create({
                 projectId: 'myProject',
                 rootUrl: 'http://my-website.com/',
                 accessToken: 'XXXXXX'
             });
 
-            let nodes = await client.nodes.getAncestors({ node });
+            const nodes = await client.nodes.getAncestors({ node });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -1062,14 +1062,14 @@ describe('Nodes Operations', () => {
         });
 
         it('Validate invalid node id', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             await expectAsync(client.nodes.getAncestors('')).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
 
         it('Validate invalid node or options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             await expectAsync(client.nodes.getAncestors(({} as Node))).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
@@ -1077,13 +1077,13 @@ describe('Nodes Operations', () => {
     });
 
     describe('Get node siblings', () => {
-        let nodeId = '9db1098f-4eb3-409b-a2dc-56256c441c69';
-        let node = { id: nodeId } as Node;
+        const nodeId = '9db1098f-4eb3-409b-a2dc-56256c441c69';
+        const node = { id: nodeId } as Node;
 
         it('Get Live Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getSiblings(nodeId);
+            const nodes = await client.nodes.getSiblings(nodeId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -1095,9 +1095,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Preview Version', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken('latest'));
 
-            let nodes = await client.nodes.getSiblings(nodeId);
+            const nodes = await client.nodes.getSiblings(nodeId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -1116,9 +1116,9 @@ describe('Nodes Operations', () => {
                 versionStatus: 'published',
                 accessToken: 'XXXXXX'
             });
-            let client = Zengenti.Contensis.Client.create();
+            const client = Zengenti.Contensis.Client.create();
 
-            let nodes = await client.nodes.getSiblings(nodeId);
+            const nodes = await client.nodes.getSiblings(nodeId);
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -1130,9 +1130,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with node', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getSiblings({ node });
+            const nodes = await client.nodes.getSiblings({ node });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -1144,9 +1144,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with all options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getSiblings({ id: nodeId, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
+            const nodes = await client.nodes.getSiblings({ id: nodeId, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/siblings?entryFieldLinkDepths=%7B%22linkField%22%3A1%7D&entryFields=title&entryLinkDepth=1&language=de`,
@@ -1157,9 +1157,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with minimal options and node id', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getSiblings({ id: nodeId, language: '', entryFields: [], entryLinkDepth: 0 });
+            const nodes = await client.nodes.getSiblings({ id: nodeId, language: '', entryFields: [], entryLinkDepth: 0 });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -1171,9 +1171,9 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with minimal options and node', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let nodes = await client.nodes.getSiblings({ node, language: '', entryFields: [], entryLinkDepth: 0 });
+            const nodes = await client.nodes.getSiblings({ node, language: '', entryFields: [], entryLinkDepth: 0 });
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/delivery/projects/myProject/nodes/${nodeId}/siblings?language=en-US`,
@@ -1184,13 +1184,13 @@ describe('Nodes Operations', () => {
         });
 
         it('Get Live Version with no options and node', async () => {
-            let client = Zengenti.Contensis.Client.create({
+            const client = Zengenti.Contensis.Client.create({
                 projectId: 'myProject',
                 rootUrl: 'http://my-website.com/',
                 accessToken: 'XXXXXX'
             });
 
-            let nodes = await client.nodes.getSiblings({ node });
+            const nodes = await client.nodes.getSiblings({ node });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -1202,14 +1202,14 @@ describe('Nodes Operations', () => {
         });
 
         it('Validate invalid node id', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             await expectAsync(client.nodes.getSiblings('')).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);
         });
 
         it('Validate invalid node or options', async () => {
-            let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
+            const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             await expectAsync(client.nodes.getSiblings(({} as Node))).toBeRejectedWithError('A valid node id needs to be specified.');
             expect(global.fetch).toHaveBeenCalledTimes(0);

@@ -9,7 +9,7 @@ import {
     isString, UrlBuilder
 } from 'contensis-core-api';
 
-let nodeDefaultOptionsMappers = {
+const nodeDefaultOptionsMappers = {
     language: defaultMapperForLanguage,
     versionStatus: defaultMapperForPublishedVersionStatus,
     entryFields: (value: string[]) => (value && value.length > 0 ? value : null),
@@ -18,28 +18,28 @@ let nodeDefaultOptionsMappers = {
         Object.keys(value || {}).length > 0 ? JSON.stringify(value) : null,
 };
 
-let nodeDefaultWithDepthOptionsMappers = {
+const nodeDefaultWithDepthOptionsMappers = {
     ...nodeDefaultOptionsMappers,
     depth: (value: number) => (value && (value > 0)) ? value : null,
 };
 
-let nodeGetByPathOptions = {
+const nodeGetByPathOptions = {
     ...nodeDefaultWithDepthOptionsMappers,
     allowPartialMatch: (value: boolean) => (!!value) ? true : null,
 };
 
-let nodeGetByEntryOptions = {
+const nodeGetByEntryOptions = {
     ...nodeDefaultWithDepthOptionsMappers,
     canonicalOnly: (value: boolean) => value ? true : null,
     entryId: (value: string) => value ? value : null,
 };
 
-let nodeGetAncestorAtLevelOptionsMappers = {
+const nodeGetAncestorAtLevelOptionsMappers = {
     ...nodeDefaultWithDepthOptionsMappers,
     startLevel: (value: number) => (value && (value > 0)) ? value : null,
 };
 
-let nodeGetAncestorsOptionsMappers = {
+const nodeGetAncestorsOptionsMappers = {
     ...nodeDefaultOptionsMappers,
     startLevel: (value: number) => (value && (value > 0)) ? value : null,
 };
@@ -53,7 +53,7 @@ export class NodeOperations implements INodeOperations {
     }
 
     async getRoot(options?: NodeGetRootOptions): Promise<Node> {
-        let url = UrlBuilder.create(
+        const url = UrlBuilder.create(
             '/api/delivery/projects/:projectId/nodes/root',
             { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
             .addOptions(options)
@@ -75,12 +75,12 @@ export class NodeOperations implements INodeOperations {
             throw new Error(validationMessage);
         }
 
-        let isPath = (isString(idOrPathOrOptions) && (idOrPathOrOptions as string).startsWith('/'))
+        const isPath = (isString(idOrPathOrOptions) && (idOrPathOrOptions as string).startsWith('/'))
             || (!!(idOrPathOrOptions as NodeGetByPathOptions) && !!(idOrPathOrOptions as NodeGetByPathOptions).path);
 
-        let urlTemplate = isPath ? '/api/delivery/projects/:projectId/nodes:path' : '/api/delivery/projects/:projectId/nodes/:id';
+        const urlTemplate = isPath ? '/api/delivery/projects/:projectId/nodes:path' : '/api/delivery/projects/:projectId/nodes/:id';
 
-        let url = UrlBuilder.create(
+        const url = UrlBuilder.create(
             urlTemplate,
             { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null, allowPartialMatch: null })
             .addOptions(idOrPathOrOptions, isPath ? 'path' : 'id')
@@ -129,7 +129,7 @@ export class NodeOperations implements INodeOperations {
             }
         }
 
-        let url = UrlBuilder
+        const url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/',
                 { canonicalOnly: null, depth: null, entryFields: null, entryFieldLinkDepths: null, entryLinkDepth: null, entryId: null, language: null, versionStatus: null })
@@ -148,9 +148,9 @@ export class NodeOperations implements INodeOperations {
     async getChildren(idOrNodeOrOptions: string | Node | NodeGetChildrenOptions): Promise<Node[]> {
         this.validateNodeId(idOrNodeOrOptions);
 
-        let nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
+        const nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
 
-        let url = UrlBuilder
+        const url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/children',
                 { language: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
@@ -169,9 +169,9 @@ export class NodeOperations implements INodeOperations {
     async getParent(idOrNodeOrOptions: string | Node | NodeGetParentOptions): Promise<Node> {
         this.validateNodeId(idOrNodeOrOptions);
 
-        let nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
+        const nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
 
-        let url = UrlBuilder
+        const url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/parent',
                 { language: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
@@ -190,9 +190,9 @@ export class NodeOperations implements INodeOperations {
     async getAncestorAtLevel(options: NodeGetAncestorAtLevelOptions): Promise<Node> {
         this.validateNodeId(options);
 
-        let nodeId = this.getNodeIdFromOptions(options);
+        const nodeId = this.getNodeIdFromOptions(options);
 
-        let url = UrlBuilder
+        const url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/ancestors',
                 { language: null, startLevel: null, depth: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
@@ -211,9 +211,9 @@ export class NodeOperations implements INodeOperations {
     async getAncestors(idOrNodeOrOptions: string | Node | NodeGetAncestorsOptions): Promise<Node[]> {
         this.validateNodeId(idOrNodeOrOptions);
 
-        let nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
+        const nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
 
-        let url = UrlBuilder
+        const url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/ancestors',
                 { language: null, startLevel: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
@@ -232,9 +232,9 @@ export class NodeOperations implements INodeOperations {
     async getSiblings(idOrNodeOrOptions: string | Node | NodeGetSiblingOptions): Promise<Node[]> {
         this.validateNodeId(idOrNodeOrOptions);
 
-        let nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
+        const nodeId = this.getNodeIdFromOptions(idOrNodeOrOptions);
 
-        let url = UrlBuilder
+        const url = UrlBuilder
             .create(
                 '/api/delivery/projects/:projectId/nodes/:id/siblings',
                 { language: null, versionStatus: null, entryFields: null, entryLinkDepth: null, entryFieldLinkDepths: null })
