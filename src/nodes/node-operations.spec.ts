@@ -417,7 +417,7 @@ describe('Nodes Operations', () => {
         it('Get Live Version with all options and entry id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getByEntry({ entryId: entryId, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
+            let node = await client.nodes.getByEntry({ canonicalOnly: false, entryId: entryId, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -431,7 +431,7 @@ describe('Nodes Operations', () => {
         it('Get Live Version with all options and entry', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
-            let node = await client.nodes.getByEntry({ entry, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
+            let node = await client.nodes.getByEntry({ canonicalOnly: false, entry, language: 'de', entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
 
             expect(global.fetch).toHaveBeenCalled();
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
@@ -440,6 +440,8 @@ describe('Nodes Operations', () => {
             ]);
 
             expect(node).not.toBeNull();
+            // we do not have meaningful spy data to check this
+            // expect(node).toBeInstanceOf(Array);
         });
 
         it('Get Canonical Live Version with all options and entry', async () => {
@@ -454,6 +456,8 @@ describe('Nodes Operations', () => {
             ]);
 
             expect(node).not.toBeNull();
+            // we do not have meaningful spy data to check this
+            // expect(node).toBeInstanceOf(Object);
         });
 
         it('Get Live Version with minimal options and entry id', async () => {
