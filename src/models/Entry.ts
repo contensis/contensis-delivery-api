@@ -6,6 +6,7 @@ interface BaseEntryFields {
 	entryTitle: string;
 	entryDescription?: string;
 	entryThumbnail?: Image;
+	entryTags?: string[];
 }
 
 export interface Entry extends StrictEntry {

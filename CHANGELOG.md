@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.6.0] - 2024-05-26
+## [1.6.1] - 2025-07-09
+### Added
+- missing options for *getByEntry* in node operations
+- support for new field *entryTags* in *Entry* types
+
+## [1.6.0] - 2025-05-26
 ### Added
 - support for *aggregations* in entries search
 ### Fixed
@@ -37,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.3.0] - 2023-02-22
 ### Added
-- added suport to authenticate with client credentials
+- added support to authenticate with client credentials
 
 ## [1.2.1] - 2023-01-20
 ### Added

@@ -13,7 +13,7 @@
     "noImplicitAny": false,
     "noUnusedLocals": true,
     "declaration": true,
-    "outDir": "../es5",
+    "outDir": "../bundle/es5",
     "types": ["jasmine"]
   },
   "exclude": ["node_modules"],
