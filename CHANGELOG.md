@@ -6,8 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.6.2] - 2026-02-10
 ### Added
-- Date values used in query expressions have time precision set to whole minutes by default in *between*, *lessThan*, *lessThanOrEqualTo*, *greaterThan*, and *greaterThanOrEqualTo* operators
-- Added *timePrecision* argument to the above operator constructor methods
+- Added regression tests to verify that date values used in query expressions have time precision set to whole minutes by default in *between*, *lessThan*, *lessThanOrEqualTo*, *greaterThan*, and *greaterThanOrEqualTo* operators
+- Added regression tests to verify handling of the existing *timePrecision* argument in the above operator constructor methods
 
 ## [1.6.1] - 2025-07-09
 ### Added
