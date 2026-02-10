@@ -1,6 +1,7 @@
 import * as Contensis from '../index';
 import { toQuery } from 'contensis-core-api';
 import fetch from 'cross-fetch';
+import { ExpressionTimePrecisionEnum as TimePrecision } from 'contensis-core-api/lib/models/search/ExpressionTimePrecision';
 import { FreeTextSearchOperatorTypeEnum } from 'contensis-core-api/lib/models/search/FreeTextSearchOperatorType';
 import { getDefaultConfigForAccessToken, getDefaultFetchRequestForAccessToken, setDefaultSpyForAccessToken } from '../specs-utils.spec';
 const Zengenti = { Contensis };
@@ -599,6 +600,38 @@ describe('Entry Operations', function () {
                         }
                     }]),
                 fields: ['title'],
+                linkDepth: 99
+            });
+            expect(global.fetch).toHaveBeenCalled();
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
+                getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+            ]);
+        });
+        it('Do Search with truncated dates using a Query instance', async () => {
+            const { Client, Query, Op } = Contensis;
+            const client = Client.create(getDefaultConfigForAccessToken());
+            const query = new Query(Op.between('exactDate', new Date('2026-02-09'), new Date('2026-02-09T23:59:59.999'), 'exact'), Op.lessThan('truncatedSeconds', '2026-02-10T00:59:59.999+01:00'), // TimePrecision.Minutes),
+            Op.greaterThanOrEqualTo('truncatedMs', '2026-02-09T00:00:00.999', TimePrecision.Seconds), Op.greaterThan('nonDate', 6));
+            query.pageIndex = 1;
+            query.pageSize = 50;
+            await client.entries.search(query, 99);
+            const expectedQueryString = toQuery({
+                pageIndex: 1,
+                pageSize: 50,
+                where: JSON.stringify([{
+                        field: 'exactDate',
+                        between: ['2026-02-09T00:00:00.000Z', '2026-02-09T23:59:59.999Z']
+                    }, {
+                        field: 'truncatedSeconds',
+                        lessThan: '2026-02-09T23:59:00.000Z'
+                    }, {
+                        field: 'truncatedMs',
+                        greaterThanOrEqualTo: '2026-02-09T00:00:00.000Z'
+                    }, {
+                        field: 'nonDate',
+                        greaterThan: 6
+                    }]),
                 linkDepth: 99
             });
             expect(global.fetch).toHaveBeenCalled();
