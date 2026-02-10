@@ -723,6 +723,7 @@ describe('Entry Operations', function () {
 				Op.between('exactDate', new Date('2026-02-09'), new Date('2026-02-09T23:59:59.999'), 'exact'),
 				Op.lessThan('truncatedSeconds', '2026-02-10T00:59:59.999+01:00'), // TimePrecision.Minutes),
 				Op.greaterThanOrEqualTo('truncatedMs', '2026-02-09T00:00:00.999', TimePrecision.Seconds),
+				Op.greaterThan('nonDate', 6)
 			);
 			query.pageIndex = 1;
 			query.pageSize = 50;
@@ -740,6 +741,9 @@ describe('Entry Operations', function () {
 				}, {
 					field: 'truncatedMs',
 					greaterThanOrEqualTo: '2026-02-09T00:00:00.000Z'
+				}, {
+					field: 'nonDate',
+					greaterThan: 6
 				}]),
 				linkDepth: 99
 			});
