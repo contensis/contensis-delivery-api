@@ -350,41 +350,41 @@ If `rootUrl` is empty (relative URL mode), there's no hostname to rewrite. The f
 
 ## Acceptance Criteria
 
-- [ ] When `API_IP_LIST` env var is set with matching hostname, API requests route to the highest-priority healthy IP
-- [ ] `Config.ipList` takes precedence over env var when set
-- [ ] `Config.ipList: []` explicitly disables the feature
-- [ ] Env var format is `hostname|ip1,ip2,ip3` — hostname is validated against `rootUrl`
-- [ ] Mismatched hostname logs a warning and disables the feature (no silent misrouting)
-- [ ] Each IP is validated with `net.isIP()` — non-IP values are rejected with a warning (both env var and Config.ipList paths)
-- [ ] Cloud metadata IP `169.254.169.254` is explicitly rejected
-- [ ] IP list capped at 10 entries with a warning if exceeded
-- [ ] Host header is validated for control characters including DEL (no CRLF injection)
-- [ ] `Host` header is set to the original hostname from `rootUrl`
-- [ ] HTTPS works via cached `https.Agent` per IP with `servername` for SNI and `keepAlive: true`
-- [ ] `rejectUnauthorized` is never set to `false`
-- [ ] IP state tracks consecutive failures with cooldown — unhealthy after 3 failures, retryable after 30s
-- [ ] On request failure, exactly one fallback IP is tried before throwing
-- [ ] When all IPs are unhealthy, requests fall back to normal DNS (CDN) with a `console.warn`
-- [ ] When `API_IP_LIST` is not set and `Config.ipList` is not set, zero behavioural change
-- [ ] Feature does not activate in browser environments
-- [ ] Health checks run every 10 seconds per IP with 5s timeout, in parallel
-- [ ] Health checks use correct Host header and https.Agent (same as real requests)
-- [ ] Health checks only check HTTP 200 status — response body is not parsed
-- [ ] IPs start unhealthy; first health check cycle runs immediately at startup
-- [ ] Health check timers use `unref()` to not block Node.js process shutdown
-- [ ] `Client.destroy()` decrements ref count; last client stops timers and destroys agents
-- [ ] `destroy()` is on `Client` class only, NOT on `ContensisClient` interface
-- [ ] IP health state is shared across Client instances, keyed by hostname + normalised IP list
-- [ ] Auth requests (`/authenticate/connect/token`) also route through direct IPs
-- [ ] Health checks use a 5s timeout via AbortController
-- [ ] Real API requests have NO additional timeout — caller's signal passes through unchanged
-- [ ] URL rewriting uses cached hostname + string replacement (no `new URL()` per request)
-- [ ] `https` and `net` module imports use conditional `require()` — do not break the webpack browser bundle
-- [ ] Malformed `API_IP_LIST` (empty entries, whitespace, missing pipe) is handled gracefully
-- [ ] Relative URLs (no `rootUrl`) bypass IP routing
-- [ ] Caller's AbortSignal passes through to real API requests unchanged
-- [ ] Auth credential forwarding over IP-routed path is documented with code comment
-- [ ] Unit tests cover: state transitions, IP selection, URL rewriting, hostname validation, IP validation (including metadata IP), failover, CDN fallback, health checking, timeout, browser guard, Config.ipList override and disable
+- [x] When `API_IP_LIST` env var is set with matching hostname, API requests route to the highest-priority healthy IP
+- [x] `Config.ipList` takes precedence over env var when set
+- [x] `Config.ipList: []` explicitly disables the feature
+- [x] Env var format is `hostname|ip1,ip2,ip3` — hostname is validated against `rootUrl`
+- [x] Mismatched hostname logs a warning and disables the feature (no silent misrouting)
+- [x] Each IP is validated with `net.isIP()` — non-IP values are rejected with a warning (both env var and Config.ipList paths)
+- [x] Cloud metadata IP `169.254.169.254` is explicitly rejected
+- [x] IP list capped at 10 entries with a warning if exceeded
+- [x] Host header is validated for control characters including DEL (no CRLF injection)
+- [x] `Host` header is set to the original hostname from `rootUrl`
+- [x] HTTPS works via cached `https.Agent` per IP with `servername` for SNI and `keepAlive: true`
+- [x] `rejectUnauthorized` is never set to `false`
+- [x] IP state tracks consecutive failures with cooldown — unhealthy after 3 failures, retryable after 30s
+- [x] On request failure, exactly one fallback IP is tried before throwing
+- [x] When all IPs are unhealthy, requests fall back to normal DNS (CDN) with a `console.warn`
+- [x] When `API_IP_LIST` is not set and `Config.ipList` is not set, zero behavioural change
+- [x] Feature does not activate in browser environments
+- [x] Health checks run every 10 seconds per IP with 5s timeout, in parallel
+- [x] Health checks use correct Host header and https.Agent (same as real requests)
+- [x] Health checks only check HTTP 200 status — response body is not parsed
+- [x] IPs start unhealthy; first health check cycle runs immediately at startup
+- [x] Health check timers use `unref()` to not block Node.js process shutdown
+- [x] `Client.destroy()` decrements ref count; last client stops timers and destroys agents
+- [x] `destroy()` is on `Client` class only, NOT on `ContensisClient` interface
+- [x] IP health state is shared across Client instances, keyed by hostname + normalised IP list
+- [x] Auth requests (`/authenticate/connect/token`) also route through direct IPs
+- [x] Health checks use a 5s timeout via AbortController
+- [x] Real API requests have NO additional timeout — caller's signal passes through unchanged
+- [x] URL rewriting uses cached hostname + string replacement (no `new URL()` per request)
+- [x] `https` and `net` module imports use conditional `require()` — do not break the webpack browser bundle
+- [x] Malformed `API_IP_LIST` (empty entries, whitespace, missing pipe) is handled gracefully
+- [x] Relative URLs (no `rootUrl`) bypass IP routing
+- [x] Caller's AbortSignal passes through to real API requests unchanged
+- [x] Auth credential forwarding over IP-routed path is documented with code comment
+- [x] Unit tests cover: state transitions, IP selection, URL rewriting, hostname validation, IP validation (including metadata IP), failover, CDN fallback, health checking, timeout, browser guard, Config.ipList override and disable
 
 ## Success Metrics
 
