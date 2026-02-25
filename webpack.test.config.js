@@ -8,7 +8,11 @@ module.exports = {
 	devtool: 'eval-source-map',
 
 	resolve: {
-		extensions: ['.ts', '.js']
+		extensions: ['.ts', '.js'],
+		fallback: {
+			'https': false,
+			'net': false
+		}
 	},
 
 	module: {

@@ -1,4 +1,5 @@
 require('../src/client/client.spec');
+require('../src/client/direct-ip-fetch.spec');
 require('../src/content-types/content-type-operations.spec');
 require('../src/entries/entry-operations.spec');
 require('../src/entries/link-resolver.spec');

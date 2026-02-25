@@ -29,7 +29,11 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.ts', '.js']
+        extensions: ['.ts', '.js'],
+        fallback: {
+            'https': false,
+            'net': false
+        }
     },
     plugins: [
         // new webpack.optimize.UglifyJsPlugin({

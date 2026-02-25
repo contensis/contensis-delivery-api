@@ -11,6 +11,10 @@ import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
 import { ClientParams, HttpClient, IHttpClient, ContensisAuthenticationError, ContensisApplicationError, ContensisClassicGrant, ClientCredentialsGrant, ContensisClassicRefreshTokenGrant } from 'contensis-core-api';
 import * as Scopes from './scopes';
+import { createDirectIpFetch, DirectIpState } from './direct-ip-fetch';
+
+// eslint-disable-next-line no-var
+declare var process: { env?: { [key: string]: string | undefined } };
 
 import fetch from 'cross-fetch';
 
@@ -37,6 +41,7 @@ export class Client implements ContensisClient {
 	refreshTokenExpiryDate?: Date;
 
 	private httpClient: IHttpClient;
+	private _directIpState: DirectIpState;
 
 	// @ts-ignore
 	private contensisClassicToken: string;
@@ -52,6 +57,28 @@ export class Client implements ContensisClient {
 	constructor(config: Config = null) {
 		this.clientConfig = new ClientConfig(config, Client.defaultClientConfig);
 		this.fetchFn = !this.clientConfig.fetchFn ? defaultFetch : this.clientConfig.fetchFn;
+
+		// Wrap fetchFn for direct IP routing when configured.
+		// Config.ipList takes precedence over env var.
+		// ClientConfig.getValue() returns null for unset fields, so use
+		// loose equality (!= null) to distinguish "not set" from "set to []".
+		const configIpList = this.clientConfig.ipList;
+		const ipListSource = configIpList != null
+			? configIpList
+			: (typeof process !== 'undefined'
+				? process.env?.API_IP_LIST
+				: undefined);
+
+		if (ipListSource && (typeof ipListSource === 'string' || ipListSource.length > 0) && this.clientConfig.rootUrl) {
+			const result = createDirectIpFetch(
+				this.fetchFn,
+				ipListSource,
+				this.clientConfig.rootUrl
+			);
+			this.fetchFn = result.fetch;
+			this._directIpState = result.state;
+		}
+
 		this.httpClient = new HttpClient(this, this.fetchFn);
 
 		this.entries = new EntryOperations(this.httpClient, this);
@@ -59,6 +86,13 @@ export class Client implements ContensisClient {
 		this.contentTypes = new ContentTypeOperations(this.httpClient, this);
 		this.nodes = new NodeOperations(this.httpClient, this);
 		this.taxonomy = new TaxonomyOperations(this.httpClient, this);
+	}
+
+	public destroy(): void {
+		if (this._directIpState) {
+			this._directIpState.release();
+			this._directIpState = null;
+		}
 	}
 
 	public getParams(): ClientParams {
