@@ -518,11 +518,11 @@ describe('Direct IP Fetch', () => {
 			expect(otherCall.url).toBe('https://other-site.com/api/something');
 		});
 
-		it('should fall back to CDN when all IPs are unhealthy', async () => {
+		it('should fall back to DNS when all IPs are unhealthy', async () => {
 			spyOn(console, 'warn');
 			const innerFetch = createMockFetch([
 				{ status: 200, ok: true },  // health check
-				{ status: 200, ok: true },  // CDN fallback
+				{ status: 200, ok: true },  // DNS fallback
 			]);
 			const result = createDirectIpFetch(
 				innerFetch,
@@ -537,12 +537,12 @@ describe('Direct IP Fetch', () => {
 
 			await result.fetch('https://cms.example.com/api/test');
 
-			// Should have warned about CDN fallback
+			// Should have warned about DNS fallback
 			expect(console.warn).toHaveBeenCalledWith(
-				jasmine.stringContaining('falling back to CDN')
+				jasmine.stringContaining('falling back to DNS')
 			);
 
-			// The last call should be the original URL (CDN)
+			// The last call should be the original URL (DNS fallback)
 			const lastCall = innerFetch.calls[innerFetch.calls.length - 1];
 			expect(lastCall.url).toBe('https://cms.example.com/api/test');
 		});
@@ -599,14 +599,14 @@ describe('Direct IP Fetch', () => {
 			expect(response.status).toBe(200);
 		});
 
-		it('should fall back to CDN when all IPs fail', async () => {
+		it('should fall back to DNS when all IPs fail', async () => {
 			spyOn(console, 'warn');
 			const innerFetch = createMockFetch([
 				{ status: 200, ok: true },  // health checks
 				{ status: 200, ok: true },
 				new Error('ECONNREFUSED'),  // first IP
 				new Error('ECONNREFUSED'),  // second IP
-				{ status: 200, ok: true },  // CDN fallback
+				{ status: 200, ok: true },  // DNS fallback
 			]);
 			const result = createDirectIpFetch(
 				innerFetch,
@@ -622,7 +622,7 @@ describe('Direct IP Fetch', () => {
 
 			expect(response.status).toBe(200);
 			expect(console.warn).toHaveBeenCalledWith(
-				jasmine.stringContaining('falling back to CDN')
+				jasmine.stringContaining('falling back to DNS')
 			);
 		});
 

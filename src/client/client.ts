@@ -11,7 +11,7 @@ import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
 import { ClientParams, HttpClient, IHttpClient, ContensisAuthenticationError, ContensisApplicationError, ContensisClassicGrant, ClientCredentialsGrant, ContensisClassicRefreshTokenGrant } from 'contensis-core-api';
 import * as Scopes from './scopes';
-import { createDirectIpFetch, DirectIpState } from './direct-ip-fetch';
+import { createDirectIpFetch, DirectIpState, selectIp, isHealthy } from './direct-ip-fetch';
 
 // eslint-disable-next-line no-var
 declare var process: { env?: { [key: string]: string | undefined } };
@@ -86,6 +86,17 @@ export class Client implements ContensisClient {
 		this.contentTypes = new ContentTypeOperations(this.httpClient, this);
 		this.nodes = new NodeOperations(this.httpClient, this);
 		this.taxonomy = new TaxonomyOperations(this.httpClient, this);
+	}
+
+	public getDirectIpStatus(): { current: string | null, ips: { ip: string, healthy: boolean }[] } | null {
+		if (!this._directIpState) return null;
+		return {
+			current: selectIp(this._directIpState.ipList, this._directIpState.ipStates),
+			ips: this._directIpState.ipList.map(ip => ({
+				ip,
+				healthy: isHealthy(this._directIpState.ipStates.get(ip)),
+			})),
+		};
 	}
 
 	public destroy(): void {

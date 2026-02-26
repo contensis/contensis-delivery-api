@@ -15,6 +15,7 @@ export declare class Client implements ContensisClient {
     refreshToken?: string;
     refreshTokenExpiryDate?: Date;
     private httpClient;
+    private _directIpState;
     private contensisClassicToken;
     static create(config?: Config): Client;
     static configure(config: Config): void;
@@ -23,6 +24,14 @@ export declare class Client implements ContensisClient {
     getHeaders(contentType?: string): {
         [key: string]: string;
     };
+    getDirectIpStatus(): {
+        current: string | null;
+        ips: {
+            ip: string;
+            healthy: boolean;
+        }[];
+    } | null;
+    destroy(): void;
     isBearerTokenExpired(): boolean;
     isRefreshTokenExpired(): boolean;
     ensureIsAuthorized(): Promise<string>;

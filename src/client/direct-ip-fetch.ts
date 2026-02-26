@@ -1,5 +1,5 @@
 // Direct IP routing with health-checked failover
-// Bypasses CDN by routing requests directly to origin server IPs
+// Bypasses DNS/hostname routing by sending requests directly to origin server IPs
 // Activated via API_IP_LIST env var or Config.ipList
 
 // eslint-disable-next-line no-var
@@ -364,9 +364,9 @@ export function createDirectIpFetch(
 
 		const selectedIp = selectIp(capturedState.ipList, capturedState.ipStates);
 
-		// All IPs unhealthy → CDN fallback
+		// All IPs unhealthy → DNS fallback
 		if (!selectedIp) {
-			console.warn(`All direct IPs unhealthy — falling back to CDN for: ${capturedState.hostname}`);
+			console.warn(`All direct IPs unhealthy — falling back to DNS for: ${capturedState.hostname}`);
 			return innerFetch(url, init);
 		}
 
@@ -455,8 +455,8 @@ async function tryFallback(
 		}
 	}
 
-	// All IPs failed — CDN fallback
-	console.warn(`All direct IPs unhealthy — falling back to CDN for: ${state.hostname}`);
+	// All IPs failed — DNS fallback
+	console.warn(`All direct IPs unhealthy — falling back to DNS for: ${state.hostname}`);
 	return innerFetch(originalUrl, init);
 }
 
