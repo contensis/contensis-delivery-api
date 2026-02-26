@@ -1372,6 +1372,7 @@ interface Config {
     pageSize?: number;
     responseHandler?: ResponseHandler;
     fetchFn?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+    ipList?: string[];
 }
 
 interface ContensisClient extends IParamsProvider {
@@ -1384,6 +1385,13 @@ interface ContensisClient extends IParamsProvider {
         [key: string]: string;
     };
     ensureIsAuthorized: () => Promise<string>;
+    getDirectIpStatus: () => {
+        current: string | null;
+        ips: {
+            ip: string;
+            healthy: boolean;
+        }[];
+    } | null;
 }
 
 interface ContensisStatic {

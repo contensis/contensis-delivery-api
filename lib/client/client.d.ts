@@ -20,10 +20,6 @@ export declare class Client implements ContensisClient {
     static create(config?: Config): Client;
     static configure(config: Config): void;
     constructor(config?: Config);
-    getParams(): ClientParams;
-    getHeaders(contentType?: string): {
-        [key: string]: string;
-    };
     getDirectIpStatus(): {
         current: string | null;
         ips: {
@@ -32,6 +28,10 @@ export declare class Client implements ContensisClient {
         }[];
     } | null;
     destroy(): void;
+    getParams(): ClientParams;
+    getHeaders(contentType?: string): {
+        [key: string]: string;
+    };
     isBearerTokenExpired(): boolean;
     isRefreshTokenExpired(): boolean;
     ensureIsAuthorized(): Promise<string>;

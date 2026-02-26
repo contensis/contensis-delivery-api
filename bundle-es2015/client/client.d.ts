@@ -15,10 +15,19 @@ export declare class Client implements ContensisClient {
     refreshToken?: string;
     refreshTokenExpiryDate?: Date;
     private httpClient;
+    private _directIpState;
     private contensisClassicToken;
     static create(config?: Config): Client;
     static configure(config: Config): void;
     constructor(config?: Config);
+    getDirectIpStatus(): {
+        current: string | null;
+        ips: {
+            ip: string;
+            healthy: boolean;
+        }[];
+    } | null;
+    destroy(): void;
     getParams(): ClientParams;
     getHeaders(contentType?: string): {
         [key: string]: string;

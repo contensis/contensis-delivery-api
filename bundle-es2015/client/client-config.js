@@ -12,6 +12,7 @@ export class ClientConfig {
     pageSize = 25;
     responseHandler = null;
     fetchFn = null;
+    ipList = null;
     constructor(currentConfig, previousConfig) {
         this.currentConfig = currentConfig;
         this.previousConfig = previousConfig;
@@ -26,6 +27,7 @@ export class ClientConfig {
         this.pageSize = this.getValue((c) => c.pageSize);
         this.responseHandler = this.getValue((c) => c.responseHandler);
         this.fetchFn = this.getValue((c) => c.fetchFn);
+        this.ipList = this.getValue((c) => c.ipList);
         while (this.rootUrl && this.rootUrl.substr(this.rootUrl.length - 1, 1) === '/') {
             this.rootUrl = this.rootUrl.substr(0, this.rootUrl.length - 1);
         }

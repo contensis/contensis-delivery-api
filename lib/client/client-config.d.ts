@@ -16,6 +16,7 @@ export declare class ClientConfig implements Config {
     pageSize: number;
     responseHandler: ResponseHandler;
     fetchFn: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+    ipList: string[];
     constructor(currentConfig: Config, previousConfig: Config);
     toParams(): ClientParams;
     private getValue;

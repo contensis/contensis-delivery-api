@@ -14,4 +14,11 @@ export interface ContensisClient extends IParamsProvider {
         [key: string]: string;
     };
     ensureIsAuthorized: () => Promise<string>;
+    getDirectIpStatus: () => {
+        current: string | null;
+        ips: {
+            ip: string;
+            healthy: boolean;
+        }[];
+    } | null;
 }

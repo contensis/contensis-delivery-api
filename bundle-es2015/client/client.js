@@ -6,6 +6,7 @@ import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
 import { HttpClient, ContensisAuthenticationError, ContensisApplicationError } from 'contensis-core-api';
 import * as Scopes from './scopes';
+import { createDirectIpFetch, selectIp, isHealthy } from './direct-ip-fetch';
 import fetch from 'cross-fetch';
 const browserGlobal = typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : null;
 const defaultFetch = browserGlobal ? browserGlobal.fetch.bind(browserGlobal) : fetch;
@@ -24,6 +25,7 @@ export class Client {
     refreshToken;
     refreshTokenExpiryDate;
     httpClient;
+    _directIpState;
     // @ts-ignore
     contensisClassicToken;
     static create(config = null) {
@@ -35,12 +37,44 @@ export class Client {
     constructor(config = null) {
         this.clientConfig = new ClientConfig(config, Client.defaultClientConfig);
         this.fetchFn = !this.clientConfig.fetchFn ? defaultFetch : this.clientConfig.fetchFn;
+        // Wrap fetchFn for direct IP routing when configured.
+        // Config.ipList takes precedence over env var.
+        // ClientConfig.getValue() returns null for unset fields, so use
+        // loose equality (!= null) to distinguish "not set" from "set to []".
+        const configIpList = this.clientConfig.ipList;
+        const ipListSource = configIpList != null
+            ? configIpList
+            : (typeof process !== 'undefined'
+                ? process.env?.API_IP_LIST
+                : undefined);
+        if (ipListSource && (typeof ipListSource === 'string' || ipListSource.length > 0) && this.clientConfig.rootUrl) {
+            const result = createDirectIpFetch(this.fetchFn, ipListSource, this.clientConfig.rootUrl);
+            this.fetchFn = result.fetch;
+            this._directIpState = result.state;
+        }
         this.httpClient = new HttpClient(this, this.fetchFn);
         this.entries = new EntryOperations(this.httpClient, this);
         this.project = new ProjectOperations(this.httpClient, this);
         this.contentTypes = new ContentTypeOperations(this.httpClient, this);
         this.nodes = new NodeOperations(this.httpClient, this);
         this.taxonomy = new TaxonomyOperations(this.httpClient, this);
+    }
+    getDirectIpStatus() {
+        if (!this._directIpState)
+            return null;
+        return {
+            current: selectIp(this._directIpState.ipList, this._directIpState.ipStates),
+            ips: this._directIpState.ipList.map(ip => ({
+                ip,
+                healthy: isHealthy(this._directIpState.ipStates.get(ip)),
+            })),
+        };
+    }
+    destroy() {
+        if (this._directIpState) {
+            this._directIpState.release();
+            this._directIpState = null;
+        }
     }
     getParams() {
         return this.clientConfig.toParams();
