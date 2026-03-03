@@ -17,7 +17,8 @@
     "build:esnext": "npx tsc -p src/tsconfig-esnext.json && npm run lint",
     "build:contensis": "rimraf -g bundle/* && webpack --progress && node build/create-contensis-dts.js && rimraf bundle/es5",
     "build:npm": "npx tsc -p src/tsconfig-npm.json && npm run lint",
-    "all": "npm run build:esnext && npm run test && npm run build:npm && npm run test:npm && npm run build:contensis"
+    "all": "npm run build:esnext && npm run test && npm run build:npm && npm run test:npm && npm run build:contensis",
+    "test:ip-failover": "node test-ip-failover/index.js"
   },
   "repository": {
     "type": "git",
