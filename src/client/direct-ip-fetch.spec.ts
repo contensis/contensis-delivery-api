@@ -475,7 +475,6 @@ describe('Direct IP Fetch', () => {
 
 		it('should rewrite URL to use IP and set Host header', async () => {
 			const innerFetch = createMockFetch([
-				{ status: 200, ok: true },  // health check
 				{ status: 200, ok: true },  // actual request
 			]);
 			const result = createDirectIpFetch(
@@ -499,7 +498,6 @@ describe('Direct IP Fetch', () => {
 
 		it('should pass through non-matching URLs unchanged', async () => {
 			const innerFetch = createMockFetch([
-				{ status: 200, ok: true },  // health check
 				{ status: 200, ok: true },  // actual request
 			]);
 			const result = createDirectIpFetch(
@@ -521,7 +519,6 @@ describe('Direct IP Fetch', () => {
 		it('should fall back to DNS when all IPs are unhealthy', async () => {
 			spyOn(console, 'warn');
 			const innerFetch = createMockFetch([
-				{ status: 200, ok: true },  // health check
 				{ status: 200, ok: true },  // DNS fallback
 			]);
 			const result = createDirectIpFetch(
@@ -549,8 +546,6 @@ describe('Direct IP Fetch', () => {
 
 		it('should try fallback IP on network error', async () => {
 			const responses: Array<{ status: number; ok: boolean } | Error> = [
-				{ status: 200, ok: true },  // health check for ip1
-				{ status: 200, ok: true },  // health check for ip2
 				new Error('ECONNREFUSED'),  // first IP fails
 				{ status: 200, ok: true },  // fallback IP succeeds
 			];
@@ -579,8 +574,6 @@ describe('Direct IP Fetch', () => {
 
 		it('should try fallback IP on 502/503/504', async () => {
 			const innerFetch = createMockFetch([
-				{ status: 200, ok: true },  // health checks
-				{ status: 200, ok: true },
 				{ status: 503, ok: false }, // first IP returns 503
 				{ status: 200, ok: true },  // fallback IP succeeds
 			]);
@@ -602,8 +595,6 @@ describe('Direct IP Fetch', () => {
 		it('should fall back to DNS when all IPs fail', async () => {
 			spyOn(console, 'warn');
 			const innerFetch = createMockFetch([
-				{ status: 200, ok: true },  // health checks
-				{ status: 200, ok: true },
 				new Error('ECONNREFUSED'),  // first IP
 				new Error('ECONNREFUSED'),  // second IP
 				{ status: 200, ok: true },  // DNS fallback
@@ -628,7 +619,6 @@ describe('Direct IP Fetch', () => {
 
 		it('should not add extra timeout to real requests', async () => {
 			const innerFetch = createMockFetch([
-				{ status: 200, ok: true },  // health check
 				{ status: 200, ok: true },  // actual request
 			]);
 			const result = createDirectIpFetch(
@@ -650,7 +640,6 @@ describe('Direct IP Fetch', () => {
 
 		it('should preserve caller AbortSignal on real requests', async () => {
 			const innerFetch = createMockFetch([
-				{ status: 200, ok: true },  // health check
 				{ status: 200, ok: true },  // actual request
 			]);
 			const result = createDirectIpFetch(
@@ -672,7 +661,6 @@ describe('Direct IP Fetch', () => {
 
 		it('should record success on successful IP response', async () => {
 			const innerFetch = createMockFetch([
-				{ status: 200, ok: true },  // health check
 				{ status: 200, ok: true },  // actual request
 			]);
 			const result = createDirectIpFetch(
@@ -693,7 +681,6 @@ describe('Direct IP Fetch', () => {
 
 		it('should not count 404 as failure', async () => {
 			const innerFetch = createMockFetch([
-				{ status: 200, ok: true },  // health check
 				{ status: 404, ok: false }, // actual request - client error
 			]);
 			const result = createDirectIpFetch(
@@ -713,7 +700,6 @@ describe('Direct IP Fetch', () => {
 
 		it('should not count 500 as infra failure', async () => {
 			const innerFetch = createMockFetch([
-				{ status: 200, ok: true },  // health check
 				{ status: 500, ok: false }, // actual request - app error
 			]);
 			const result = createDirectIpFetch(
@@ -733,7 +719,6 @@ describe('Direct IP Fetch', () => {
 
 		it('should handle URL with port correctly', async () => {
 			const innerFetch = createMockFetch([
-				{ status: 200, ok: true },  // health check
 				{ status: 200, ok: true },  // actual request
 			]);
 			const result = createDirectIpFetch(
@@ -754,7 +739,6 @@ describe('Direct IP Fetch', () => {
 
 		it('should preserve query parameters during URL rewrite', async () => {
 			const innerFetch = createMockFetch([
-				{ status: 200, ok: true },  // health check
 				{ status: 200, ok: true },  // actual request
 			]);
 			const result = createDirectIpFetch(
@@ -775,7 +759,6 @@ describe('Direct IP Fetch', () => {
 
 		it('should attach https agent when available', async () => {
 			const innerFetch = createMockFetch([
-				{ status: 200, ok: true },  // health check
 				{ status: 200, ok: true },  // actual request
 			]);
 			const result = createDirectIpFetch(

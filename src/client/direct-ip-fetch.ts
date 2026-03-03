@@ -10,7 +10,6 @@ const FAILURE_THRESHOLD = 3;
 const COOLDOWN_MS = 30_000;
 const HEALTH_CHECK_INTERVAL_MS = 10_000;
 const HEALTH_CHECK_TIMEOUT_MS = 5_000;
-const HEALTH_ENDPOINT = '/health';
 const MAX_IP_COUNT = 10;
 
 type FetchFn = (input: RequestInfo, init?: RequestInit) => Promise<Response>;
@@ -33,6 +32,11 @@ export interface DirectIpState {
 export interface DirectIpFetchResult {
 	fetch: FetchFn;
 	state: DirectIpState | null;
+}
+
+export interface HealthCheckConfig {
+	projectId: string;
+	accessToken?: string;
 }
 
 // Dependencies that can be injected for testing
@@ -190,22 +194,34 @@ function normaliseKey(hostname: string, ips: string[]): string {
 	return hostname + '|' + ips.slice().sort().join(',');
 }
 
+function buildHealthEndpoint(healthCheck: HealthCheckConfig): string {
+	return `/api/delivery/projects/${encodeURIComponent(healthCheck.projectId)}/contentTypes/image/entries?pageSize=1`;
+}
+
 async function checkHealth(
 	ip: string,
 	fetchFn: FetchFn,
 	hostname: string,
-	agent: any
+	agent: any,
+	healthCheck?: HealthCheckConfig
 ): Promise<boolean> {
+	if (!healthCheck || !healthCheck.projectId) return false;
+
 	const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
 	const timeout = controller
 		? setTimeout(() => controller.abort(), HEALTH_CHECK_TIMEOUT_MS)
 		: null;
 
 	try {
-		const url = `https://${ip}${HEALTH_ENDPOINT}`;
+		const endpoint = buildHealthEndpoint(healthCheck);
+		const url = `https://${ip}${endpoint}`;
+		const headers: Record<string, string> = { Host: hostname };
+		if (healthCheck.accessToken) {
+			headers.accessToken = healthCheck.accessToken;
+		}
 		const init: any = {
 			method: 'GET',
-			headers: { Host: hostname },
+			headers,
 		};
 		if (agent) init.agent = agent;
 		if (controller) init.signal = controller.signal;
@@ -222,12 +238,13 @@ async function checkHealth(
 function startHealthChecks(
 	state: DirectIpState,
 	fetchFn: FetchFn,
-	httpsMod: any
+	httpsMod: any,
+	healthCheck?: HealthCheckConfig
 ): void {
 	const runChecks = async () => {
 		const checks = state.ipList.map(async (ip) => {
 			const agent = getAgent(ip, state.hostname, state.agents, httpsMod);
-			const healthy = await checkHealth(ip, fetchFn, state.hostname, agent);
+			const healthy = await checkHealth(ip, fetchFn, state.hostname, agent, healthCheck);
 			if (healthy) {
 				state.ipStates.set(ip, recordSuccess());
 			} else {
@@ -268,7 +285,8 @@ export function createDirectIpFetch(
 	innerFetch: FetchFn,
 	ipListSource: string | string[],
 	rootUrl: string,
-	deps?: DirectIpDeps
+	deps?: DirectIpDeps,
+	healthCheck?: HealthCheckConfig
 ): DirectIpFetchResult {
 	const httpsMod = deps?.httpsModule ?? _httpsModule;
 	const netMod = deps?.netModule ?? _netModule;
@@ -339,7 +357,7 @@ export function createDirectIpFetch(
 		registries.set(key, state);
 
 		// Start health checks
-		startHealthChecks(state, innerFetch, httpsMod);
+		startHealthChecks(state, innerFetch, httpsMod, healthCheck);
 	}
 
 	// Pre-compute origin for URL rewriting

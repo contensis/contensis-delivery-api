@@ -73,7 +73,12 @@ export class Client implements ContensisClient {
 			const result = createDirectIpFetch(
 				this.fetchFn,
 				ipListSource,
-				this.clientConfig.rootUrl
+				this.clientConfig.rootUrl,
+				undefined,
+				{
+					projectId: this.clientConfig.projectId,
+					accessToken: this.clientConfig.accessToken,
+				}
 			);
 			this.fetchFn = result.fetch;
 			this._directIpState = result.state;
