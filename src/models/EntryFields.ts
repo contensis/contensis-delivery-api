@@ -1,8 +1,19 @@
 import { EntryAsset } from './Entry';
 
+/**
+ * Normalised focal point of an image asset, relative to the original asset
+ * (independent of any field transformation). `{0,0}` is top-left, `{1,1}` is
+ * bottom-right, `{0.5,0.5}` is the centre.
+ */
+export interface FocalPoint {
+    x: number;
+    y: number;
+}
+
 export interface Asset extends EntryAsset {
     altText?: string;
     description?: string;
+    focalPoint?: FocalPoint | null;
     keywords?: string[];
     thumbnail?: string;
     title: string;
