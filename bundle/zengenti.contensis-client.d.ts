@@ -153,14 +153,14 @@ interface IExpression {
 {"version":3,"file":"IExpression.js","sourceRoot":"","sources":["../../../src/models/search/IExpression.ts"],"names":[],"mappings":""}
 interface ILogicalExpression extends IExpression {
     getItem(index: number): IExpression;
-    setItem(index: number, item: IExpression): void;
-    add(item: IExpression): void;
-    addRange(items: IExpression[]): void;
+    setItem(index: number, item: IExpression): this;
+    add(item: IExpression): this;
+    addRange(items: IExpression[]): this;
     indexOf(item: IExpression): number;
-    insert(index: number, item: IExpression): void;
+    insert(index: number, item: IExpression): this;
     remove(item: IExpression): boolean;
-    removeAt(index: number): void;
-    clear(): void;
+    removeAt(index: number): this;
+    clear(): this;
     contains(item: IExpression): boolean;
     count(): number;
 }
@@ -322,14 +322,14 @@ declare abstract class ExpressionBase implements IExpression {
 declare abstract class LogicalExpression extends ExpressionBase implements ILogicalExpression {
     constructor(values: any[], operatorName: OperatorType, valueType: ExpressionValueType);
     getItem(index: number): IExpression;
-    setItem(index: number, item: IExpression): WhereExpression;
-    add(item: IExpression): WhereExpression;
-    addRange(items: IExpression[]): WhereExpression;
+    setItem(index: number, item: IExpression): this;
+    add(item: IExpression): this;
+    addRange(items: IExpression[]): this;
     indexOf(item: IExpression): number;
-    insert(index: number, item: IExpression): WhereExpression;
+    insert(index: number, item: IExpression): this;
     remove(item: IExpression): boolean;
-    removeAt(index: number): WhereExpression;
-    clear(): WhereExpression;
+    removeAt(index: number): this;
+    clear(): this;
     contains(item: IExpression): boolean;
     count(): number;
 }
@@ -947,6 +947,7 @@ interface ContentType extends ContentTypeBase<'entry' | 'asset'> {
     defaultLanguage?: string;
     entryTitleField?: string;
     entryDescriptionField?: string;
+    entryThumbnailField?: string;
     supportedLanguages?: string[];
     workflowId?: string;
     previewUrl?: string;
@@ -1174,15 +1175,25 @@ interface UrlFn {
 //# sourceMappingURL=UrlFn.js.map
 {"version":3,"file":"UrlFn.js","sourceRoot":"","sources":["../../src/models/UrlFn.ts"],"names":[],"mappings":""}
 type ValidationMessage = {
-    message?: LocalisedString;
+    message?: LocalisedString | null;
 };
 type ValidationMessageAndValue<T> = ValidationMessage & {
     value: T;
 };
+interface ImageDimensions {
+    minWidth?: number;
+    maxWidth?: number;
+    minHeight?: number;
+    maxHeight?: number;
+}
 interface LabeledValue {
     value: string;
     label: LocalisedString;
 }
+/** `{ "allowed": [...] }` restriction wrapper throughout canvas block type configs */
+type AllowedValues<T = string> = {
+    allowed?: T[];
+};
 interface Validations<TField> {
     required?: ValidationMessage;
     min?: ValidationMessageAndValue<number>;
@@ -1198,17 +1209,44 @@ interface Validations<TField> {
         values?: LocalisedString[];
         labeledValues?: LabeledValue[];
     };
-    /** Field `dataFormat: "canvas"` */
+    /** Field `dataFormat: "canvas"`
+     *
+     * Simplified representation of allowed types in a canvas field -
+     * **Import and cast from the canvas package for the complete canvas block model** */
     allowedTypes?: ValidationMessage & {
-        types?: Array<{
+        /** Canvas block type restrictions, e.g. [{ type: "*" }, { type: "_fragment", decorators: {...} }] */
+        types?: {
+            /** Future / block-specific validations not modelled here. */
+            [key: string]: any;
+            /** the canvas block type id (`"*"` wildcard, or a valid block type such as
+             * `"_fragment"`, `"_image"`, `"_link"`, `"_component"`, `"_code"`,
+             * `"_inlineEntry"`, `"_formContentType"`, ...). */
             type: string;
-            decorators?: {
-                allowed?: Array<{
-                    decorator: string;
-                }>;
-                [key: string]: unknown;
-            };
-        }>;
+            /** `_fragment`: allowed inline decorators. */
+            decorators?: AllowedValues<{
+                decorator: string;
+            }>;
+            /** `_component`: allowed component types. */
+            components?: AllowedValues;
+            /** `_link`: allowed destination kinds, e.g. `"anchor" | "asset" | "node" | "uri"`. */
+            linkTypes?: AllowedValues;
+            /** `_link` / `_inlineEntry`: allowed entry content types. */
+            linkContentTypes?: AllowedValues;
+            /** `_link`: allowed asset content types. */
+            linkAssetContentTypes?: AllowedValues;
+            /** `_code`: allowed syntax-highlighting languages. */
+            languages?: AllowedValues;
+            /** `_formContentType`: allowed form content types. */
+            formContentTypes?: AllowedValues;
+            /** `_image`: dimension restrictions. */
+            imageDimensions?: ValidationMessage & ImageDimensions;
+            /** `_image`: caption required. */
+            captionRequired?: ValidationMessage;
+            /** `_image`: alt text required. */
+            altTextRequired?: ValidationMessage;
+            /** `_image`: source required. */
+            sourceRequired?: ValidationMessage;
+        }[];
     };
     taxonomyRoot?: ValidationMessage & {
         key: string;
@@ -1226,12 +1264,7 @@ interface Validations<TField> {
     };
     pastDateTime?: ValidationMessage;
     decimalPlaces?: ValidationMessageAndValue<number>;
-    imageDimensions?: ValidationMessage & {
-        minWidth?: number;
-        maxWidth?: number;
-        minHeight?: number;
-        maxHeight?: number;
-    };
+    imageDimensions?: ValidationMessage & ImageDimensions;
     captionRequired?: ValidationMessage;
     sourceRequired?: ValidationMessage;
     altTextRequired?: ValidationMessage;
