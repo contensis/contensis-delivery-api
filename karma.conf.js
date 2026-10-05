@@ -2,6 +2,12 @@
 // Generated on Tue Jun 27 2017 13:36:04 GMT+0100 (GMT Daylight Time)
 var webpackConfig = require('./webpack.test.config');
 
+// Headless environments (containers, CI agents) have no desktop Chrome, so they
+// must use the headless launcher. Switch explicitly with KARMA_HEADLESS=true, or
+// implicitly via the standard CI variable (GitHub Actions, GitLab CI, Jenkins, ...).
+// Everything else is treated as a desktop dev machine and gets plain Chrome.
+var isHeadless = process.env.KARMA_HEADLESS === 'true' || /^(1|true|yes|on)$/.test((process.env.CI || '').toLowerCase());
+
 module.exports = function (config) {
 	let originalConfig = {
 		client: {
@@ -42,7 +48,13 @@ module.exports = function (config) {
 		colors: true,
 		logLevel: config.LOG_INFO,
 		autoWatch: false,
-		browsers: ['Chrome'],
+		browsers: [isHeadless ? 'ChromeHeadlessNoSandbox' : 'Chrome'],
+		customLaunchers: {
+			ChromeHeadlessNoSandbox: {
+				base: 'ChromeHeadless',
+				flags: ['--no-sandbox', '--disable-dev-shm-usage'],
+			},
+		},
 		browserDisconnectTimeout : 0,
 		browserNoActivityTimeout : 0,		
 		singleRun: true,
