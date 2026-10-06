@@ -168,7 +168,7 @@ describe('Nodes Operations', () => {
             expect(node).not.toBeNull();
         });
 
-        it('Get Live Version with all options', async () => {
+        it('Get with all options', async () => {
             const client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
 
             const node = await client.nodes.get({ id: nodeId, language: 'de', versionStatus: 'latest', depth: 2, entryFields: ['title'], entryLinkDepth: 1, entryFieldLinkDepths: { linkField: 1 } });
