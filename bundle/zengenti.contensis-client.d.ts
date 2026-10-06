@@ -1482,6 +1482,7 @@ interface FocalPoint {
 interface Asset extends EntryAsset {
     altText?: string;
     description?: string;
+    /** Present only on image assets when completed */
     focalPoint?: FocalPoint | null;
     keywords?: string[];
     thumbnail?: string;
@@ -1520,6 +1521,7 @@ interface Taxonomy {
 interface EntryGetOptions {
     id: string;
     language?: string;
+    versionStatus?: VersionStatus;
     linkDepth?: number;
     fields?: string[];
     fieldLinkDepths?: FieldLinkDepths;
@@ -1528,6 +1530,7 @@ interface EntryGetOptions {
 interface EntryListOptions {
     contentTypeId?: string;
     language?: string;
+    versionStatus?: VersionStatus;
     pageOptions?: PageOptions;
     order?: string[];
     linkDepth?: number;
@@ -1610,6 +1613,7 @@ interface Node<TEntry extends StrictEntry = LooseEntry> {
 
 interface NodeDefaultOptions {
     language?: string;
+    versionStatus?: VersionStatus;
     entryFields?: string[];
     entryLinkDepth?: number;
     entryFieldLinkDepths?: FieldLinkDepths;
