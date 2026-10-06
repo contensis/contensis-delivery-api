@@ -11,6 +11,10 @@ global.fetch = fetch;
 describe('Link Resolver', function () {
 
 	function getQueryString(language: string, ...ids: number[]) {
+		return getQueryStringForVersionStatus('published', language, ...ids);
+	}
+
+	function getQueryStringForVersionStatus(versionStatus: string, language: string, ...ids: number[]) {
 		let query = {
 			pageIndex: 0,
 			pageSize: ids.length,
@@ -20,7 +24,7 @@ describe('Link Resolver', function () {
 						and: [
 							{ field: 'sys.id', equalTo: id },
 							{ field: 'sys.language', equalTo: language },
-							{ field: 'sys.versionStatus', equalTo: 'published' }
+							{ field: 'sys.versionStatus', equalTo: versionStatus }
 						]
 					};
 				})
@@ -54,6 +58,33 @@ describe('Link Resolver', function () {
 		let entry = await client.entries.resolve(testEntry);
 
 		let expectedQueryString = getQueryString('en-GB', 99);
+
+		expect(global.fetch).toHaveBeenCalled();
+		expect((global.fetch as any).calls.mostRecent().args).toEqual([
+			`http://my-website.com/api/delivery/projects/myProject/entries/search${expectedQueryString}`,
+			getDefaultFetchRequestForAccessToken('GET', 'application/json; charset=utf-8')
+		]);
+
+		expect(entry).not.toBeNull();
+	});
+
+	it('should resolve links at the versionStatus of the source entry', async () => {
+		let client = Zengenti.Contensis.Client.create({
+			projectId: 'myProject',
+			rootUrl: 'http://my-website.com/',
+			accessToken: 'XXXXXX'
+		});
+
+		let testEntry: any = {
+			sys: { id: 1, language: 'en-GB', versionStatus: 'latest' },
+			entry: {
+				sys: { id: 99, language: 'en-GB' }
+			}
+		};
+
+		let entry = await client.entries.resolve(testEntry);
+
+		let expectedQueryString = getQueryStringForVersionStatus('latest', 'en-GB', 99);
 
 		expect(global.fetch).toHaveBeenCalled();
 		expect((global.fetch as any).calls.mostRecent().args).toEqual([
