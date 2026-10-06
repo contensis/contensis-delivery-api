@@ -11,10 +11,18 @@ export class LinkResolver<T extends Entry | Entry[] | PagedList<Entry>> {
         let entries = this.getEntries();
         let promise = Promise.resolve<Entry[]>([]);
         if (entries.length > 0) {
-            let listResolver = new ListResolver(entries, this.paths, this.versionStatus, this.search);
+            let versionStatus = this.getVersionStatus(entries) || this.versionStatus;
+            let listResolver = new ListResolver(entries, this.paths, versionStatus, this.search);
             promise = listResolver.resolve();
         }
         return promise.then(() => this.entryOrList);
+    }
+
+    // Resolve links at the version status the entries were fetched with; 'latest' wins in a mixed list.
+    // Falls back to the client versionStatus (e.g. for stubs without a sys object).
+    private getVersionStatus(entries: Entry[]): VersionStatus {
+        let hasStatus = (versionStatus: VersionStatus) => entries.some(entry => entry?.sys?.versionStatus === versionStatus);
+        return hasStatus('latest') ? 'latest' : hasStatus('published') ? 'published' : null;
     }
 
     private getEntries(): Entry[] {
