@@ -11,7 +11,10 @@ export class LinkResolver<T extends Entry | Entry[] | PagedList<Entry>> {
         let entries = this.getEntries();
         let promise = Promise.resolve<Entry[]>([]);
         if (entries.length > 0) {
-            let listResolver = new ListResolver(entries, this.paths, this.versionStatus, this.search);
+            // Resolve links at the version status the entries were fetched with (all entries share it),
+            // falling back to the client versionStatus for stubs without a sys object
+            let versionStatus = entries[0]?.sys?.versionStatus || this.versionStatus;
+            let listResolver = new ListResolver(entries, this.paths, versionStatus, this.search);
             promise = listResolver.resolve();
         }
         return promise.then(() => this.entryOrList);

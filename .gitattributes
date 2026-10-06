@@ -1,0 +1,6 @@
+# Committed build output: pin LF so rebuilds stop flipping line endings
+# (tsc/webpack emit LF; the trees were historically committed CRLF).
+# Scoped to the artefact trees only — source files are left untouched.
+lib/** text eol=lf
+bundle/** text eol=lf
+bundle-es2015/** text eol=lf

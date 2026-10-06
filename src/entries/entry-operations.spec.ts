@@ -86,12 +86,12 @@ describe('Entry Operations', function () {
 			]);
 		});
 
-		it('Get Live Version with all options', async () => {
+		it('Get with all options', async () => {
 			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-			await client.entries.get({ id: '1', language: 'de', linkDepth: 99, fields: ['title'], fieldLinkDepths: { linkField: 1 } });
+			await client.entries.get({ id: '1', language: 'de', versionStatus: 'latest', linkDepth: 99, fields: ['title'], fieldLinkDepths: { linkField: 1 } });
 			expect(global.fetch).toHaveBeenCalled();
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
-				'http://my-website.com/api/delivery/projects/myProject/entries/1?fieldLinkDepths=%7B%22linkField%22%3A1%7D&fields=title&language=de&linkDepth=99',
+				'http://my-website.com/api/delivery/projects/myProject/entries/1?fieldLinkDepths=%7B%22linkField%22%3A1%7D&fields=title&language=de&linkDepth=99&versionStatus=latest',
 				getDefaultFetchRequestForAccessToken(),
 			]);
 		});
@@ -181,10 +181,10 @@ describe('Entry Operations', function () {
 
 		it('List with all options', async () => {
 			let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
-			await client.entries.list({ contentTypeId: 'cheese', pageOptions: { pageIndex: 5, pageSize: 100 }, language: 'en-GB', linkDepth: 1, order: ['title'], fields: ['title'], fieldLinkDepths: { linkField: 1 } });
+			await client.entries.list({ contentTypeId: 'cheese', pageOptions: { pageIndex: 5, pageSize: 100 }, language: 'en-GB', versionStatus: 'latest', linkDepth: 1, order: ['title'], fields: ['title'], fieldLinkDepths: { linkField: 1 } });
 			expect(global.fetch).toHaveBeenCalled();
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
-				'http://my-website.com/api/delivery/projects/myProject/contentTypes/cheese/entries?fieldLinkDepths=%7B%22linkField%22%3A1%7D&fields=title&language=en-GB&linkDepth=1&order=title&pageIndex=5&pageSize=100',
+				'http://my-website.com/api/delivery/projects/myProject/contentTypes/cheese/entries?fieldLinkDepths=%7B%22linkField%22%3A1%7D&fields=title&language=en-GB&linkDepth=1&order=title&pageIndex=5&pageSize=100&versionStatus=latest',
 				getDefaultFetchRequestForAccessToken(),
 			]);
 		});
