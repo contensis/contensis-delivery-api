@@ -11,7 +11,7 @@ export interface FocalPoint {
 export interface Asset extends EntryAsset {
     altText?: string;
     description?: string;
-    /** Present only on image assets when completed */
+    /** Present only on image assets */
     focalPoint?: FocalPoint | null;
     keywords?: string[];
     thumbnail?: string;

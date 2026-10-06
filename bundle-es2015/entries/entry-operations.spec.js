@@ -72,7 +72,7 @@ describe('Entry Operations', function () {
                 getDefaultFetchRequestForAccessToken()
             ]);
         });
-        it('Get Live Version with all options', async () => {
+        it('Get with all options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfigForAccessToken());
             await client.entries.get({ id: '1', language: 'de', versionStatus: 'latest', linkDepth: 99, fields: ['title'], fieldLinkDepths: { linkField: 1 } });
             expect(global.fetch).toHaveBeenCalled();
