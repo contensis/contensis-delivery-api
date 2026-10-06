@@ -6,7 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.6.3] - 2026-09-18
 ### Added
-- support for new field *focalPoint* in image *Asset* types
+- Support for new field *focalPoint* in image *Asset* types
+- Missing *versionStatus* option in *EntryGetOptions*, *EntryListOptions* and node operations
+
+### Changed
+- *contensis-core-api* updated to ^1.2.5: type fixes for fluent search-expression mutators, field *Validations* and *entryThumbnailField* types added.
 
 ## [1.6.2] - 2026-02-10
 ### Added
