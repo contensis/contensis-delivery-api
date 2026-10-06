@@ -4,10 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.6.3] - 2026-09-18
+## [1.6.3] - 2026-10-06
 ### Added
 - Support for new field *focalPoint* in image *Asset* types
 - Missing *versionStatus* option in *EntryGetOptions*, *EntryListOptions* and node operations
+- *entries.resolve()* resolves links at the *versionStatus* of the entries passed in before falling back to the client-set *versionStatus*
 
 ### Changed
 - *contensis-core-api* updated to ^1.2.5: type fixes for fluent search-expression mutators, field *Validations* and *entryThumbnailField* types added.
